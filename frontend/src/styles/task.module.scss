@@ -1,0 +1,95 @@
+.taskContainer {
+  width: 335px;
+  height: 530px;
+  border-radius: 5%;
+  border: solid rgba(177, 94, 108, 1) 5px;
+  background-color: white;
+  padding: 25px;
+  .profileContainer {
+    display: flex;
+    align-items: center;
+    .userName {
+      color: #8f8c8c;
+      font-size: 18px;
+      font-weight: 700;
+      font-family: "Noto Sans TC", Courier, monospace;
+      margin-left: 15px;
+    }
+  }
+  .taskDescription {
+    font-family: "Noto Sans TC", Courier, monospace;
+    font-weight: 700;
+    font-size: 22px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+  }
+  .locationRewardContainer {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 25px;
+    .locationTag {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(177, 94, 108, 1);
+      border-radius: 5px;
+      min-width: 60px;
+      .location {
+        font-family: "Noto Sans TC", Courier, monospace;
+        font-weight: 700;
+        font-size: 14px;
+      }
+    }
+    .rewardContainer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .rewardTag {
+        width: 25px;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(177, 94, 108, 1);
+      }
+      .reward {
+        font-family: "Noto Sans TC", Courier, monospace;
+        font-weight: 700;
+        font-size: 14px;
+        margin-left: 10px;
+      }
+    }
+  }
+  .countdownContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 25px;
+  }
+  .applicantsNumeberContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 25px;
+    .applicantsNumber {
+      font-family: "Noto Sans TC", Courier, monospace;
+      font-weight: 700;
+      font-size: 14px;
+    }
+  }
+  .applyTaskContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .applyTask {
+      width: 140px;
+      height: 50px;
+      border-radius: 10px;
+      background-color: rgba(177, 94, 108, 1);
+      color: #fff;
+      font-family: "Noto Sans TC", Courier, monospace;
+      font-weight: 700;
+      font-size: 18px;
+    }
+  }
+}
