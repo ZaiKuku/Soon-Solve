@@ -6,25 +6,75 @@
 import Image from "next/legacy/image";
 import styles from "../styles/task.module.scss";
 
+const data = {
+  tasks: [
+    {
+      id: 1,
+      poster_id: 1,
+      created_at: "2023-04-09 22:21:48",
+      closed_at: "2023-04-09 22:21:48",
+      deadline: "2023-04-10 12:53:05",
+      task_vacancy: 0,
+      approved_count: 1,
+      content: "動態動態動態動態動態動態動態動態",
+      location: "八嘎壓樓",
+      reward: "抱抱",
+      picture: "https://imgur.com/XXXXX",
+      name: "PJ",
+      nickname: "pppppjjjjjj",
+      status: "applied",
+    },
+  ],
+  next_cursor: "KHEAX0GAFjlPyyqAqTcQOXTLKgIVvshji9AqRmuAGjCDESoLlUrrIn7P",
+};
+
+const contentArray = data.tasks.map((task) => task.content);
+const locationArray = data.tasks.map((task) => task.location);
+const nameArray = data.tasks.map((task) => task.name);
+const rewardArray = data.tasks.map((task) => task.reward);
+const taskVacancyArray = data.tasks.map((task) => task.task_vacancy);
+const approvedCountArray = data.tasks.map((task) => task.approved_count);
+
+const countdown = data.tasks.map((task) => {
+  const createdAt = new Date(task.created_at);
+  const deadline = new Date(task.deadline);
+  return deadline.getTime() - createdAt.getTime();
+});
+
+const countdownInDays = countdown.map((diff) =>
+  Math.floor(diff / (1000 * 60 * 60 * 24))
+);
+const formattedCountdownInDays = countdownInDays.map((day) =>
+  day < 10 ? `0${day}` : String(day)
+);
+const countdownInHours = countdown.map((diff) =>
+  Math.floor(diff / (1000 * 60 * 60))
+);
+const hoursRemainder = countdownInHours.map((hours) => hours % 24); // Get remainder after dividing by 60
+const formattedCountdownInHours = hoursRemainder.map((hour) =>
+  hour < 10 ? `0${hour}` : String(hour)
+);
+const countdownInSeconds = countdown.map((diff) =>
+  Math.floor(diff / (1000 * 60))
+); // Convert milliseconds to seconds
+const secondsRemainder = countdownInSeconds.map((seconds) => seconds % 60); // Get remainder after dividing by 60
+console.log(formattedCountdownInDays);
+console.log(formattedCountdownInHours);
+console.log(secondsRemainder);
+
 function Task() {
   return (
     <div className={styles.taskContainer}>
       <div className={styles.profileContainer}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="36"
-          height="33"
-          viewBox="0 0 36 33"
-          fill="none"
-        >
-          <path
-            d="M18 0C13.05 0 9 4.57956 9 10.2222C9 15.8649 13.05 20.4444 18 20.4444C22.95 20.4444 27 15.8649 27 10.2222C27 4.57956 22.95 0 18 0ZM8.595 20.4444C3.825 20.6489 0 24.2062 0 28.6222V32.7111H36V28.6222C36 24.2062 32.22 20.6489 27.405 20.4444C24.975 22.9387 21.645 24.5333 18 24.5333C14.355 24.5333 11.025 22.9387 8.595 20.4444Z"
-            fill="black"
-          />
-        </svg>
-        <div className={styles.userName}>孔令傑</div>
+        <Image
+          src="/profile.png"
+          alt="The poster's picture"
+          height={36}
+          width={33}
+        />
+        <div className={styles.userName}>{nameArray}</div>
       </div>
-      <div className={styles.taskDescription}>領取活動剩下的雞腿便當</div>
+      <div className={styles.taskDescription}>{contentArray}</div>
       <div className={styles.locationRewardContainer}>
         <div className={styles.locationTag}>
           <svg
@@ -39,7 +89,7 @@ function Task() {
               fill="black"
             />
           </svg>
-          <div className={styles.location}>活大</div>
+          <div className={styles.location}>{locationArray}</div>
         </div>
         <div className={styles.rewardContainer}>
           <div className={styles.rewardTag}>
@@ -56,7 +106,7 @@ function Task() {
               />
             </svg>
           </div>
-          <div className={styles.reward}>雞腿便當 * 1</div>
+          <div className={styles.reward}>{rewardArray}</div>
         </div>
       </div>
       <div className={styles.countdownContainer}>
@@ -132,7 +182,10 @@ function Task() {
             </linearGradient>
           </defs>
         </svg>
-        <div className={styles.countdown}>15:00</div>
+        <div className={styles.countdown}>
+          {formattedCountdownInDays}:{formattedCountdownInHours}:
+          {secondsRemainder}
+        </div>
       </div>
       <div className={styles.applicantsNumeberContainer}>
         <svg
@@ -155,7 +208,9 @@ function Task() {
             stroke-width="1.5"
           />
         </svg>
-        <div className={styles.applicantsNumber}>9/10</div>
+        <div className={styles.applicantsNumber}>
+          {taskVacancyArray}/{approvedCountArray}
+        </div>
       </div>
       <div className={styles.applyTaskContainer}>
         <button className={styles.applyTask}>申請任務</button>
