@@ -65,6 +65,15 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 25px;
+    position: relative;
+    .countdown {
+      position: absolute;
+      color: #000;
+      font-family: "Noto Sans TC", Courier, monospace;
+      font-size: 25px;
+      font-style: normal;
+      font-weight: 700;
+    }
   }
   .applicantsNumeberContainer {
     display: flex;

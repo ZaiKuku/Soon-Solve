@@ -132,6 +132,7 @@ function Task() {
             </linearGradient>
           </defs>
         </svg>
+        <div className={styles.countdown}>15:00</div>
       </div>
       <div className={styles.applicantsNumeberContainer}>
         <svg
