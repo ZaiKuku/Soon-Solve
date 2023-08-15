@@ -16,7 +16,7 @@ const data = {
       poster_id: 1,
       created_at: "2023-08-15 16:19:48",
       closed_at: "2023-04-09 22:21:48",
-      deadline: "2023-08-15 16:40:05",
+      deadline: "2023-08-15 17:40:05",
       task_vacancy: 0,
       approved_count: 1,
       content: "動態動態動態動態動態動態動態動態",
