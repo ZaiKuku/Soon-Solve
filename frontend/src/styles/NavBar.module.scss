@@ -1,0 +1,34 @@
+.navBarContainer {
+  width: 100vw;
+  height: 83px;
+  display: flex;
+  border-top: solid rgba(177, 94, 108, 1) 3px;
+  .searchContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    width: 25%;
+  }
+  .missionContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    width: 25%;
+  }
+  .notificationsContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    width: 25%;
+  }
+  .profileContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    width: 25%;
+  }
+}

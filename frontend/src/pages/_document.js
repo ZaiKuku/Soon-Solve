@@ -11,6 +11,16 @@ export default function Document() {
           src="https://kit.fontawesome.com/b029b65f31.js"
           crossOrigin="anonymous"
         />
+        <link rel="preconnect" href="https://fonts.googleapis.com"></link>
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin
+        ></link>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Oi&display=swap"
+          rel="stylesheet"
+        ></link>
       </Head>
       <body>
         <Main />
