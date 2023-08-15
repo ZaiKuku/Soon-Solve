@@ -1,15 +1,26 @@
 /* Rectangle 45 */
-.tag {
-  width: 68px;
-  height: 27px;
-  background: #b15e6c;
-  border-radius: 10px;
-  padding: 3px 7px 3px 7px;
+.container {
+  position: relative;
   font-family: "Noto Sans TC";
   font-style: normal;
   font-size: 14px;
-  /* or 107% */
+  font-weight: 1000;
   text-align: center;
-  letter-spacing: 0.852639px;
   color: #000000;
+  display: flex;
+  gap: 5px;
+
+  .tag {
+    position: relative;
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+    min-width: 25px;
+    height: 22px;
+    background: #b15e6c;
+    border-radius: 10px;
+    padding: 2px 3px;
+  }
+  
 }

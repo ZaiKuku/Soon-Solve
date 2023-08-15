@@ -1,11 +1,18 @@
 import style from "../styles/tags.module.scss";
 
-export default function Tag() {
+export default function Tag({
+  inTag = null,
+  outTag = null,
+  icon = "fa-solid fa-location-dot",
+}) {
+  console.log(inTag);
   return (
-    <span className={style.tag}>
-      <i className="fa-solid fa-location-dot" />
-      {" 活大"}
-    </span>
-    // <span>輸出</span>
+    <div className={style.container}>
+      <div className={style.tag}>
+        <i className={icon} />
+        {inTag && <span> {" " + inTag}</span>}
+      </div>
+      {outTag && <span> {" " + outTag}</span>}
+    </div>
   );
 }

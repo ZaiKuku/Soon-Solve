@@ -29,44 +29,44 @@ function NavBar() {
           <path
             d="M15.257 6.30006H41.1855"
             stroke="black"
-            stroke-width="4.44761"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="4.44761"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <path
             d="M3 5.82857L4.88571 7.71426L9.59997 3"
             stroke="black"
-            stroke-width="4.44761"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="4.44761"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <path
             d="M3 19.9714L4.88571 21.8571L9.59997 17.1429"
             stroke="black"
-            stroke-width="4.44761"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="4.44761"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <path
             d="M3 34.1143L4.88571 36L9.59997 31.2857"
             stroke="black"
-            stroke-width="4.44761"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="4.44761"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <path
             d="M15.257 20.4429H41.1855"
             stroke="black"
-            stroke-width="4.44761"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="4.44761"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <path
             d="M15.257 34.5858H41.1855"
             stroke="black"
-            stroke-width="4.44761"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="4.44761"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
         <div className={styles.mission}>Mission List</div>
@@ -82,16 +82,16 @@ function NavBar() {
           <path
             d="M32.1667 15.3663C32.1667 12.0865 30.9376 8.94113 28.7495 6.62201C26.5616 4.30286 23.5942 3 20.5 3C17.4058 3 14.4383 4.30286 12.2504 6.62201C10.0625 8.94113 8.83333 12.0865 8.83333 15.3663C8.83333 29.7937 3 33.9157 3 33.9157H38C38 33.9157 32.1667 29.7937 32.1667 15.3663Z"
             stroke="black"
-            stroke-width="4.00285"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="4.00285"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <path
             d="M29.6931 40.4365C29.3513 41.0221 28.8607 41.5083 28.2702 41.846C27.6798 42.184 27.0106 42.3619 26.3292 42.3619C25.6479 42.3619 24.9786 42.184 24.3883 41.846C23.7979 41.5083 23.3072 41.0221 22.9653 40.4365"
             stroke="black"
-            stroke-width="4.00285"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="4.00285"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
         <div className={styles.notifications}>notifications</div>
