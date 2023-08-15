@@ -12,7 +12,8 @@ function SingleTask() {
       <Task />
       <div className={styles.backContainer}>
         <buuton>
-          <svg
+          <i className="fa fa-arrow-left fa-2xl"></i>
+          {/* <svg
             xmlns="http://www.w3.org/2000/svg"
             width="30"
             height="40"
@@ -62,7 +63,7 @@ function SingleTask() {
                 />
               </filter>
             </defs>
-          </svg>
+          </svg> */}
         </buuton>
       </div>
       <NavBar />

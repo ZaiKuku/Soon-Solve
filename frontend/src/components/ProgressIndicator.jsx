@@ -20,8 +20,8 @@ function ProgressIndicator({ createdAt, deadline }) {
       value={progressPercentage}
       style={{
         color: "rgba(177, 94, 108, 1)",
-        width: "160px",
-        height: "160px",
+        width: "140px",
+        height: "140px",
       }}
       thickness={2}
     />

@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import Image from "next/legacy/image";
 import styles from "../styles/task.module.scss";
 import ProgressIndicator from "./ProgressIndicator";
+import Tag from "./tags";
 
 const data = {
   tasks: [
@@ -13,9 +14,9 @@ const data = {
       id: 1,
       title: "我要便當",
       poster_id: 1,
-      created_at: "2023-08-15 15:31:48",
+      created_at: "2023-08-15 16:19:48",
       closed_at: "2023-04-09 22:21:48",
-      deadline: "2023-08-15 15:40:05",
+      deadline: "2023-08-15 16:40:05",
       task_vacancy: 0,
       approved_count: 1,
       content: "動態動態動態動態動態動態動態動態",
@@ -105,38 +106,8 @@ function Task() {
       <div className={styles.taskTitle}>{titleArray}</div>
       <div className={styles.taskContent}>{contentArray}</div>
       <div className={styles.locationRewardContainer}>
-        <div className={styles.locationTag}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="19"
-            viewBox="0 0 16 19"
-            fill="none"
-          >
-            <path
-              d="M7.61789 0C3.47589 0 0.132355 3.15067 0.132355 7.05373C0.132355 11.7562 7.61789 18.81 7.61789 18.81C7.61789 18.81 15.1034 11.7562 15.1034 7.05373C15.1034 3.15067 11.7599 0 7.61789 0ZM7.61789 2.35124C10.3875 2.35124 12.6082 4.46737 12.6082 7.05373C12.6082 9.66362 10.3875 11.7562 7.61789 11.7562C4.87319 11.7562 2.62753 9.66362 2.62753 7.05373C2.62753 4.46737 4.87319 2.35124 7.61789 2.35124Z"
-              fill="black"
-            />
-          </svg>
-          <div className={styles.location}>{locationArray}</div>
-        </div>
-        <div className={styles.rewardContainer}>
-          <div className={styles.rewardTag}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="15"
-              height="19"
-              viewBox="0 0 15 19"
-              fill="none"
-            >
-              <path
-                d="M5.85514 0V2.34831H3.67039C1.68954 2.34831 0.0291301 3.68685 0.0291301 5.28371V6.45786C0.0291301 8.05472 1.31085 9.36977 3.20431 9.76899L10.6616 11.3189C11.0694 11.4128 11.652 11.9999 11.652 12.3521V13.5263C11.652 13.8551 11.3316 14.1134 10.9238 14.1134H3.64126C3.2917 14.1134 3.02953 14.0194 2.91301 13.9725V11.7651H0V14.1134C0 14.9118 0.582601 15.5928 1.28172 15.9451C1.95171 16.3208 2.79649 16.4617 3.64126 16.4617H5.82601V18.81H8.73902V16.4617H10.9238C12.9337 16.4617 14.565 15.1466 14.565 13.5263V12.3521C14.565 10.7553 13.2833 9.44022 11.3899 9.04101L3.93256 7.49112C3.52474 7.39719 2.94214 6.81011 2.94214 6.45786V5.28371C2.94214 4.95494 3.26257 4.69663 3.67039 4.69663H10.9529C11.2733 4.69663 11.5646 4.79056 11.6812 4.83753V7.04494H14.5942V4.69663C14.5942 3.8982 14.0116 3.21719 13.3124 2.86494C12.6424 2.48921 11.7977 2.34831 10.9529 2.34831H8.76815V0L5.85514 0Z"
-                fill="black"
-              />
-            </svg>
-          </div>
-          <div className={styles.reward}>{rewardArray}</div>
-        </div>
+        <Tag inTag={locationArray} />
+        <Tag outTag={rewardArray} icon="fa-solid fa-dollar-sign" />
       </div>
       <div className={styles.countdownContainer}>
         <ProgressIndicator
