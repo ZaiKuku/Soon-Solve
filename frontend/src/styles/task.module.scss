@@ -16,11 +16,16 @@
       margin-left: 15px;
     }
   }
-  .taskDescription {
+  .taskTitle {
     font-family: "Noto Sans TC", Courier, monospace;
     font-weight: 700;
     font-size: 22px;
     margin-top: 25px;
+  }
+  .taskContent {
+    font-family: "Noto Sans TC", Courier, monospace;
+    font-weight: 700;
+    font-size: 12px;
     margin-bottom: 25px;
   }
   .locationRewardContainer {
