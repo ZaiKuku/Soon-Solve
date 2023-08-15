@@ -10,6 +10,7 @@ const data = {
   tasks: [
     {
       id: 1,
+      title: "我要便當",
       poster_id: 1,
       created_at: "2023-04-09 22:21:48",
       closed_at: "2023-04-09 22:21:48",
@@ -28,6 +29,7 @@ const data = {
   next_cursor: "KHEAX0GAFjlPyyqAqTcQOXTLKgIVvshji9AqRmuAGjCDESoLlUrrIn7P",
 };
 
+const titleArray = data.tasks.map((task) => task.title);
 const contentArray = data.tasks.map((task) => task.content);
 const locationArray = data.tasks.map((task) => task.location);
 const nameArray = data.tasks.map((task) => task.name);
@@ -74,7 +76,8 @@ function Task() {
         />
         <div className={styles.userName}>{nameArray}</div>
       </div>
-      <div className={styles.taskDescription}>{contentArray}</div>
+      <div className={styles.taskTitle}>{titleArray}</div>
+      <div className={styles.taskContent}>{contentArray}</div>
       <div className={styles.locationRewardContainer}>
         <div className={styles.locationTag}>
           <svg
@@ -213,7 +216,7 @@ function Task() {
         </div>
       </div>
       <div className={styles.applyTaskContainer}>
-        <button className={styles.applyTask}>申請任務</button>
+        <button className={styles.applyTask}>Apply</button>
       </div>
     </div>
   );
