@@ -5,22 +5,42 @@
   border: solid rgba(177, 94, 108, 1) 5px;
   background-color: white;
   padding: 25px;
-  .profileContainer {
+  position: relative;
+  .profileStatusContainer {
     display: flex;
     align-items: center;
-    .userName {
-      color: #8f8c8c;
-      font-size: 18px;
-      font-weight: 700;
+    justify-content: space-between;
+    .profileContainer {
+      display: flex;
+      align-items: center;
+      .userName {
+        color: #8f8c8c;
+        font-size: 18px;
+        font-weight: 700;
+        font-family: "Noto Sans TC", Courier, monospace;
+        margin-left: 15px;
+      }
+    }
+    .status {
+      background-color: rgba(200, 200, 200, 1);
+      color: white;
       font-family: "Noto Sans TC", Courier, monospace;
-      margin-left: 15px;
+      font-weight: 700;
+      font-size: 18px;
+      border-radius: 5px;
+      padding: 5px 10px 5px 10px;
     }
   }
-  .taskDescription {
+  .taskTitle {
     font-family: "Noto Sans TC", Courier, monospace;
     font-weight: 700;
     font-size: 22px;
     margin-top: 25px;
+  }
+  .taskContent {
+    font-family: "Noto Sans TC", Courier, monospace;
+    font-weight: 700;
+    font-size: 12px;
     margin-bottom: 25px;
   }
   .locationRewardContainer {
@@ -70,7 +90,7 @@
       position: absolute;
       color: #000;
       font-family: "Noto Sans TC", Courier, monospace;
-      font-size: 25px;
+      font-size: 20px;
       font-style: normal;
       font-weight: 700;
     }
@@ -79,6 +99,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 30px;
     margin-bottom: 25px;
     .applicantsNumber {
       font-family: "Noto Sans TC", Courier, monospace;
@@ -100,5 +121,23 @@
       font-weight: 700;
       font-size: 18px;
     }
+    .cancelTask {
+      width: 140px;
+      height: 50px;
+      border-radius: 10px;
+      background-color: rgba(150, 150, 150, 1);
+      color: #fff;
+      font-family: "Noto Sans TC", Courier, monospace;
+      font-weight: 700;
+      font-size: 18px;
+    }
+  }
+  .chatContainer {
+    position: absolute;
+    right: 25px;
+    bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

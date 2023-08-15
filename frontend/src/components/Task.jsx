@@ -1,19 +1,21 @@
 // "use client";
 
-// import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
 // import nookies from "nookies";
 // import axios from "axios";
 import Image from "next/legacy/image";
 import styles from "../styles/task.module.scss";
+import ProgressIndicator from "./ProgressIndicator";
 
 const data = {
   tasks: [
     {
       id: 1,
+      title: "我要便當",
       poster_id: 1,
-      created_at: "2023-04-09 22:21:48",
+      created_at: "2023-08-15 15:31:48",
       closed_at: "2023-04-09 22:21:48",
-      deadline: "2023-04-10 12:53:05",
+      deadline: "2023-08-15 15:40:05",
       task_vacancy: 0,
       approved_count: 1,
       content: "動態動態動態動態動態動態動態動態",
@@ -28,53 +30,80 @@ const data = {
   next_cursor: "KHEAX0GAFjlPyyqAqTcQOXTLKgIVvshji9AqRmuAGjCDESoLlUrrIn7P",
 };
 
-const contentArray = data.tasks.map((task) => task.content);
-const locationArray = data.tasks.map((task) => task.location);
-const nameArray = data.tasks.map((task) => task.name);
-const rewardArray = data.tasks.map((task) => task.reward);
-const taskVacancyArray = data.tasks.map((task) => task.task_vacancy);
-const approvedCountArray = data.tasks.map((task) => task.approved_count);
-
-const countdown = data.tasks.map((task) => {
-  const createdAt = new Date(task.created_at);
-  const deadline = new Date(task.deadline);
-  return deadline.getTime() - createdAt.getTime();
-});
-
-const countdownInDays = countdown.map((diff) =>
-  Math.floor(diff / (1000 * 60 * 60 * 24))
-);
-const formattedCountdownInDays = countdownInDays.map((day) =>
-  day < 10 ? `0${day}` : String(day)
-);
-const countdownInHours = countdown.map((diff) =>
-  Math.floor(diff / (1000 * 60 * 60))
-);
-const hoursRemainder = countdownInHours.map((hours) => hours % 24); // Get remainder after dividing by 60
-const formattedCountdownInHours = hoursRemainder.map((hour) =>
-  hour < 10 ? `0${hour}` : String(hour)
-);
-const countdownInSeconds = countdown.map((diff) =>
-  Math.floor(diff / (1000 * 60))
-); // Convert milliseconds to seconds
-const secondsRemainder = countdownInSeconds.map((seconds) => seconds % 60); // Get remainder after dividing by 60
-console.log(formattedCountdownInDays);
-console.log(formattedCountdownInHours);
-console.log(secondsRemainder);
-
 function Task() {
+  const [hasApplied, setHasApplied] = useState(false);
+  const [countdown, setCountdown] = useState([]);
+  const titleArray = data.tasks.map((task) => task.title);
+  const contentArray = data.tasks.map((task) => task.content);
+  const locationArray = data.tasks.map((task) => task.location);
+  const nameArray = data.tasks.map((task) => task.name);
+  const rewardArray = data.tasks.map((task) => task.reward);
+  const taskVacancyArray = data.tasks.map((task) => task.task_vacancy);
+  const approvedCountArray = data.tasks.map((task) => task.approved_count);
+  const statusArray = data.tasks.map((task) => task.status);
+  const createdAtArray = data.tasks.map((task) => task.created_at);
+  const deadlineArray = data.tasks.map((task) => task.deadline);
+
+  const countdownInDays = countdown.map((diff) =>
+    Math.floor(diff / (1000 * 60 * 60 * 24))
+  );
+  const formattedCountdownInDays = countdownInDays.map((day) =>
+    day < 10 ? `0${day}` : String(day)
+  );
+
+  const countdownInHours = countdown.map((diff) =>
+    Math.floor(diff / (1000 * 60 * 60))
+  );
+  const hoursRemainder = countdownInHours.map((hours) => hours % 24);
+  const formattedCountdownInHours = hoursRemainder.map((hour) =>
+    hour < 10 ? `0${hour}` : String(hour)
+  );
+
+  const countdownInMinutes = countdown.map((diff) =>
+    Math.floor(diff / (1000 * 60))
+  );
+  const minutesRemainder = countdownInMinutes.map((minutes) => minutes % 60);
+  const formattedCountdownInMinutes = minutesRemainder.map((minute) =>
+    minute < 10 ? `0${minute}` : String(minute)
+  );
+
+  const countdownInSeconds = countdown.map((diff) => Math.floor(diff / 1000));
+  const secondsRemainder = countdownInSeconds.map((seconds) => seconds % 60);
+  const formattedCountdownInSeconds = secondsRemainder.map((second) =>
+    second < 10 ? `0${second}` : String(second)
+  );
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCountdown(
+        data.tasks.map((task) => {
+          const now = new Date();
+          const deadline = new Date(task.deadline);
+          const diff = deadline.getTime() - now.getTime();
+          return diff;
+        })
+      );
+    }, 1000);
+
+    return () => clearInterval(interval); // Clear the interval when the component is unmounted
+  }, []);
+
   return (
     <div className={styles.taskContainer}>
-      <div className={styles.profileContainer}>
-        <Image
-          src="/profile.png"
-          alt="The poster's picture"
-          height={36}
-          width={33}
-        />
-        <div className={styles.userName}>{nameArray}</div>
+      <div className={styles.profileStatusContainer}>
+        <div className={styles.profileContainer}>
+          <Image
+            src="/profile.png"
+            alt="The poster's picture"
+            height={36}
+            width={33}
+          />
+          <div className={styles.userName}>{nameArray}</div>
+        </div>
+        {hasApplied && <div className={styles.status}>{statusArray}</div>}
       </div>
-      <div className={styles.taskDescription}>{contentArray}</div>
+      <div className={styles.taskTitle}>{titleArray}</div>
+      <div className={styles.taskContent}>{contentArray}</div>
       <div className={styles.locationRewardContainer}>
         <div className={styles.locationTag}>
           <svg
@@ -110,81 +139,13 @@ function Task() {
         </div>
       </div>
       <div className={styles.countdownContainer}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="154"
-          height="154"
-          viewBox="0 0 154 154"
-          fill="none"
-        >
-          <g filter="url(#filter0_i_2_375)">
-            <path
-              d="M154 77C154 119.526 119.526 154 77 154C34.4741 154 0 119.526 0 77C0 34.4741 34.4741 0 77 0C119.526 0 154 34.4741 154 77Z"
-              fill="white"
-            />
-          </g>
-          <path
-            d="M149 77C149 116.765 116.765 149 77 149C37.2355 149 5 116.765 5 77C5 37.2355 37.2355 5 77 5C116.765 5 149 37.2355 149 77Z"
-            stroke="url(#paint0_linear_2_375)"
-            strokeWidth="10"
-          />
-          <defs>
-            <filter
-              id="filter0_i_2_375"
-              x="0"
-              y="0"
-              width="154"
-              height="158"
-              filterUnits="userSpaceOnUse"
-              colorInterpolationFilters="sRGB"
-            >
-              <feFlood floodOpacity="0" result="BackgroundImageFix" />
-              <feBlend
-                mode="normal"
-                in="SourceGraphic"
-                in2="BackgroundImageFix"
-                result="shape"
-              />
-              <feColorMatrix
-                in="SourceAlpha"
-                type="matrix"
-                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                result="hardAlpha"
-              />
-              <feOffset dy="4" />
-              <feGaussianBlur stdDeviation="2" />
-              <feComposite
-                in2="hardAlpha"
-                operator="arithmetic"
-                k2="-1"
-                k3="1"
-              />
-              <feColorMatrix
-                type="matrix"
-                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"
-              />
-              <feBlend
-                mode="normal"
-                in2="shape"
-                result="effect1_innerShadow_2_375"
-              />
-            </filter>
-            <linearGradient
-              id="paint0_linear_2_375"
-              x1="65.065"
-              y1="6.93"
-              x2="67.375"
-              y2="2.0653e-07"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#B15E6C" />
-              <stop offset="1" stopColor="#F6E4B6" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-        </svg>
+        <ProgressIndicator
+          createdAt={createdAtArray}
+          deadline={deadlineArray}
+        />
         <div className={styles.countdown}>
-          {formattedCountdownInDays}:{formattedCountdownInHours}:
-          {secondsRemainder}
+          {formattedCountdownInDays[0]}:{formattedCountdownInHours[0]}:
+          {formattedCountdownInMinutes[0]}:{formattedCountdownInSeconds[0]}
         </div>
       </div>
       <div className={styles.applicantsNumeberContainer}>
@@ -213,8 +174,31 @@ function Task() {
         </div>
       </div>
       <div className={styles.applyTaskContainer}>
-        <button className={styles.applyTask}>申請任務</button>
+        <button
+          className={hasApplied ? styles.cancelTask : styles.applyTask}
+          onClick={() => setHasApplied(!hasApplied)}
+        >
+          {hasApplied ? "Cancel" : "Apply"}
+        </button>
       </div>
+      {hasApplied && (
+        <div className={styles.chatContainer}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="40"
+            height="40"
+            viewBox="0 0 49 49"
+            fill="none"
+          >
+            <path
+              d="M7 36.8239V6.91265C7 4.75175 8.75175 3 10.9126 3H38.3012C40.4622 3 42.2138 4.75175 42.2138 6.91265V26.4759C42.2138 28.6369 40.4622 30.3885 38.3012 30.3885H16.7058C15.5172 30.3885 14.3931 30.9289 13.6505 31.857L9.09037 37.5571C8.39723 38.4236 7 37.9335 7 36.8239Z"
+              stroke="#B15E6C"
+              strokeWidth="5"
+              shapeRendering="crispEdges"
+            />
+          </svg>
+        </div>
+      )}
     </div>
   );
 }
