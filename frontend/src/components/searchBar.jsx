@@ -9,8 +9,10 @@ import { setOpenSideFilter } from "../redux/reducers";
 export default function SearchBar() {
   const [keyword, setKeyword] = useState("");
   const dispatch = useDispatch();
+  const searchLocations = useSelector(
+    (state) => state.selectedLocations.selectedLocations
+  );
 
-  const [searchLocations, setSearchLocations] = useState(["活大"]);
   const [showSearchResult, setShowSearchResult] = useState(false);
   const handleChange = (e) => {
     if (e.target.value === "") {
@@ -47,7 +49,6 @@ export default function SearchBar() {
       {showSearchResult && (
         <div className={style.searchResult}>
           <div className={style.searchResultTitle}>搜尋結果</div>
-          {searchResult()}
         </div>
       )}
     </div>

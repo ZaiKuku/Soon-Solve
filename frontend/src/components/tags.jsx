@@ -5,7 +5,6 @@ export default function Tag({
   outTag = null,
   icon = "fa-solid fa-location-dot",
 }) {
-  console.log(inTag);
   return (
     <div className={style.container}>
       <div className={style.tag}>

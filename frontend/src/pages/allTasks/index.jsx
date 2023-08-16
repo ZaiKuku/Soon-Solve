@@ -6,6 +6,7 @@ import NavBar from "@/components/NavBar";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { DrawerDefault } from "@/components/SideFilter";
 import { LocationList } from "@/components/LocationList";
+import {LocationFilter} from "@/components/locationFilter";
 
 export default function Home() {
   // const { mutate, isLoading, isEnd, size, setSize, task_Data } =
@@ -35,14 +36,12 @@ export default function Home() {
   };
 
   return (
-    <main>
-      {/* <DrawerDefault /> */}
-      <div className="w-full flex flex-col gap-2 items-center pt-[80px]">
-        <Header />
-        <SearchBar />
-        <OverviewGroup taskData={taskData.tasks} />
-        <NavBar />
-      </div>
+    <main className="w-full flex flex-col gap-2 items-center pt-20">
+      <Header />
+      <SearchBar />
+      <OverviewGroup taskData={taskData.tasks} />
+      <NavBar />
+      <DrawerDefault />
     </main>
   );
 }
