@@ -1,11 +1,16 @@
 import SearchBar from "@/components/searchBar";
-// import TaskOverview from "@/components/TaskOverview";
+import useTaskSearch from "@/hooks/useTaskSearch";
 import OverviewGroup from "@/components/OverviewGroup";
 import Header from "@/components/Header";
 import NavBar from "@/components/NavBar";
-// import Tag from "@/components/tags";
+import useInfiniteScroll from "@/hooks/useInfiniteScroll";
+import { DrawerDefault } from "@/components/SideFilter";
+import { LocationList } from "@/components/LocationList";
 
 export default function Home() {
+  // const { mutate, isLoading, isEnd, size, setSize, task_Data } =
+  //   useTaskSearch();
+  // useInfiniteScroll(async () => setSize(size + 1), 200);
   const taskData = {
     tasks: [
       {
@@ -30,12 +35,14 @@ export default function Home() {
   };
 
   return (
-    <main className="w-full flex flex-col gap-2 items-center pt-[80px]">
-      <Header />
-      <SearchBar />
-      <OverviewGroup taskData={taskData.tasks} />
-
-      <NavBar />
+    <main>
+      {/* <DrawerDefault /> */}
+      <div className="w-full flex flex-col gap-2 items-center pt-[80px]">
+        <Header />
+        <SearchBar />
+        <OverviewGroup taskData={taskData.tasks} />
+        <NavBar />
+      </div>
     </main>
   );
 }

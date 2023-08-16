@@ -2,14 +2,15 @@
 import { useEffect, useState } from "react";
 import Tag from "./tags";
 import style from "../styles/searchBar.module.scss";
+import locations from "../locations/locations.js";
+import { useSelector, useDispatch } from "react-redux";
+import { setOpenSideFilter } from "../redux/reducers";
 
 export default function SearchBar() {
   const [keyword, setKeyword] = useState("");
-  const [searchLocations, setSearchLocations] = useState([
-    "活大",
-    "學餐",
-    "總圖",
-  ]);
+  const dispatch = useDispatch();
+
+  const [searchLocations, setSearchLocations] = useState(["活大"]);
   const [showSearchResult, setShowSearchResult] = useState(false);
   const handleChange = (e) => {
     if (e.target.value === "") {
@@ -20,10 +21,6 @@ export default function SearchBar() {
     setKeyword(keyword);
     setShowSearchResult(true);
   };
-
-  // const handleClick = () => {
-  //   setSearchLocations((prevLocations) => [...prevLocations, ...newLocation]);
-  // };
 
   const tagItems = (searchLocations) => {
     return searchLocations.map((location) => (
@@ -42,9 +39,17 @@ export default function SearchBar() {
         <i className="fa fa-search "></i>
       </div>
       <div className={style.conditions}>
-        <i className="fa fa-sliders fa-xl" />
+        <button onClick={() => dispatch(setOpenSideFilter(true))}>
+          <i className="fa fa-sliders fa-xl" />
+        </button>
         {tagItems(searchLocations)}
       </div>
+      {showSearchResult && (
+        <div className={style.searchResult}>
+          <div className={style.searchResultTitle}>搜尋結果</div>
+          {searchResult()}
+        </div>
+      )}
     </div>
     // <span>輸出</span>
   );
