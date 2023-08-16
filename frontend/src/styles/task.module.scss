@@ -107,37 +107,82 @@
       font-size: 14px;
     }
   }
-  .applyTaskContainer {
+  .taskAssignerOnly {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    .applyTask {
-      width: 140px;
-      height: 50px;
-      border-radius: 10px;
-      background-color: rgba(177, 94, 108, 1);
-      color: #fff;
-      font-family: "Noto Sans TC", Courier, monospace;
-      font-weight: 700;
-      font-size: 18px;
+    .completeDeleteContainer {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      .delete {
+        width: 100px;
+        height: 50px;
+        border-radius: 10px;
+        background-color: rgba(177, 94, 108, 1);
+        color: #fff;
+        font-family: "Noto Sans TC", Courier, monospace;
+        font-weight: 700;
+        font-size: 18px;
+      }
+      .complete {
+        width: 100px;
+        height: 50px;
+        border-radius: 10px;
+        background-color: rgba(177, 94, 108, 1);
+        color: #fff;
+        font-family: "Noto Sans TC", Courier, monospace;
+        font-weight: 700;
+        font-size: 18px;
+      }
     }
-    .cancelTask {
-      width: 140px;
-      height: 50px;
-      border-radius: 10px;
-      background-color: rgba(150, 150, 150, 1);
-      color: #fff;
-      font-family: "Noto Sans TC", Courier, monospace;
-      font-weight: 700;
-      font-size: 18px;
+    .applicantsContainer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+      .applicants {
+        font-family: "Noto Sans TC", Courier, monospace;
+        font-weight: 700;
+        font-size: 16px;
+        margin-left: 10px;
+      }
     }
   }
-  .chatContainer {
-    position: absolute;
-    right: 25px;
-    bottom: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .taskApplicantsOnly {
+    .applyTaskContainer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .applyTask {
+        width: 140px;
+        height: 50px;
+        border-radius: 10px;
+        background-color: rgba(177, 94, 108, 1);
+        color: #fff;
+        font-family: "Noto Sans TC", Courier, monospace;
+        font-weight: 700;
+        font-size: 18px;
+      }
+      .cancelTask {
+        width: 140px;
+        height: 50px;
+        border-radius: 10px;
+        background-color: rgba(150, 150, 150, 1);
+        color: #fff;
+        font-family: "Noto Sans TC", Courier, monospace;
+        font-weight: 700;
+        font-size: 18px;
+      }
+    }
+    .chatContainer {
+      position: absolute;
+      right: 25px;
+      bottom: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 }
