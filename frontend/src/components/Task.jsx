@@ -32,7 +32,7 @@ const data = {
   next_cursor: "KHEAX0GAFjlPyyqAqTcQOXTLKgIVvshji9AqRmuAGjCDESoLlUrrIn7P",
 };
 
-function Task() {
+function Task({taskData}) {
   const [hasApplied, setHasApplied] = useState(false);
   const [isTaskAssigner, setIsTaskAssigner] = useState(false);
   const [countdown, setCountdown] = useState([]);
