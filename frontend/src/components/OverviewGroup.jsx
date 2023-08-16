@@ -7,5 +7,5 @@ export default function OverviewGroup({ taskData }) {
     </TaskOverview>
   ));
 
-  return <div>{taskOverviewItems}</div>;
+  return <div className="flex flex-col items-center">{taskOverviewItems}</div>;
 }
