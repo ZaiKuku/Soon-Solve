@@ -1,33 +1,48 @@
 import Tag from "./tags";
 import style from "../styles/TaskOverview.module.scss";
 
-export default function TaskOverview() {
+export default function TaskOverview({ task }) {
+  const {
+    // id,
+    deadline,
+    task_vacancy,
+    // applied_count,
+    title,
+    location,
+    reward,
+    picture,
+    name,
+    approved_count,
+    // nickname,
+    // sex,
+  } = task;
+  console.log("picture", picture);
   return (
     <div className={style.bg}>
       <div className={style.infoContainer}>
         <div className={style.avatarContainer}>
-          <img src={"/個人照片.png"} className={style.pic} alt="大頭貼" />
+          <img src={picture} className={style.pic} alt="大頭貼" />
         </div>
-        <span className={style.title}>領取活動剩下的便當</span>
+        <span className={style.title}>{title}</span>
       </div>
-      <span className={style.poster}>孔令傑</span>
+      <span className={style.poster}>{name}</span>
       <div className={style.location}>
-        <Tag outTag="活大" />
+        <Tag outTag={location} />
       </div>
       <div className={style.reward}>
-        <Tag outTag="雞腿便當" icon="fa-solid fa-dollar-sign" />
+        <Tag outTag={reward} icon="fa-solid fa-dollar-sign" />
       </div>
       <div className={style.taskNumber}>
-        <Tag outTag="9/10" icon="fa-solid fa-clipboard-list" />
+        <Tag outTag={task_vacancy} icon="fa-solid fa-clipboard-list" />
       </div>
       <div className={style.numReqired}>
         <i className="fa fa-people-group" />
-        <span>3</span>
+        <span>{approved_count}</span>
       </div>
 
       <div className={style.deadline}>
         <i className="fa-regular fa-clock" />
-        <span>12:30</span>
+        <span>{deadline}</span>
       </div>
     </div>
   );

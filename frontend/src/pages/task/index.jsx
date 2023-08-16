@@ -11,7 +11,7 @@ function SingleTask() {
       <Header />
       <Task />
       <div className={styles.backContainer}>
-        <buuton>
+        <button>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="30"
@@ -33,9 +33,9 @@ function SingleTask() {
                 width="29.9083"
                 height="39.8667"
                 filterUnits="userSpaceOnUse"
-                color-interpolation-filters="sRGB"
+                colorInterpolationFilters="sRGB"
               >
-                <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                <feFlood floodOpacity="0" result="BackgroundImageFix" />
                 <feColorMatrix
                   in="SourceAlpha"
                   type="matrix"
@@ -63,7 +63,7 @@ function SingleTask() {
               </filter>
             </defs>
           </svg>
-        </buuton>
+        </button>
       </div>
       <NavBar />
     </div>
