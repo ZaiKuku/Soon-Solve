@@ -3,7 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   // 添加你的 state 属性
   selectedLocations: [],
-  sex: [],
+  sex: "",
+  friend: 0,
+  title: "",
 };
 
 const locationSlice = createSlice({
@@ -21,7 +23,21 @@ const locationSlice = createSlice({
       }
     },
     setSelectedSex(state, action) {
-      state.sex = action.payload;
+      if (state.sex === action.payload) {
+        state.sex = "";
+      } else {
+        state.sex = action.payload;
+      }
+    },
+    setSelectedFriend(state) {
+      if (state.friend === 0) {
+        state.friend = 1;
+      } else {
+        state.friend = 0;
+      }
+    },
+    setSelectedTitle(state, action) {
+      state.title = action.payload;
     },
   },
 });
@@ -30,6 +46,8 @@ export const {
   // 添加你的 reducer actions
   setSelectedLocations,
   setSelectedSex,
+  setSelectedFriend,
+  setSelectedTitle,
 } = locationSlice.actions;
 
 export default locationSlice.reducer;
