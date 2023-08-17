@@ -8,8 +8,8 @@ import Header from "@/components/Header";
 import useTaskDetails from "@/hooks/useTaskDetails";
 
 function SingleTask() {
-  // const router = useRouter();
-  // const { id } = router.query;
+  const router = useRouter();
+  const { id } = router.query;
   // const { task, isLoading } = useTaskDetails(parseInt(id, 10));
 
   return (
@@ -22,7 +22,8 @@ function SingleTask() {
     >
       <div className={styles.page}>
         <Header />
-        <Task taskData={task} />
+        {/* <Task taskData={task} /> */}
+        <Task />
         <div className={styles.backContainer}>
           <button>
             <svg
