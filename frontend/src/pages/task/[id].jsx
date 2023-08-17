@@ -11,7 +11,7 @@ function SingleTask() {
   const router = useRouter();
   const { id } = router.query;
   // const { task, isLoading } = useTaskDetails(parseInt(id, 10));
-
+  console.log("test");
   return (
     <SWRConfig
       value={{
