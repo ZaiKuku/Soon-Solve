@@ -8,6 +8,7 @@ import Image from "next/legacy/image";
 import styles from "../styles/task.module.scss";
 import ProgressIndicator from "./ProgressIndicator";
 import Tag from "./tags";
+import ChatIcon from "@mui/icons-material/Chat";
 
 const data = {
   tasks: [
@@ -15,9 +16,9 @@ const data = {
       id: 1,
       title: "我要便當",
       poster_id: 1,
-      created_at: "2023-08-15 16:19:48",
+      created_at: "2023-08-17 16:19:48",
       closed_at: "2023-04-09 22:21:48",
-      deadline: "2023-08-15 17:40:05",
+      deadline: "2023-08-17 16:45:05",
       task_vacancy: 0,
       approved_count: 1,
       content: "動態動態動態動態動態動態動態動態",
@@ -110,6 +111,7 @@ function Task({ taskData }) {
       <div className={styles.locationRewardContainer}>
         <Tag outTag={locationArray} />
         <Tag outTag={rewardArray} icon="fa-solid fa-dollar-sign" />
+        <Tag outTag={taskVacancyArray} icon="fa-solid fa-clipboard-list"></Tag>
       </div>
       <div className={styles.countdownContainer}>
         <ProgressIndicator
@@ -150,32 +152,19 @@ function Task({ taskData }) {
       )}
       {!isTaskAssigner && (
         <div className={styles.taskApplicantsOnly}>
-          <div className={styles.applicantsNumeberContainer}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="22"
-              height="23"
-              viewBox="0 0 22 23"
-              fill="none"
-            >
-              <path d="M0 0H22V23H0V0Z" fill="white" fillOpacity="0.01" />
-              <path
-                d="M8.25001 3.83331H5.04168C4.78854 3.83331 4.58334 4.04785 4.58334 4.31248V20.6041C4.58334 20.8688 4.78854 21.0833 5.04168 21.0833H17.875C18.1281 21.0833 18.3333 20.8688 18.3333 20.6041V4.31248C18.3333 4.04785 18.1281 3.83331 17.875 3.83331H14.6667"
-                stroke="black"
-                strokeWidth="1.5"
-              />
-              <path
-                d="M8.25 6.22917V3.83333H10.0606C10.0732 3.83333 10.0833 3.82272 10.0833 3.80961V2.875C10.0833 2.08109 10.6989 1.4375 11.4583 1.4375C12.2177 1.4375 12.8333 2.08109 12.8333 2.875V3.80961C12.8333 3.82272 12.8435 3.83333 12.856 3.83333H14.6667V6.22917C14.6667 6.49381 14.4615 6.70833 14.2083 6.70833H8.70833C8.4552 6.70833 8.25 6.49381 8.25 6.22917Z"
-                fill="#2F88FF"
-                stroke="black"
-                strokeWidth="1.5"
-              />
-            </svg>
-            <div className={styles.applicantsNumber}>
-              {taskVacancyArray}/{approvedCountArray}
-            </div>
-          </div>
           <div className={styles.applyTaskContainer}>
+            <div className={styles.numberChatContainer}>
+              <div className={styles.numberContainer}>
+                <i className="fa-solid fa-lg fa-clipboard-list" />
+                <input
+                  className={styles.numberInput}
+                  placeholder="Number"
+                ></input>
+              </div>
+              <button>
+                <ChatIcon />
+              </button>
+            </div>
             <button
               className={hasApplied ? styles.cancelTask : styles.applyTask}
               onClick={() => setHasApplied(!hasApplied)}
@@ -183,24 +172,6 @@ function Task({ taskData }) {
               {hasApplied ? "Cancel" : "Apply"}
             </button>
           </div>
-          {hasApplied && (
-            <div className={styles.chatContainer}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="40"
-                height="40"
-                viewBox="0 0 49 49"
-                fill="none"
-              >
-                <path
-                  d="M7 36.8239V6.91265C7 4.75175 8.75175 3 10.9126 3H38.3012C40.4622 3 42.2138 4.75175 42.2138 6.91265V26.4759C42.2138 28.6369 40.4622 30.3885 38.3012 30.3885H16.7058C15.5172 30.3885 14.3931 30.9289 13.6505 31.857L9.09037 37.5571C8.39723 38.4236 7 37.9335 7 36.8239Z"
-                  stroke="#B15E6C"
-                  strokeWidth="5"
-                  shapeRendering="crispEdges"
-                />
-              </svg>
-            </div>
-          )}
         </div>
       )}
     </div>

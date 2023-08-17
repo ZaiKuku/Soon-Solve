@@ -95,18 +95,18 @@
       font-weight: 700;
     }
   }
-  .applicantsNumeberContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 30px;
-    margin-bottom: 25px;
-    .applicantsNumber {
-      font-family: "Noto Sans TC", Courier, monospace;
-      font-weight: 700;
-      font-size: 14px;
-    }
-  }
+  // .applicantsNumeberContainer {
+  //   display: flex;
+  //   justify-content: center;
+  //   align-items: center;
+  //   height: 30px;
+  //   margin-bottom: 25px;
+  //   .applicantsNumber {
+  //     font-family: "Noto Sans TC", Courier, monospace;
+  //     font-weight: 700;
+  //     font-size: 14px;
+  //   }
+  // }
   .taskAssignerOnly {
     display: flex;
     flex-direction: column;
@@ -153,8 +153,34 @@
   .taskApplicantsOnly {
     .applyTaskContainer {
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
+      .numberChatContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        .numberContainer {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-right: 10px;
+          width: 50%;
+          .numberInput {
+            margin-left: 3px;
+            width: 70%;
+            height: 20px;
+            border-radius: 10px;
+            background-color: rgba(237, 237, 237, 1);
+            padding: 10px;
+            box-sizing: border-box;
+            font-family: "Noto Sans TC", Courier, monospace;
+            font-size: 14px;
+            text-align: center;
+          }
+        }
+      }
       .applyTask {
         width: 140px;
         height: 50px;
@@ -175,14 +201,6 @@
         font-weight: 700;
         font-size: 18px;
       }
-    }
-    .chatContainer {
-      position: absolute;
-      right: 25px;
-      bottom: 40px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
     }
   }
 }
