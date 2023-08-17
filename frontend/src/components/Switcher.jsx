@@ -15,10 +15,11 @@ export default function Switcher() {
   return (
     <div>
       <nav>
-        <ul className="flex justify-between w-full">
+        <ul className="flex justify-between w-full fixed top-[75px] left-0 right-0">
           <li
             className="w-[50%] flex flex-col items-center"
             onClick={toggleReleased}
+            style={{ fontFamily: '"Noto Sans TC", Courier, monospace' }}
           >
             Released
             {active === "Released" && (
@@ -28,6 +29,7 @@ export default function Switcher() {
           <li
             className="w-[50%] flex flex-col items-center"
             onClick={toggleAccepted}
+            style={{ fontFamily: '"Noto Sans TC", Courier, monospace' }}
           >
             Accepted
             {active === "Accepted" && (
