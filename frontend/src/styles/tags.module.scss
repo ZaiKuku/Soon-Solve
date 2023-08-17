@@ -13,13 +13,23 @@
   .tag {
     position: relative;
     display: flex;
+    flex-shrink: none;
     gap: 5px;
     justify-content: center;
     align-items: center;
     min-width: 25px;
+    width: fit-content;
     height: 22px;
     background: #b15e6c;
     border-radius: 10px;
-    padding: 2px 3px;
+    padding: 3px 3px;
+    span {
+      font-family: "Noto Sans TC", Courier, monospace;
+      font-style: normal;
+      font-size: 14px;
+      font-weight: 1000;
+      text-align: center;
+      color: #000000;
+    }
   }
 }
