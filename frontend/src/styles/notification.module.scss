@@ -1,0 +1,19 @@
+.notificationContainer {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 10px;
+  background-color: #ededed;
+  padding: 20px 10px 20px 10px;
+  .notificationBox {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    .notification {
+      width: 100%;
+      font-family: "Noto Sans TC", Courier, monospace;
+      font-size: 18px;
+      font-weight: bold;
+      overflow-wrap: break-word;
+    }
+  }
+}

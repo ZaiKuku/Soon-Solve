@@ -1,6 +1,7 @@
-import useSWRInfinite from 'swr/infinite';
-import { useState } from 'react';
-import { fetcher } from '@/utils';
+/* eslint-disable no-undef */
+import useSWRInfinite from "swr/infinite";
+import { useState } from "react";
+import { fetcher } from "@/utils";
 
 export default function useTaskSearch(location) {
   const API = process.env.API;
@@ -33,7 +34,7 @@ export default function useTaskSearch(location) {
     {
       revalidateFirstPage: false,
       revalidateOnMount: true,
-    },
+    }
   );
 
   if (isLoading || error) {

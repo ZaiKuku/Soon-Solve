@@ -33,7 +33,7 @@ function userTasks() {
     next_cursor: "KHEAX0GAFjlPyyqAqTcQOXTLKgIVvshji9AqRmuAGjCDESoLlUrrIn7P",
   };
   return (
-    <main className="w-full flex flex-col gap-2 items-center pt-[80px]">
+    <main className="w-full flex flex-col gap-2 items-center pt-[120px]">
       <Header />
       <div className="w-[90%] flex flex-col gap-2 ">
         <Switcher />

@@ -32,7 +32,7 @@ const data = {
   next_cursor: "KHEAX0GAFjlPyyqAqTcQOXTLKgIVvshji9AqRmuAGjCDESoLlUrrIn7P",
 };
 
-function Task({taskData}) {
+function Task({ taskData }) {
   const [hasApplied, setHasApplied] = useState(false);
   const [isTaskAssigner, setIsTaskAssigner] = useState(false);
   const [countdown, setCountdown] = useState([]);
@@ -108,7 +108,7 @@ function Task({taskData}) {
       <div className={styles.taskTitle}>{titleArray}</div>
       <div className={styles.taskContent}>{contentArray}</div>
       <div className={styles.locationRewardContainer}>
-        <Tag inTag={locationArray} />
+        <Tag outTag={locationArray} />
         <Tag outTag={rewardArray} icon="fa-solid fa-dollar-sign" />
       </div>
       <div className={styles.countdownContainer}>

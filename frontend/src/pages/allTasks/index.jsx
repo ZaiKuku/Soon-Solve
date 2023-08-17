@@ -5,13 +5,19 @@ import Header from "@/components/Header";
 import NavBar from "@/components/NavBar";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { DrawerDefault } from "@/components/SideFilter";
-import { LocationList } from "@/components/LocationList";
-import {LocationFilter} from "@/components/locationFilter";
+import { useCookies } from "react-cookie";
+import { useEffect } from "react";
 
 export default function Home() {
   // const { mutate, isLoading, isEnd, size, setSize, task_Data } =
   //   useTaskSearch();
   // useInfiniteScroll(async () => setSize(size + 1), 200);
+  const [cookies, , removeCookie] = useCookies(["token"]);
+
+  useEffect(() => {
+    console.log(cookies);
+    removeCookie("token");
+  }, []);
   const taskData = {
     tasks: [
       {
@@ -36,7 +42,7 @@ export default function Home() {
   };
 
   return (
-    <main className="w-full flex flex-col gap-2 items-center pt-20">
+    <main className="w-full flex flex-col gap-2 items-center pt-24">
       <Header />
       <SearchBar />
       <OverviewGroup taskData={taskData.tasks} />
@@ -45,3 +51,19 @@ export default function Home() {
     </main>
   );
 }
+
+// export async function getServerSideProps(context) {
+//   const { req } = context;
+//   const { token } = req.cookies;
+//   if (!token) {
+//     return {
+//       redirect: {
+//         destination: `/login`,
+//         permenant: false,
+//       },
+//     };
+//   }
+//   return {
+//     props: {},
+//   };
+// }

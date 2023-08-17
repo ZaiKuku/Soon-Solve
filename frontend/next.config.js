@@ -10,7 +10,7 @@ const withPWA = require("next-pwa")({
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    API_URL: "https://13.236.60.107/api/1.0",
+    API_URL: "https://52.64.240.159/api/1.0",
   },
 };
 module.exports = withPWA(nextConfig);

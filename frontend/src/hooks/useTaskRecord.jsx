@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import useSWRInfinite from "swr/infinite";
 import { useState } from "react";
 import { fetcher } from "@/utils";
