@@ -7,7 +7,7 @@ import {
 import { Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setOpenSideFilter } from "../redux/reducers";
-import { LocationList } from "./LocationList";
+import { LocationFilter } from "./locationFilter";
 
 export function DrawerDefault() {
   const dispatch = useDispatch();
@@ -15,7 +15,6 @@ export function DrawerDefault() {
 
   const closeDrawer = () => {
     dispatch(setOpenSideFilter(false));
-    console.log(open);
   };
 
   return (
@@ -23,10 +22,26 @@ export function DrawerDefault() {
       <Drawer open={open} onClose={closeDrawer} className="p-4">
         <div className="mb-6 flex items-center justify-between">
           <Typography variant="h5" color="blue-gray">
-            Material Tailwind
+            Filter
           </Typography>
+          <IconButton variant="text" color="blue-gray" onClick={closeDrawer}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              className="h-5 w-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </IconButton>
         </div>
-        <LocationList />
+        <LocationFilter />
       </Drawer>
     </Fragment>
   );
