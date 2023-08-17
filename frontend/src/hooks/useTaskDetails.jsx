@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import useSWR from "swr";
 import { fetcher } from "@/utils";
 

@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/button-has-type */
-
-"use client";
-
 import { useState } from "react";
 // import axios from "axios";
 import { useRouter } from "next/navigation";
 // import { setCookie } from "nookies";
+import { useCookies } from "react-cookie";
+import useLogIn from "@/hooks/useSignIn";
+import useSignUp from "@/hooks/useSignUp";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import styles from "../../styles/LoginSignUpPage.module.scss";
@@ -17,6 +17,7 @@ function LoginSignUpPage() {
   const [password, setPassword] = useState("");
   const [name, setUsername] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [cookie, setCookie] = useCookies(["user"]);
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -41,50 +42,41 @@ function LoginSignUpPage() {
       password: values.password,
     };
 
-    // try {
-    //   let response;
-    //   if (isLogin) {
-    //     response = await axios.post(
-    //       `${process.env.NEXT_PUBLIC_API_HOST}/users/signin`,
-    //       userLoginData
-    //     );
-    //     const accessToken = response.data.data.access_token;
-    //     const userId = response.data.data.user.id;
-    //     setCookie(null, "accessToken", accessToken, {
-    //       path: "/", // Cookie path (optional)
-    //     });
-    //     setCookie(null, "userId", userId, {
-    //       path: "/", // Cookie path (optional)
-    //     });
-    //     router.push("/");
-    //   } else {
-    //     response = await axios.post(
-    //       `${process.env.NEXT_PUBLIC_API_HOST}/users/signup`,
-    //       userSignUpData
-    //     );
-    //     setIsLogin(true);
-    //     setIsLoading(false);
-    //   }
-    // } catch (error) {
-    //   console.log("Error:", error);
-    //   if (error.response && error.response.status === 403) {
-    //     alert("Email or password is wrong. Please try again.");
-    //   } else if (error.response && error.response.status >= 500) {
-    //     alert(
-    //       "Something's wrong. Please try again later or notify our engineering team."
-    //     );
-    //   }
-    //   setErrorMessage("An error occurred. Please try again.");
-    //   setIsLoading(false);
-    // }
+    if (isLogin) {
+      const response = await useLogIn(userLoginData);
+      console.log(response);
+      if (response) {
+        const { token } = response;
+        setCookie("token", token, {
+          maxAge: 30 * 24 * 60 * 60,
+          path: "/",
+        });
+        router.push("/");
+      }
+    } else {
+      const response = await useSignUp(userSignUpData);
+      console.log(response);
+      if (response) {
+        const { token } = response;
+        setCookie("token", token, {
+          maxAge: 30 * 24 * 60 * 60,
+          path: "/",
+        });
+        router.push("/");
+      }
+    }
+    setIsLoading(false);
   };
 
   const getButtonText = () => {
-    if (isLoading) {
+    if (isLoading && isLogin) {
       return "登入中...";
     }
-    if (isLogin) {
+    if (isLogin && !isLoading) {
       return "登入";
+    }
+    if (isLoading && !isLogin) {
+      return "註冊中...";
     }
     return "註冊";
   };
