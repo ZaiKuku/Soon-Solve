@@ -17,7 +17,7 @@ function LoginSignUpPage() {
   const [password, setPassword] = useState("");
   const [name, setUsername] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [cookie, setCookie] = useCookies(["user"]);
+  const [cookie, setCookie] = useCookies(["token"]);
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -46,23 +46,23 @@ function LoginSignUpPage() {
       const response = await useLogIn(userLoginData);
       console.log(response);
       if (response) {
-        const { token } = response;
-        setCookie("token", token, {
+        const { access_token } = response.data;
+        setCookie("token", access_token, {
           maxAge: 30 * 24 * 60 * 60,
           path: "/",
         });
-        router.push("/");
+        router.push("/allTasks");
       }
     } else {
       const response = await useSignUp(userSignUpData);
       console.log(response);
       if (response) {
-        const { token } = response;
-        setCookie("token", token, {
+        const { access_token } = response.data;
+        setCookie("token", access_token, {
           maxAge: 30 * 24 * 60 * 60,
           path: "/",
         });
-        router.push("/");
+        router.push("/allTasks");
       }
     }
     setIsLoading(false);
@@ -201,3 +201,19 @@ function LoginSignUpPage() {
 }
 
 export default LoginSignUpPage;
+
+export async function getServerSideProps(context) {
+  const { req } = context;
+  const { token } = req.cookies;
+  if (token) {
+    return {
+      redirect: {
+        destination: `/allTasks`,
+        permenant: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
+}

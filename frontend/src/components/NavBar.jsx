@@ -1,9 +1,10 @@
+import Link from "next/link";
 import styles from "../styles/NavBar.module.scss";
 
 function NavBar() {
   return (
     <div className={styles.navBarContainer}>
-      <button className={styles.searchContainer}>
+      <Link href="/allTasks" className={styles.searchContainer}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="44"
@@ -17,8 +18,8 @@ function NavBar() {
           />
         </svg>
         <div className={styles.search}>search</div>
-      </button>
-      <button className={styles.missionContainer}>
+      </Link>
+      <Link href="/userTasks" className={styles.missionContainer}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="44"
@@ -70,7 +71,8 @@ function NavBar() {
           />
         </svg>
         <div className={styles.mission}>Mission List</div>
-      </button>
+      </Link>
+
       <button className={styles.notificationsContainer}>
         <svg
           xmlns="http://www.w3.org/2000/svg"

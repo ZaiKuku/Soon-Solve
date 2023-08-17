@@ -3,7 +3,7 @@ import style from "../styles/tags.module.scss";
 export default function Tag({
   inTag = null,
   outTag = null,
-  icon = "fa-solid fa-location-dot",
+  icon = "fa-solid fa-location-dot ",
 }) {
   return (
     <div className={style.container}>

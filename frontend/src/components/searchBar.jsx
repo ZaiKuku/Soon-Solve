@@ -2,7 +2,6 @@
 import { use, useEffect, useState } from "react";
 import Tag from "./tags";
 import style from "../styles/searchBar.module.scss";
-import locations from "../locations/locations.js";
 import { useSelector, useDispatch } from "react-redux";
 import { setOpenSideFilter } from "../redux/reducers";
 
@@ -48,10 +47,11 @@ export default function SearchBar() {
         <button onClick={() => dispatch(setOpenSideFilter(true))}>
           <i className="fa fa-sliders fa-xl" />
         </button>
-        {tagItems(searchLocations)}
-
-        {selectedSex && <Tag inTag={selectedSex} />}
-        {selectedFriend === 1 && <Tag inTag="朋友" />}
+        <div className="flex gap-2">
+          {tagItems(searchLocations)}
+          {selectedSex && <Tag inTag={selectedSex} />}
+          {selectedFriend === 1 && <Tag inTag="朋友" />}
+        </div>
       </div>
       {showSearchResult && (
         <div className={style.searchResult}>
