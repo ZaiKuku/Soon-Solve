@@ -9,9 +9,6 @@ export default function Home() {
       <Header />
       <div className="w-[90%] flex flex-col gap-2 justify-center">
         <Applicant />
-        <div>
-            <span>Benson</span>
-        </div>
       </div>
       <NavBar />
     </main>

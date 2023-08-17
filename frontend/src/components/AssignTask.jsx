@@ -8,7 +8,6 @@ import Image from "next/legacy/image";
 import styles from "../styles/AssignTask.module.scss";
 import Tag from "./tags";
 import PlaceIcon from "@mui/icons-material/Place";
-import NumbersIcon from "@mui/icons-material/Numbers";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import TimerIcon from "@mui/icons-material/Timer";
 import RedeemIcon from "@mui/icons-material/Redeem";
@@ -150,7 +149,7 @@ function AssignTask() {
         </div>
         <div className={styles.numberPeopleContainer}>
           <div className={styles.numberContainer}>
-            <NumbersIcon />
+            <i className="fa-solid fa-lg fa-clipboard-list" />
             <input className={styles.numberInput} placeholder="Number"></input>
           </div>
           <div className={styles.peopleContainer}>
