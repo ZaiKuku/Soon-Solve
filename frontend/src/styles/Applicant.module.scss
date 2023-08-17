@@ -1,0 +1,39 @@
+.applicantContainer {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 10px;
+  background-color: #ededed;
+  padding: 20px 10px 20px 10px;
+  .nameTitleContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    .applicantName {
+      font-family: "Noto Sans TC", Courier, monospace;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+  .container {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .numberContainer {
+      display: flex;
+      align-items: center;
+      .number {
+        margin-left: 5px;
+        font-family: "Noto Sans TC", Courier, monospace;
+        font-size: 18px;
+        font-weight: bold;
+      }
+    }
+    .checkCancelContainer {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}
