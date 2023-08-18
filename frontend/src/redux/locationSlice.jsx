@@ -6,6 +6,7 @@ const initialState = {
   sex: "",
   friend: 0,
   title: "",
+  num: 0,
 };
 
 const locationSlice = createSlice({
@@ -18,26 +19,44 @@ const locationSlice = createSlice({
         state.selectedLocations = state.selectedLocations.filter(
           (location) => location !== action.payload
         );
+        state.num -= 1;
       } else {
         state.selectedLocations.push(action.payload);
+        state.num += 1;
       }
     },
     setSelectedSex(state, action) {
       if (state.sex === action.payload) {
         state.sex = "";
+        state.num -= 1;
       } else {
         state.sex = action.payload;
+        state.num += 1;
       }
     },
     setSelectedFriend(state) {
       if (state.friend === 0) {
         state.friend = 1;
+        state.num += 1;
       } else {
         state.friend = 0;
+        state.num -= 1;
       }
     },
     setSelectedTitle(state, action) {
       state.title = action.payload;
+      if (state.title === "") {
+        state.num -= 1;
+      } else {
+        state.num += 1;
+      }
+    },
+
+    cleanAll(state) {
+      state.selectedLocations = [];
+      state.sex = "";
+      state.friend = 0;
+      state.title = "";
     },
   },
 });
@@ -48,6 +67,7 @@ export const {
   setSelectedSex,
   setSelectedFriend,
   setSelectedTitle,
+  cleanAll,
 } = locationSlice.actions;
 
 export default locationSlice.reducer;

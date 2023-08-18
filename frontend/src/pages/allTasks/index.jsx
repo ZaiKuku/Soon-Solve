@@ -5,8 +5,9 @@ import Header from "@/components/Header";
 import NavBar from "@/components/NavBar";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { DrawerDefault } from "@/components/SideFilter";
-import { useCookies } from "react-cookie";
 import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { cleanAll } from "@/redux/locationSlice";
 
 export default function Home() {
   const [nextCursor, setNextCursor] = useState(0);
@@ -14,22 +15,44 @@ export default function Home() {
   const [fetchTasks] = useTaskSearch();
   const [tasks, setTasks] = useState();
   const [isLoadMorePosts, setIsLoadMorePosts] = useState(false);
+
+  const dispatch = useDispatch();
+  const conditionNum = useSelector((state) => state.selectedLocations.num);
+  const conditions = useSelector((state) => state.selectedLocations);
+
   useEffect(() => {
     async function fetchData() {
       // get posts
+      // console.log("conditions", conditions);
       setPostFetchMode("");
       try {
-        const [data, cursor] = await fetchTasks(postFetchMode);
+        if (conditionNum === 0) {
+          const [data, cursor] = await fetchTasks();
+          setTasks(data);
+          setNextCursor(cursor);
+
+          setPostFetchMode("cursor");
+          return;
+        }
+        console.log("conditionsSearch", conditions);
+        const [data, cursor] = await fetchTasks("", null, conditions);
+        console.log("data", data);
         setTasks(data);
         setNextCursor(cursor);
-        console.log("cursor", cursor);
+        // console.log("cursor", cursor);
         setPostFetchMode("cursor");
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     }
 
     fetchData();
+  }, [conditions]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(cleanAll());
+    };
   }, []);
 
   const updatePosts = async () => {
@@ -37,9 +60,12 @@ export default function Home() {
       return;
     }
     setIsLoadMorePosts(true);
-    console.log("postFetchMode", postFetchMode);
     console.log("start fetching data");
-    const [newData, cursor] = await fetchTasks(postFetchMode, nextCursor);
+    const [newData, cursor] = await fetchTasks(
+      postFetchMode,
+      nextCursor,
+      conditionNum > 0 ? conditions : null
+    );
     setTasks((prevData) => [...prevData, ...newData]);
     setNextCursor(cursor);
     setTimeout(() => {
@@ -51,7 +77,7 @@ export default function Home() {
   useInfiniteScroll(updatePosts, 100);
 
   return (
-    <main className="absolute w-full flex flex-col gap-2 items-center pt-24 z-0 ">
+    <main className="absolute w-full flex flex-col gap-2 items-center py-24 z-0 ">
       <Header />
       <SearchBar />
 

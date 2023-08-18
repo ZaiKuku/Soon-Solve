@@ -4,6 +4,7 @@ import Tag from "./tags";
 import style from "../styles/searchBar.module.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { setOpenSideFilter } from "../redux/reducers";
+import { setSelectedTitle } from "@/redux/locationSlice";
 
 export default function SearchBar() {
   const [keyword, setKeyword] = useState("");
@@ -16,15 +17,25 @@ export default function SearchBar() {
 
   const selectedFriend = useSelector((state) => state.selectedLocations.friend);
 
-  const [showSearchResult, setShowSearchResult] = useState(false);
+  const debounceTimeout = 300; // 300 毫秒
+
+  useEffect(() => {
+    // 使用 setTimeout 計時器來實現 debounce
+    const timerId = setTimeout(() => {
+      console.log("keyword", keyword);
+      dispatch(setSelectedTitle(keyword));
+    }, debounceTimeout);
+
+    // 在每次 useEffect 被重新調用時，清除之前的計時器
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [keyword]);
+
   const handleChange = (e) => {
-    if (e.target.value === "") {
-      setShowSearchResult(false);
-      return;
-    }
     const keyword = e.target.value;
     setKeyword(keyword);
-    setShowSearchResult(true);
+    // console.log("keyword", keyword);
   };
 
   const tagItems = (searchLocations) => {
@@ -53,11 +64,6 @@ export default function SearchBar() {
           {selectedFriend === 1 && <Tag inTag="朋友" />}
         </div>
       </div>
-      {showSearchResult && (
-        <div className={style.searchResult}>
-          <div className={style.searchResultTitle}>搜尋結果</div>
-        </div>
-      )}
     </div>
     // <span>輸出</span>
   );
