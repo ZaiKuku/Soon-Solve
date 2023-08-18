@@ -73,7 +73,7 @@ function NavBar() {
         <div className={styles.mission}>Mission List</div>
       </Link>
 
-      <button className={styles.notificationsContainer}>
+      <Link href="/notifications" className={styles.notificationsContainer}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="44"
@@ -97,7 +97,7 @@ function NavBar() {
           />
         </svg>
         <div className={styles.notifications}>notifications</div>
-      </button>
+      </Link>
       <Link href="/userProfile" className={styles.profileContainer}>
         <svg
           xmlns="http://www.w3.org/2000/svg"

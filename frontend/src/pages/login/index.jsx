@@ -13,10 +13,6 @@ import styles from "../../styles/LoginSignUpPage.module.scss";
 
 function LoginSignUpPage() {
   const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setUsername] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [cookie, setCookie] = useCookies(["token"]);
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -46,8 +42,7 @@ function LoginSignUpPage() {
       const response = await useLogIn(userLoginData);
       console.log(response);
       if (response) {
-        const { access_token } = response.data;
-        setCookie("token", access_token, {
+        setCookie("token", response.data, {
           maxAge: 30 * 24 * 60 * 60,
           path: "/",
         });
@@ -57,8 +52,7 @@ function LoginSignUpPage() {
       const response = await useSignUp(userSignUpData);
       console.log(response);
       if (response) {
-        const { access_token } = response.data;
-        setCookie("token", access_token, {
+        setCookie("token", response.data, {
           maxAge: 30 * 24 * 60 * 60,
           path: "/",
         });

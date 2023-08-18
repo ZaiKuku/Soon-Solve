@@ -5,7 +5,6 @@ import Header from "@/components/Header";
 import NavBar from "@/components/NavBar";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { DrawerDefault } from "@/components/SideFilter";
-import { useCookies } from "react-cookie";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -51,7 +50,7 @@ export default function Home() {
   useInfiniteScroll(updatePosts, 100);
 
   return (
-    <main className="absolute w-full flex flex-col gap-2 items-center pt-24 z-0 ">
+    <main className="absolute w-full flex flex-col gap-2 items-center py-24 z-0 ">
       <Header />
       <SearchBar />
 

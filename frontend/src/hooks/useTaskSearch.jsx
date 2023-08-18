@@ -20,7 +20,7 @@ export default function useTaskSearch() {
     try {
       const header_config = {
         headers: {
-          Authorization: `Bearer ${cookies.token}`,
+          Authorization: `Bearer ${cookies.token.access_token}`,
         },
       };
       const response = await axios.get(apiUrl, header_config);
