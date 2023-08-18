@@ -98,7 +98,7 @@ function NavBar() {
         </svg>
         <div className={styles.notifications}>notifications</div>
       </button>
-      <button className={styles.profileContainer}>
+      <Link href="/userProfile" className={styles.profileContainer}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="44"
@@ -112,7 +112,7 @@ function NavBar() {
           />
         </svg>
         <div className={styles.profile}>profile</div>
-      </button>
+      </Link>
     </div>
   );
 }
