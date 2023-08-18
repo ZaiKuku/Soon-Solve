@@ -1,10 +1,11 @@
-import { useCookies } from "react-cookie";
+import { getCookie } from "cookies-next";
 
 export async function fetcher(url) {
+  console.log(getCookie("token"));
   const res = await fetch(url, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${useCookies("access_token")}`,
+      Authorization: `Bearer ${getCookie("token")}`,
     },
   });
 

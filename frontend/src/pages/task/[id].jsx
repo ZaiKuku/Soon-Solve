@@ -11,6 +11,9 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 function SingleTask() {
   const router = useRouter();
   const { id } = router.query;
+  const back = () => {
+    router.back();
+  };
   // const { task, isLoading } = useTaskDetails(parseInt(id, 10));
   console.log("test");
   return (
@@ -26,13 +29,11 @@ function SingleTask() {
         {/* <Task taskData={task} /> */}
         <Task />
         <button
+          onClick={back}
           style={{
             position: "absolute",
             bottom: "100px",
             left: "20px",
-          }}
-          onClick={() => {
-            // Handle click event here
           }}
         >
           <ArrowBackIcon style={{ fontSize: "40px" }} />

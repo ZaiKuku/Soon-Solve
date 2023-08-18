@@ -6,64 +6,75 @@ import NavBar from "@/components/NavBar";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { DrawerDefault } from "@/components/SideFilter";
 import { useCookies } from "react-cookie";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  // const { mutate, isLoading, isEnd, size, setSize, task_Data } =
-  //   useTaskSearch();
-  // useInfiniteScroll(async () => setSize(size + 1), 200);
-  const [cookies, , removeCookie] = useCookies(["token"]);
-
+  const [nextCursor, setNextCursor] = useState(0);
+  const [postFetchMode, setPostFetchMode] = useState(""); // ["user_id", "cursor", "user_cursor"]
+  const [fetchTasks] = useTaskSearch();
+  const [tasks, setTasks] = useState();
+  const [isLoadMorePosts, setIsLoadMorePosts] = useState(false);
   useEffect(() => {
-    console.log(cookies);
-    removeCookie("token");
+    async function fetchData() {
+      // get posts
+      setPostFetchMode("");
+      try {
+        const [data, cursor] = await fetchTasks(postFetchMode);
+        setTasks(data);
+        setNextCursor(cursor);
+        console.log("cursor", cursor);
+        setPostFetchMode("cursor");
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    fetchData();
   }, []);
-  const taskData = {
-    tasks: [
-      {
-        id: 1,
-        poster_id: 1,
-        created_at: "2023-04-09 22:21:48",
-        closed_at: "2023-04-09 22:21:48",
-        deadline: "2023-04-09 22:21:48",
-        task_vacancy: 0,
-        approved_count: 1,
-        title: "我要便當",
-        location: "八嘎壓樓",
-        reward: "抱抱",
-        picture: "https://imgur.com/XXXXX",
-        name: "PJ",
-        nickname: "pppppjjjjjj",
-        status: "applied",
-        sex: 0,
-      },
-    ],
-    next_cursor: "KHEAX0GAFjlPyyqAqTcQOXTLKgIVvshji9AqRmuAGjCDESoLlUrrIn7P",
+
+  const updatePosts = async () => {
+    if (!nextCursor || isLoadMorePosts) {
+      return;
+    }
+    setIsLoadMorePosts(true);
+    console.log("postFetchMode", postFetchMode);
+    console.log("start fetching data");
+    const [newData, cursor] = await fetchTasks(postFetchMode, nextCursor);
+    setTasks((prevData) => [...prevData, ...newData]);
+    setNextCursor(cursor);
+    setTimeout(() => {
+      console.log("finish fetching data");
+      setIsLoadMorePosts(false);
+    }, 1000);
   };
 
+  useInfiniteScroll(updatePosts, 100);
+
   return (
-    <main className="w-full flex flex-col gap-2 items-center pt-24">
+    <main className="absolute w-full flex flex-col gap-2 items-center pt-24 z-0 ">
       <Header />
       <SearchBar />
-      <OverviewGroup taskData={taskData.tasks} />
+
+      <OverviewGroup tasks={tasks} />
+
       <NavBar />
       <DrawerDefault />
     </main>
   );
 }
 
-// export async function getServerSideProps(context) {
-//   const { req } = context;
-//   const { token } = req.cookies;
-//   if (!token) {
-//     return {
-//       redirect: {
-//         destination: `/login`,
-//         permenant: false,
-//       },
-//     };
-//   }
-//   return {
-//     props: {},
-//   };
-// }
+export async function getServerSideProps(context) {
+  const { req } = context;
+  const { token } = req.cookies;
+  if (!token) {
+    return {
+      redirect: {
+        destination: `/login`,
+        permenant: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
+}

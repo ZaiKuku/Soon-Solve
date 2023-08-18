@@ -1,39 +1,38 @@
 import { useState } from "react";
+import { Tabs, TabsHeader, Tab } from "@material-tailwind/react";
 
 export default function Switcher() {
-  const [active, setActive] = useState("Accepted");
-  console.log(active);
-  const toggleAccepted = () => {
-    if (active === "Accepted") return;
-    setActive("Accepted");
-  };
-
-  const toggleReleased = () => {
-    if (active === "Released") return;
-    setActive("Released");
-  };
+  const [activeTab, setActiveTab] = useState("Accepted");
+  const data = [
+    {
+      label: "Accepted",
+      value: "Accepted",
+    },
+    {
+      label: "Released",
+      value: "Released",
+    },
+  ];
   return (
-    <ul className="flex justify-between w-full top-[75px] left-0 right-0 fixed">
-      <li
-        className="w-[50%] flex flex-col items-center"
-        onClick={toggleReleased}
-        style={{ fontFamily: '"Noto Sans TC", Courier, monospace' }}
+    <Tabs value={activeTab}>
+      <TabsHeader
+        className="rounded-none border-b border-blue-gray-50 bg-transparent fixed p-0 w-4/5 m-auto left-0 right-0 top-[75px]"
+        indicatorProps={{
+          className:
+            "bg-transparent border-b-2 border-gray-900 shadow-none rounded-none",
+        }}
       >
-        Released
-        {active === "Released" && (
-          <hr className="w-[70%] border-2 border-[#B15E6C]" />
-        )}
-      </li>
-      <li
-        className="w-[50%] flex flex-col items-center"
-        onClick={toggleAccepted}
-        style={{ fontFamily: '"Noto Sans TC", Courier, monospace' }}
-      >
-        Accepted
-        {active === "Accepted" && (
-          <hr className="w-[70%] border-2 border-[#B15E6C]"></hr>
-        )}
-      </li>
-    </ul>
+        {data.map(({ label, value }) => (
+          <Tab
+            key={value}
+            value={value}
+            onClick={() => setActiveTab(value)}
+            className={activeTab === value ? "text-gray-900" : ""}
+          >
+            {label}
+          </Tab>
+        ))}
+      </TabsHeader>
+    </Tabs>
   );
 }

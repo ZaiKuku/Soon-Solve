@@ -1,10 +1,12 @@
 .navBarContainer {
   position: fixed;
+  z-index: 999;
   bottom: 0;
   left: 0;
   width: 100vw;
   height: 83px;
   display: flex;
+  background: #ffffff;
   border-top: solid rgba(177, 94, 108, 1) 3px;
   .searchContainer {
     display: flex;

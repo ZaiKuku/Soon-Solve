@@ -1,27 +1,41 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 
-export default function useInfiniteScroll(callback, distance) {
-  const [isNearToBottom, setIsNearToBottom] = useState(false);
+const useInfiniteScroll = (callback, threshold) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleScroll = useCallback(() => {
+    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+    const distanceToBottom = scrollHeight - scrollTop - clientHeight;
+
+    if (distanceToBottom <= threshold && !isLoading) {
+      setIsLoading(true);
+    }
+  }, [threshold, isLoading]);
 
   useEffect(() => {
-    function handleScroll() {
-      if (
-        window.innerHeight + Math.round(window.scrollY) >=
-        document.body.offsetHeight - distance
-      ) {
-        setIsNearToBottom(true);
-      }
+    const handleScrollThrottled = () => {
+      // Using throttle to avoid excessive callback calls during scroll
+      const timeout = setTimeout(() => {
+        handleScroll();
+        clearTimeout(timeout);
+      }, 1000);
+    };
+
+    window.addEventListener("scroll", handleScrollThrottled);
+
+    return () => {
+      window.removeEventListener("scroll", handleScrollThrottled);
+    };
+  }, [handleScroll]);
+
+  useEffect(() => {
+    if (isLoading) {
+      // Call the callback function when isLoading is true
+      callback()
+        .then(() => setIsLoading(false))
+        .catch(() => setIsLoading(false));
     }
+  }, [isLoading, callback]);
+};
 
-    window.addEventListener("scroll", handleScroll);
-
-    if (isNearToBottom) {
-      (async () => {
-        await callback();
-        setIsNearToBottom(false);
-      })();
-    }
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isNearToBottom]);
-}
+export default useInfiniteScroll;

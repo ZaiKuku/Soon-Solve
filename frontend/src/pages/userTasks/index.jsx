@@ -37,7 +37,7 @@ function userTasks() {
       <Header />
       <div className="w-[90%] flex flex-col gap-2 ">
         <Switcher />
-        <OverviewGroup taskData={taskData.tasks} />
+        <OverviewGroup tasks={taskData.tasks} />
         <NavBar />
       </div>
     </main>
