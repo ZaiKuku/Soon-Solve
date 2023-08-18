@@ -16,7 +16,7 @@ export default function TaskOverview({ task }) {
     // nickname,
     // sex,
   } = task;
-  console.log("picture", picture);
+
   return (
     <div className={style.bg}>
       <div className={style.infoContainer}>

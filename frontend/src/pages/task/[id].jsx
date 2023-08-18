@@ -10,6 +10,9 @@ import useTaskDetails from "@/hooks/useTaskDetails";
 function SingleTask() {
   const router = useRouter();
   const { id } = router.query;
+  const back = () => {
+    router.back();
+  };
   // const { task, isLoading } = useTaskDetails(parseInt(id, 10));
   console.log("test");
   return (
@@ -25,7 +28,7 @@ function SingleTask() {
         {/* <Task taskData={task} /> */}
         <Task />
         <div className={styles.backContainer}>
-          <button>
+          <button onClick={back}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="30"
