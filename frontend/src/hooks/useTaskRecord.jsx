@@ -1,44 +1,44 @@
 /* eslint-disable no-undef */
-import useSWRInfinite from "swr/infinite";
-import { useState } from "react";
-import { fetcher } from "@/utils";
+import { useCookies } from "react-cookie";
+import axios from "axios";
 
-export default function useTaskRecord(type = "Released") {
-  const API = process.env.API;
-  const [isEnd, setIsEnd] = useState(false);
+export default function useTaskRecord() {
+  const [cookies] = useCookies(["user"]);
 
-  function getURL(pageIndex, previousPageData) {
-    const nextCursor = previousPageData?.data?.next_cursor;
+  const fetchTasks = async (mode = "", cursor = 0, type = "Released") => {
+    if (mode === "cursor" && !cursor) {
+      return;
+    }
 
-    const isFirstPage = pageIndex === 0;
-    if (isFirstPage) {
-      if (type === "Released") {
-        return `${API}/users/${type}/task_records`;
+    const api = process.env.API_URL;
+    let apiUrl = "";
+
+    if (mode === "") {
+      apiUrl = `${api}/users/${type}/task_records`;
+    } else if (mode === "cursor") {
+      apiUrl = `${api}/users/${type}/task_records?cursor=${cursor}`;
+    }
+    try {
+      const header_config = {
+        headers: {
+          Authorization: `Bearer ${cookies.token.access_token}`,
+        },
+      };
+      const response = await axios.get(apiUrl, header_config);
+
+      if (response.status === 200) {
+        // eslint-disable-next-line consistent-return
+
+        return [response?.data?.data?.tasks, response?.data?.data?.next_cursor];
+      }
+      console.error("Error:", response.status);
+      // 處理錯誤狀態
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data);
       }
     }
+  };
 
-    const hasNextPage = previousPageData && nextCursor;
-    if (hasNextPage) {
-      return `${API}/users/${type}/task_records?cursor='${nextCursor}'`;
-    }
-    setIsEnd(true);
-
-    return null;
-  }
-
-  const { mutate, data, error, isLoading, size, setSize } = useSWRInfinite(
-    getURL,
-    fetcher,
-    {
-      revalidateFirstPage: false,
-      revalidateOnMount: true,
-    }
-  );
-
-  if (isLoading || error) {
-    return { mutate, isLoading, isEnd, size, setSize, tasks: [] };
-  }
-
-  const tasks = data?.map((d) => d.data.tasks).flat();
-  return { mutate, isLoading, isEnd, size, setSize, tasks: tasks ?? [] };
+  return [fetchTasks];
 }

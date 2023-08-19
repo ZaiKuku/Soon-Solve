@@ -22,7 +22,6 @@ export default function SearchBar() {
   useEffect(() => {
     // 使用 setTimeout 計時器來實現 debounce
     const timerId = setTimeout(() => {
-      console.log("keyword", keyword);
       dispatch(setSelectedTitle(keyword));
     }, debounceTimeout);
 
@@ -35,7 +34,6 @@ export default function SearchBar() {
   const handleChange = (e) => {
     const keyword = e.target.value;
     setKeyword(keyword);
-    // console.log("keyword", keyword);
   };
 
   const tagItems = (searchLocations) => {

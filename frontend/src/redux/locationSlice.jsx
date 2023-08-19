@@ -26,12 +26,12 @@ const locationSlice = createSlice({
       }
     },
     setSelectedSex(state, action) {
-      if (state.sex === action.payload) {
-        state.sex = "";
-        state.num -= 1;
-      } else {
+      if (state.sex === "") {
         state.sex = action.payload;
         state.num += 1;
+      } else {
+        state.sex = "";
+        state.num -= 1;
       }
     },
     setSelectedFriend(state) {
@@ -45,8 +45,10 @@ const locationSlice = createSlice({
     },
     setSelectedTitle(state, action) {
       state.title = action.payload;
-      if (state.title === "") {
+      if (state.title === "" && state.num > 0) {
         state.num -= 1;
+      } else if (state.title === "" && state.num === 0) {
+        state.num = 0;
       } else {
         state.num += 1;
       }
@@ -57,6 +59,7 @@ const locationSlice = createSlice({
       state.sex = "";
       state.friend = 0;
       state.title = "";
+      state.num = 0;
     },
   },
 });

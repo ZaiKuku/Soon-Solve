@@ -2,13 +2,12 @@ import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
   Typography,
-  Tooltip,
 } from "@material-tailwind/react";
 import { ListWithAvatar } from "./ListWithAvatar";
 
-export function ProfileCard() {
+export function ProfileCard({ profileData }) {
+  console.log("profileData", profileData);
   const credit_score = 100;
   return (
     <Card className="w-96 border-[#B15E6C] border-2">

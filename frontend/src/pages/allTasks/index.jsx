@@ -18,19 +18,17 @@ export default function Home() {
 
   const dispatch = useDispatch();
   const conditionNum = useSelector((state) => state.selectedLocations.num);
+  console.log("conditionNum", conditionNum);
   const conditions = useSelector((state) => state.selectedLocations);
 
   useEffect(() => {
     async function fetchData() {
-      // get posts
-      // console.log("conditions", conditions);
       setPostFetchMode("");
       try {
-        if (conditionNum === 0) {
+        if (conditionNum < 1) {
           const [data, cursor] = await fetchTasks();
           setTasks(data);
           setNextCursor(cursor);
-
           setPostFetchMode("cursor");
           return;
         }
@@ -77,7 +75,7 @@ export default function Home() {
   useInfiniteScroll(updatePosts, 100);
 
   return (
-    <main className="absolute w-full flex flex-col gap-2 items-center py-24 z-0 ">
+    <main className="absolute w-full flex flex-col gap-2 items-center py-24 z-0 min-h-screen">
       <Header />
       <SearchBar />
 

@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/button-has-type */
 import { useState } from "react";
-// import axios from "axios";
+
 import { useRouter } from "next/navigation";
-// import { setCookie } from "nookies";
+
 import { useCookies } from "react-cookie";
 import useLogIn from "@/hooks/useSignIn";
 import useSignUp from "@/hooks/useSignUp";
@@ -43,7 +43,7 @@ function LoginSignUpPage() {
       console.log(response);
       if (response) {
         setCookie("token", response.data, {
-          maxAge: 30 * 24 * 60 * 60,
+          maxAge: 60 * 60,
           path: "/",
         });
         router.push("/allTasks");

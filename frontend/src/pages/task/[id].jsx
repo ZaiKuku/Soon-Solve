@@ -11,11 +11,14 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 function SingleTask() {
   const router = useRouter();
   const { id } = router.query;
+
+  // const { task, isLoading } = useTaskDetails();
+
   const back = () => {
     router.back();
   };
-  // const { task, isLoading } = useTaskDetails(parseInt(id, 10));
-  console.log("test");
+  const { task, isLoading } = useTaskDetails(parseInt(id, 10));
+  console.log(task);
   return (
     <SWRConfig
       value={{
@@ -26,8 +29,7 @@ function SingleTask() {
     >
       <div className={styles.page}>
         <Header />
-        {/* <Task taskData={task} /> */}
-        <Task />
+        <Task task={task} />
         <button
           onClick={back}
           style={{

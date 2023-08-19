@@ -50,20 +50,20 @@ export default function useTaskSearch() {
       thereIsCondition = true;
     }
 
+    if (num < 1) {
+      apiUrl = `${api}/tasks/search`;
+    }
+    console.log("title", title);
     if (title) {
       if (thereIsCondition) {
         apiUrl += "&";
+      } else if (num < 1) {
+        apiUrl += "?";
       }
       apiUrl += `title=${title}`;
       thereIsCondition = true;
     }
 
-    console.log(apiUrl);
-
-    if (num < 1) {
-      apiUrl = `${api}/tasks/search`;
-    }
-    console.log("apiUrl", apiUrl);
     if (mode === "cursor") {
       if (thereIsCondition) {
         apiUrl += "&";
@@ -95,7 +95,6 @@ export default function useTaskSearch() {
 
       if (response.status === 200) {
         // eslint-disable-next-line consistent-return
-        console.log(response.data);
         return [response?.data.data.tasks, response?.data.data.next_cursor];
       }
       console.error("Error:", response.status);

@@ -1,16 +1,19 @@
 import { useState } from "react";
 import { Tabs, TabsHeader, Tab } from "@material-tailwind/react";
+import { useSelector, useDispatch } from "react-redux";
+import { setActiveTab } from "../redux/activeTabSlice";
 
 export default function Switcher() {
-  const [activeTab, setActiveTab] = useState("Accepted");
+  const activeTab = useSelector((state) => state.activeTab.activeTab);
+  const dispatch = useDispatch();
   const data = [
-    {
-      label: "Accepted",
-      value: "Accepted",
-    },
     {
       label: "Released",
       value: "Released",
+    },
+    {
+      label: "Accepted",
+      value: "Accepted",
     },
   ];
   return (
@@ -26,7 +29,7 @@ export default function Switcher() {
           <Tab
             key={value}
             value={value}
-            onClick={() => setActiveTab(value)}
+            onClick={() => dispatch(setActiveTab(value))}
             className={activeTab === value ? "text-gray-900" : ""}
           >
             {label}

@@ -1,15 +1,53 @@
 import OverviewGroup from "@/components/OverviewGroup";
-import useTaskRecord from "@/hooks/useTaskRecord";
+import { useState, useEffect } from "react";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { useRouter } from "next/router";
 import Header from "@/components/Header";
 import NavBar from "@/components/NavBar";
 import Switcher from "@/components/Switcher";
+import useTaskRecord from "@/hooks/useTaskRecord";
 
 function userTasks() {
-  // const { mutate, isLoading, isEnd, size, setSize, task_Data } =
-  //   useTaskRecord();
-  // useInfiniteScroll(async () => setSize(size + 1), 200);
+  const [nextCursor, setNextCursor] = useState(0);
+  const [postFetchMode, setPostFetchMode] = useState(""); // ["user_id", "cursor", "user_cursor"]
+  const [fetchTasks] = useTaskRecord();
+  const [tasks, setTasks] = useState();
+  const [isLoadMorePosts, setIsLoadMorePosts] = useState(false);
+
+  useEffect(() => {
+    async function fetchData() {
+      setPostFetchMode("");
+      try {
+        const [data, cursor] = await fetchTasks("", null);
+        console.log("data", data);
+        setTasks(data);
+        setNextCursor(cursor);
+        // console.log("cursor", cursor);
+        setPostFetchMode("cursor");
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  const updatePosts = async () => {
+    if (!nextCursor || isLoadMorePosts) {
+      return;
+    }
+    setIsLoadMorePosts(true);
+    console.log("start fetching data");
+    const [newData, cursor] = await fetchTasks(postFetchMode, nextCursor);
+    setTasks((prevData) => [...prevData, ...newData]);
+    setNextCursor(cursor);
+    setTimeout(() => {
+      console.log("finish fetching data");
+      setIsLoadMorePosts(false);
+    }, 1000);
+  };
+
+  useInfiniteScroll(updatePosts, 100);
   const taskData = {
     tasks: [
       {

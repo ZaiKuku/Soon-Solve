@@ -1,11 +1,10 @@
 import { getCookie } from "cookies-next";
 
 export async function fetcher(url) {
-  console.log(getCookie("token"));
   const res = await fetch(url, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${getCookie("token")}`,
+      Authorization: `Bearer ${JSON.parse(getCookie("token")).access_token}`,
     },
   });
 

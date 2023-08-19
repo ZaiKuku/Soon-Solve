@@ -52,12 +52,12 @@ export function LocationFilter() {
   };
 
   const handleSelectedSex = (value) => {
-    console.log("dispatch");
+    console.log("dispatch", value);
     dispatch(setSelectedSex(value));
     setAlertContent("最多只能選擇一個性別");
   };
 
-  const handleSelectedFriend = (value) => {
+  const handleSelectedFriend = () => {
     dispatch(setSelectedFriend());
   };
 
