@@ -45,7 +45,7 @@ function Task({ task }) {
     content,
     created_at,
     deadline,
-    id,
+    // id,
     location,
     name,
     nickname,
