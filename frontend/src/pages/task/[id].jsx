@@ -29,7 +29,7 @@ function SingleTask() {
     >
       <div className={styles.page}>
         <Header />
-        <Task task={task} />
+        {!isLoading && <Task task={task} />}
         <button
           onClick={back}
           style={{
