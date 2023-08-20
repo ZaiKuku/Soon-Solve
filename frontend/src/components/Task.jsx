@@ -67,8 +67,8 @@ function Task({ task }) {
   const taskVacancyArray = task_vacancy;
   const approvedCountArray = approved_count;
   const statusArray = status;
-  const createdAtArray = task.created_at;
-  const deadlineArray = task.deadline;
+  const createdAtArray = created_at;
+  const deadlineArray = deadline;
 
   const router = useRouter();
   const [cookies] = useCookies(["token"]);
