@@ -1,0 +1,58 @@
+/* BG */
+.bg {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  height: auto;
+  padding: 5% 0%;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  gap: 0.5rem;
+  span {
+    font-family: "Outfit";
+    font-style: normal;
+    font-weight: 100;
+    font-size: 16px;
+    line-height: 24px;
+    /* identical to box height, or 100% */
+    text-align: center;
+
+    color: #000000;
+  }
+  /* 編輯頭像 */
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    .upload_confirm {
+      position: relative;
+      /* 上傳 */
+
+      font-family: "Outfit";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      /* or 150% */
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 5rem;
+      height: 2rem;
+      color: #ffffff;
+      background: #b15e6c;
+      border-radius: 6px;
+    }
+    .upload_confirm:hover {
+      cursor: pointer;
+    }
+  }
+  /* Rectangle 27 */
+}

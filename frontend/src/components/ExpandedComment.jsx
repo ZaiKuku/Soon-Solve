@@ -23,7 +23,7 @@ export function ExpandedComment({ comment, setCommet }) {
         />
         {comment.poster?.name}
       </DialogHeader>
-      <DialogBody divider>{comment.content}</DialogBody>
+      <DialogBody divider>{comment.content || "loading"}</DialogBody>
       <DialogFooter>
         <Button variant="gradient" color="deep-purple" onClick={handleOpen}>
           <span>back</span>

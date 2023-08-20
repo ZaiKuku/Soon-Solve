@@ -6,8 +6,9 @@ import { SWRConfig } from "swr";
 import { useRouter } from "next/router";
 
 function userProfile() {
-  const profileData = useProfile();
   const router = useRouter();
+  const profileData = useProfile();
+  console.log("profileData", profileData);
   return (
     <SWRConfig
       value={{

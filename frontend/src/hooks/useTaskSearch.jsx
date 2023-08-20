@@ -34,8 +34,8 @@ export default function useTaskSearch() {
       apiUrl += `location=${selectedLocations}`;
       thereIsCondition = true;
     }
-
-    if (sexNum) {
+    console.log("sexNum", sexNum);
+    if (sex !== "") {
       if (thereIsCondition) {
         apiUrl += "&";
       }
