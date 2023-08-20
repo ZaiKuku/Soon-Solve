@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import useApply from "@/hooks/useApply";
 import useDeleteApply from "@/hooks/useDeleteApply";
 import { useCookies } from "react-cookie";
+import Link from "next/link";
 
 const data = {
   tasks: [
@@ -207,9 +208,9 @@ function Task({ task }) {
                   name="number_requested"
                 ></input>
               </div>
-              <button>
+              <Link href={"/"}>
                 <ChatIcon />
-              </button>
+              </Link>
             </div>
             <button
               className={
