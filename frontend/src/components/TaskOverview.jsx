@@ -1,9 +1,10 @@
 import Tag from "./tags";
 import style from "../styles/TaskOverview.module.scss";
+import Link from "next/link";
 
 export default function TaskOverview({ task }) {
   const {
-    // id,
+    poster_id,
     deadline,
     task_vacancy,
     // applied_count,

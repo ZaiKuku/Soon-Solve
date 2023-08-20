@@ -13,18 +13,7 @@ export default function NotificationsPage() {
       <Notification mode="comments" />
       <Notification mode="task_req" />
       <Notification mode="task_req" />
-      <button
-        style={{
-          position: "absolute",
-          bottom: "100px",
-          left: "20px",
-        }}
-        onClick={() => {
-          router.back();
-        }}
-      >
-        <ArrowBackIcon style={{ fontSize: "40px" }} />
-      </button>
+
       <NavBar />
     </main>
   );

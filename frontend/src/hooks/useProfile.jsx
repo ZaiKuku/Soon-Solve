@@ -4,7 +4,7 @@ import { useCookies } from "react-cookie";
 import { fetcher } from "@/utils";
 
 export default function useProfile(userId = null) {
-  if (!userId) {
+  if (userId === "") {
     userId = useCookies(["token"])[0].token?.user.id;
   }
   console.log("userId", userId);

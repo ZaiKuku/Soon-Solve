@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 // "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 // import nookies from "nookies";
 // import axios from "axios";
 import Image from "next/legacy/image";
@@ -9,6 +9,10 @@ import styles from "../styles/task.module.scss";
 import ProgressIndicator from "./ProgressIndicator";
 import Tag from "./tags";
 import ChatIcon from "@mui/icons-material/Chat";
+import { useRouter } from "next/router";
+import useApply from "@/hooks/useApply";
+import useDeleteApply from "@/hooks/useDeleteApply";
+import { useCookies } from "react-cookie";
 
 const data = {
   tasks: [
@@ -33,20 +37,41 @@ const data = {
   next_cursor: "KHEAX0GAFjlPyyqAqTcQOXTLKgIVvshji9AqRmuAGjCDESoLlUrrIn7P",
 };
 
-function Task({ taskData }) {
+function Task({ task }) {
+  const {
+    approved_count,
+    closed_at,
+    content,
+    created_at,
+    deadline,
+    id,
+    location,
+    name,
+    nickname,
+    picture,
+    poster_id,
+    reward,
+    status,
+    task_vacancy,
+    title,
+  } = task || data.tasks[0];
+
   const [hasApplied, setHasApplied] = useState(false);
   const [isTaskAssigner, setIsTaskAssigner] = useState(false);
   const [countdown, setCountdown] = useState([]);
-  const titleArray = data.tasks.map((task) => task.title);
-  const contentArray = data.tasks.map((task) => task.content);
-  const locationArray = data.tasks.map((task) => task.location);
-  const nameArray = data.tasks.map((task) => task.name);
-  const rewardArray = data.tasks.map((task) => task.reward);
-  const taskVacancyArray = data.tasks.map((task) => task.task_vacancy);
-  const approvedCountArray = data.tasks.map((task) => task.approved_count);
-  const statusArray = data.tasks.map((task) => task.status);
-  const createdAtArray = data.tasks.map((task) => task.created_at);
-  const deadlineArray = data.tasks.map((task) => task.deadline);
+  const titleArray = title;
+  const contentArray = content;
+  const locationArray = location;
+  const nameArray = name;
+  const rewardArray = reward;
+  const taskVacancyArray = task_vacancy;
+  const approvedCountArray = approved_count;
+  const statusArray = status;
+  const createdAtArray = task.created_at;
+  const deadlineArray = task.deadline;
+
+  const router = useRouter();
+  const [cookies] = useCookies(["token"]);
 
   const countdownInDays = countdown.map((diff) =>
     Math.floor(diff / (1000 * 60 * 60 * 24))
@@ -92,6 +117,22 @@ function Task({ taskData }) {
     return () => clearInterval(interval); // Clear the interval when the component is unmounted
   }, []);
 
+  const handleApply = (e) => {
+    e.preventDefault();
+    // console.log(e.target.value);
+    console.log("hasApplied", hasApplied);
+    if (hasApplied) {
+      useDeleteApply(10, cookies.token.access_token);
+      setHasApplied(false);
+      return;
+    }
+    setHasApplied(true);
+    const body = {
+      ask_count: e.target.number_requested.value,
+    };
+    // useApply(body, id, cookies.token.access_token);
+  };
+
   return (
     <div className={styles.taskContainer}>
       <div className={styles.profileStatusContainer}>
@@ -104,7 +145,10 @@ function Task({ taskData }) {
           />
           <div className={styles.userName}>{nameArray}</div>
         </div>
-        {hasApplied && <div className={styles.status}>{statusArray}</div>}
+        {hasApplied ||
+          (status === "pending" && (
+            <div className={styles.status}>{statusArray}</div>
+          ))}
       </div>
       <div className={styles.taskTitle}>{titleArray}</div>
       <div className={styles.taskContent}>{contentArray}</div>
@@ -152,13 +196,15 @@ function Task({ taskData }) {
       )}
       {!isTaskAssigner && (
         <div className={styles.taskApplicantsOnly}>
-          <div className={styles.applyTaskContainer}>
+          <form className={styles.applyTaskContainer} onSubmit={handleApply}>
             <div className={styles.numberChatContainer}>
               <div className={styles.numberContainer}>
                 <i className="fa-solid fa-lg fa-clipboard-list" />
                 <input
                   className={styles.numberInput}
                   placeholder="Number"
+                  required={true}
+                  name="number_requested"
                 ></input>
               </div>
               <button>
@@ -166,12 +212,16 @@ function Task({ taskData }) {
               </button>
             </div>
             <button
-              className={hasApplied ? styles.cancelTask : styles.applyTask}
-              onClick={() => setHasApplied(!hasApplied)}
+              className={
+                hasApplied || status === "pending"
+                  ? styles.cancelTask
+                  : styles.applyTask
+              }
+              type="submit"
             >
-              {hasApplied ? "Cancel" : "Apply"}
+              {hasApplied || status === "pending" ? "Cancel" : "Apply"}
             </button>
-          </div>
+          </form>
         </div>
       )}
     </div>

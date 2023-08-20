@@ -18,7 +18,7 @@ function SingleTask() {
     router.back();
   };
   const { task, isLoading } = useTaskDetails(parseInt(id, 10));
-  console.log(task);
+
   return (
     <SWRConfig
       value={{
@@ -48,3 +48,19 @@ function SingleTask() {
 }
 
 export default SingleTask;
+
+export async function getServerSideProps(context) {
+  const { req } = context;
+  const { token } = req.cookies;
+  if (!token) {
+    return {
+      redirect: {
+        destination: `/login`,
+        permenant: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
+}

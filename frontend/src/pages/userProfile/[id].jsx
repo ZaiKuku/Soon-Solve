@@ -7,7 +7,8 @@ import { useRouter } from "next/router";
 
 function userProfile() {
   const router = useRouter();
-  const profileData = useProfile();
+  const { id } = router.query;
+  const profileData = useProfile(id);
   console.log("profileData", profileData);
   return (
     <SWRConfig
@@ -29,3 +30,19 @@ function userProfile() {
 }
 
 export default userProfile;
+
+export async function getServerSideProps(context) {
+  const { req } = context;
+  const { token } = req.cookies;
+  if (!token) {
+    return {
+      redirect: {
+        destination: `/login`,
+        permenant: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
+}

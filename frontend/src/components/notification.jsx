@@ -121,9 +121,6 @@ export function Notification({ contents, mode = "comments" }) {
   return (
     <div className="w-full overflow-hidden max-h-[25vh]">
       <Typography variant="h4" color="blue-gray" className="text-left ml-4">
-        Notifications
-      </Typography>
-      <Typography variant="h6" color="blue-gray" className="text-left ml-6">
         New {mode}
       </Typography>
       <List className="overflow-auto max-h-[25vh] pb-12" onWheel={handleScroll}>
