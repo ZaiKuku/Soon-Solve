@@ -95,6 +95,7 @@ export default function useTaskSearch() {
 
       if (response.status === 200) {
         // eslint-disable-next-line consistent-return
+        console.log(response);
         return [response?.data.data.tasks, response?.data.data.next_cursor];
       }
       console.error("Error:", response.status);

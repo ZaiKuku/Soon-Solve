@@ -4,10 +4,11 @@
 import NavBar from "@/components/NavBar";
 import styles from "../styles/searchPage.module.scss";
 import Header from "@/components/Header";
-import SearchBar from "@/components/searchBar";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
+import { setSelectedLocations } from "@/redux/locationSlice";
+import { useDispatch } from "react-redux";
 
 const locations = {
   NTU: [
@@ -26,6 +27,7 @@ const locations = {
 
 function SearchPage() {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [keyword, setKeyword] = useState("");
   const [filteredLocations, setFilteredLocations] = useState([]);
   const searchLocations = useSelector(
@@ -50,8 +52,9 @@ function SearchPage() {
   const handleLocationClick = (location) => {
     router.push({
       pathname: "/allTasks",
-      query: { location },
     });
+    console.log(location);
+    dispatch(setSelectedLocations(location));
   };
   return (
     <div className={styles.page}>

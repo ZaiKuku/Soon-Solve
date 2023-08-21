@@ -23,12 +23,14 @@ export default function Home() {
   const conditionNum = useSelector((state) => state.selectedLocations.num);
   console.log("conditionNum", conditionNum);
   const conditions = useSelector((state) => state.selectedLocations);
+
   useEffect(() => {
     async function fetchData() {
       setPostFetchMode("");
       try {
         if (conditionNum < 1) {
           const [data, cursor] = await fetchTasks();
+          console.log(data);
           setTasks(data);
           setNextCursor(cursor);
           setPostFetchMode("cursor");
@@ -48,21 +50,6 @@ export default function Home() {
 
     fetchData();
   }, [conditions]);
-
-  useEffect(() => {
-    // Check if the "location" query parameter exist
-    const selectedLocation = router.query.location;
-    if (selectedLocation) {
-      // Update the Redux state with the selected location
-      dispatch(setSelectedLocations(selectedLocation));
-    }
-  }, [router.query]);
-
-  useEffect(() => {
-    return () => {
-      dispatch(cleanAll());
-    };
-  }, []);
 
   const updatePosts = async () => {
     if (!nextCursor || isLoadMorePosts) {
