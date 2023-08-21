@@ -14,6 +14,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
 import useCreateTask from "../hooks/useCreateTask";
+import { useRouter } from "next/router";
 
 const data = {
   tasks: [
@@ -55,6 +56,7 @@ const locations = {
 
 function AssignTask() {
   const [search, setSearch] = useState("");
+  const router = useRouter();
   const titleArray = data.tasks.map((task) => task.title);
   const contentArray = data.tasks.map((task) => task.content);
   const locationArray = data.tasks.map((task) => task.location);
@@ -111,6 +113,7 @@ function AssignTask() {
 
     setFormData(data);
     setSubmitting(false);
+    // router.push("/userTasks");
   };
 
   return (
@@ -250,15 +253,6 @@ function AssignTask() {
                 />
                 {/* <ErrorMessage name="number" component="div" /> */}
               </div>
-              {/* <div className={styles.peopleContainer}>
-                <PeopleAltIcon />
-                <Field
-                  name="people"
-                  className={styles.peopleInput}
-                  placeholder="People"
-                /> */}
-              {/* <ErrorMessage name="people" component="div" /> */}
-              {/* </div> */}
             </div>
           </div>
           <button
@@ -281,7 +275,7 @@ function AssignTask() {
               }
             }}
           >
-            Assign
+            Create
           </button>
         </Form>
       )}
