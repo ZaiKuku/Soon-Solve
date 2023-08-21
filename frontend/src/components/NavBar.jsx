@@ -3,8 +3,8 @@ import styles from "../styles/NavBar.module.scss";
 import { useCookies } from "react-cookie";
 
 function NavBar() {
-  const cookie = useCookies(["token"])[0];
-  const id = cookie?.token?.user.id;
+  const [cookies, setCookie] = useCookies(["token"]); // cookie[0] = token, cookie[1] = setCookie, cookie[2] = removeCookie
+  const id = cookies?.token?.user.id;
   return (
     <div className={styles.navBarContainer}>
       <Link href="/allTasks" className={styles.searchContainer}>

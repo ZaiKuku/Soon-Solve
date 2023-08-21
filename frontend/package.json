@@ -32,6 +32,7 @@
     "react-redux": "^8.1.2",
     "redux": "^4.2.1",
     "sass": "^1.65.1",
+    "socket.io-client": "^4.7.2",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.7.23",
     "swr": "^2.2.1",

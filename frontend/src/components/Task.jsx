@@ -131,7 +131,6 @@ function Task({ task }) {
     const body = {
       ask_count: e.target.number_requested.value,
     };
-    // useApply(body, id, cookies.token.access_token);
   };
 
   return (

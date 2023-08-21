@@ -53,7 +53,7 @@ function LoginSignUpPage() {
       console.log(response);
       if (response) {
         setCookie("token", response.data, {
-          maxAge: 30 * 24 * 60 * 60,
+          maxAge: 60 * 60,
           path: "/",
         });
         router.push("/allTasks");
