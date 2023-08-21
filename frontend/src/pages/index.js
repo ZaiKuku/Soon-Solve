@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import SearchBar from "@/components/searchBar";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
 
 const locations = {
   NTU: [
@@ -24,6 +25,7 @@ const locations = {
 };
 
 function SearchPage() {
+  const router = useRouter();
   const [keyword, setKeyword] = useState("");
   const [filteredLocations, setFilteredLocations] = useState([]);
   const searchLocations = useSelector(
@@ -45,6 +47,12 @@ function SearchPage() {
     );
     setFilteredLocations(matches);
   };
+  const handleLocationClick = (location) => {
+    router.push({
+      pathname: "/allTasks",
+      query: { location },
+    });
+  };
   return (
     <div className={styles.page}>
       <Header />
@@ -61,7 +69,11 @@ function SearchPage() {
           <div className={styles.searchResultBox}>
             <ul>
               {filteredLocations.map((location) => (
-                <li key={location} className={styles.searchResults}>
+                <li
+                  key={location}
+                  className={styles.searchResults}
+                  onClick={() => handleLocationClick(location)}
+                >
                   {location}
                 </li>
               ))}

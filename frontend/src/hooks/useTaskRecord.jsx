@@ -28,8 +28,7 @@ export default function useTaskRecord() {
 
       if (response.status === 200) {
         // eslint-disable-next-line consistent-return
-
-        return [response?.data?.data?.tasks, response?.data?.data?.next_cursor];
+        return [response?.data?.data?.task, response?.data?.data?.next_cursor];
       }
       console.error("Error:", response.status);
       // 處理錯誤狀態

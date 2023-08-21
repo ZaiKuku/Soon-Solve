@@ -32,6 +32,8 @@ function userTasks() {
     fetchData();
   }, []);
 
+  console.log(tasks);
+
   const updatePosts = async () => {
     if (!nextCursor || isLoadMorePosts) {
       return;
@@ -75,7 +77,7 @@ function userTasks() {
       <Header />
       <div className="w-[90%] flex flex-col gap-2 ">
         <Switcher />
-        <OverviewGroup tasks={taskData.tasks} />
+        <OverviewGroup tasks={tasks} />
         <NavBar />
       </div>
     </main>

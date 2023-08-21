@@ -8,6 +8,8 @@ import { DrawerDefault } from "@/components/SideFilter";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { cleanAll } from "@/redux/locationSlice";
+import { useRouter } from "next/router";
+import { setSelectedLocations } from "@/redux/locationSlice";
 
 export default function Home() {
   const [nextCursor, setNextCursor] = useState(0);
@@ -16,11 +18,11 @@ export default function Home() {
   const [tasks, setTasks] = useState();
   const [isLoadMorePosts, setIsLoadMorePosts] = useState(false);
 
+  const router = useRouter();
   const dispatch = useDispatch();
   const conditionNum = useSelector((state) => state.selectedLocations.num);
   console.log("conditionNum", conditionNum);
   const conditions = useSelector((state) => state.selectedLocations);
-
   useEffect(() => {
     async function fetchData() {
       setPostFetchMode("");
@@ -48,6 +50,15 @@ export default function Home() {
   }, [conditions]);
 
   useEffect(() => {
+    // Check if the "location" query parameter exist
+    const selectedLocation = router.query.location;
+    if (selectedLocation) {
+      // Update the Redux state with the selected location
+      dispatch(setSelectedLocations(selectedLocation));
+    }
+  }, [router.query]);
+
+  useEffect(() => {
     return () => {
       dispatch(cleanAll());
     };
@@ -71,7 +82,6 @@ export default function Home() {
       setIsLoadMorePosts(false);
     }, 1000);
   };
-
   useInfiniteScroll(updatePosts, 100);
 
   return (

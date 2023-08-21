@@ -72,6 +72,7 @@ export function LocationFilter() {
           id="item-1"
           containerProps={{ className: "p-0" }}
           className="hover:before:content-none"
+          checked={selectedLocations?.includes(item)}
           onClick={() => handleSelectedLocations(item)}
           disabled={numConditions > 4 && !selectedLocations.includes(item)}
         />
@@ -101,7 +102,6 @@ export function LocationFilter() {
       </label>
     </ListItem>
   ));
-
   return (
     <List>
       {numConditions > 4 && <AlertCustomAnimation content={alertContent} />}
