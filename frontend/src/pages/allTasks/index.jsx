@@ -37,7 +37,6 @@ export default function Home() {
         console.log("data", data);
         setTasks(data);
         setNextCursor(cursor);
-        // console.log("cursor", cursor);
         setPostFetchMode("cursor");
       } catch (err) {
         console.error(err);

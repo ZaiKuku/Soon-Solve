@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { Avatar } from "@material-tailwind/react";
 import MessageSendBar from "@/components/MessageSendBar";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { io } from "socket.io-client";
 
 const messages = [
   {
@@ -20,54 +19,6 @@ const messages = [
     created_at: "2023-08-17 16:19:48",
     self: false,
   },
-  {
-    user_id: 3,
-    content: "測試測試測試測試測試測試測試",
-    created_at: "2023-08-17 16:19:48",
-    self: false,
-  },
-  {
-    user_id: 4,
-    content: "測試測試測試測試測試測試測試",
-    created_at: "2023-08-17 16:19:48",
-    self: false,
-  },
-  {
-    user_id: 5,
-    content: "測試測試測試測試測試測試測試",
-    created_at: "2023-08-17 16:19:48",
-    self: false,
-  },
-  {
-    user_id: 6,
-    content: "測試測試測試測試測試測試測試",
-    created_at: "2023-08-17 16:19:48",
-    self: false,
-  },
-  {
-    user_id: 7,
-    content: "測試測試測試測試測試測試測試",
-    created_at: "2023-08-17 16:19:48",
-    self: false,
-  },
-  {
-    user_id: 8,
-    content: "測試測試測試測試測試測試測試",
-    created_at: "2023-08-17 16:19:48",
-    self: false,
-  },
-  {
-    user_id: 9,
-    content: "測試測試測試測試測試測試測試",
-    created_at: "2023-08-17 16:19:48",
-    self: false,
-  },
-  {
-    user_id: 10,
-    content: "測試測試測試測試測試測試測試",
-    created_at: "2023-08-17 16:19:48",
-    self: false,
-  },
 ];
 // notifications 包括：好友邀請、任務通過申請、任務完成、聊天室訊息、任務發申請
 export default function chatRoom() {
@@ -76,9 +27,7 @@ export default function chatRoom() {
     <main className="w-full flex flex-col gap-4 items-center pt-[80px] h-fit bg-[#EBEBEB] ">
       <Header />
       <div className="w-full flex items-center p-2">
-        <button onClick={() => router.back()} type="button">
-          <ArrowBackIcon style={{ fontSize: "40px" }} />
-        </button>
+        <ArrowBackIcon style={{ fontSize: "40px" }} />
         <Avatar src="/山道猴子.png" className="ml-10" />
         <p className="text-2xl font-bold ml-4">山道猴子</p>
       </div>
