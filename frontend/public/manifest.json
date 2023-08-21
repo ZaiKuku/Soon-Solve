@@ -3,10 +3,10 @@
   "background_color": "#ffffff",
   "display": "standalone",
   "scope": "/",
-  "start_url": "/",
-  "name": "Next-PWA",
-  "short_name": "Next-PWA",
-  "description": "A Demo for Next-PWA",
+  "start_url": "/login",
+  "name": "Soon-Solve",
+  "short_name": "Soon-Solve",
+  "description": "A application for problem solving",
   "icons": [
     {
       "src": "/logo.jpg",
