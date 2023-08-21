@@ -44,16 +44,18 @@ const locationSlice = createSlice({
       }
     },
     setSelectedTitle(state, action) {
+      console.log(action.payload);
       state.title = action.payload;
       if (state.title === "" && state.num > 0) {
+        console.log("title--");
         state.num -= 1;
       } else if (state.title === "" && state.num === 0) {
         state.num = 0;
       } else {
+        console.log("title++");
         state.num += 1;
       }
     },
-
     cleanAll(state) {
       state.selectedLocations = [];
       state.sex = "";

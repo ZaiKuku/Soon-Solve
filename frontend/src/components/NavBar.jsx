@@ -3,7 +3,7 @@ import styles from "../styles/NavBar.module.scss";
 import { useCookies } from "react-cookie";
 
 function NavBar() {
-  const [cookies, setCookie] = useCookies(["token"]); // cookie[0] = token, cookie[1] = setCookie, cookie[2] = removeCookie
+  const [cookies, setCookie] = useCookies(["token"]);
   const id = cookies?.token?.user.id;
   return (
     <div className={styles.navBarContainer}>
@@ -101,7 +101,10 @@ function NavBar() {
         </svg>
         <div className={styles.notifications}>notifications</div>
       </Link>
-      <Link href={`/userProfile/${id}`} className={styles.profileContainer}>
+      <Link
+        href={`/userProfile/${cookies.userId}`}
+        className={styles.profileContainer}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="44"

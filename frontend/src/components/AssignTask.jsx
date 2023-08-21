@@ -13,6 +13,7 @@ import RedeemIcon from "@mui/icons-material/Redeem";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
+import useCreateTask from "../hooks/useCreateTask";
 
 const data = {
   tasks: [
@@ -67,7 +68,6 @@ function AssignTask() {
 
   const validationSchema = Yup.object().shape({
     number: Yup.number().integer("Must be an integer").required("Number,"),
-    people: Yup.number().integer("Must be an integer").required("People,"),
     title: Yup.string().required("Title,"),
     description: Yup.string().required("Description,"),
     compensation: Yup.string().required("Compensation,"),
@@ -78,12 +78,38 @@ function AssignTask() {
     location: Yup.string().required("Location,"),
   });
 
+  const [formData, setFormData] = useState(null);
+  const { response, error, isLoading } = useCreateTask(formData);
+
+  useEffect(() => {
+    if (response) {
+      console.log("Task created successfully:", response);
+      // Handle success
+    } else if (error) {
+      console.error("Error creating task:", error);
+      // Handle error
+    }
+  }, [response, error]);
+
   const handleSubmit = (values, { setSubmitting, errors }) => {
     console.log("handleSubmit triggered");
     setSubmitting(true);
-    console.log("submitting");
-    // Handle form submission here...
-    // E.g., send the data to your server...
+
+    const data = {
+      title: values.title,
+      content: values.description,
+      reward: values.compensation,
+      location: values.location,
+      task_vacancy: parseInt(values.number, 10),
+      deadline: `2023-${String(values.deadlineMonth).padStart(2, "0")}-${String(
+        values.deadlineDay
+      ).padStart(2, "0")} ${String(values.deadlineHour).padStart(
+        2,
+        "0"
+      )}:${String(values.deadlineMinute).padStart(2, "0")}:00`,
+    };
+
+    setFormData(data);
     setSubmitting(false);
   };
 
@@ -94,7 +120,6 @@ function AssignTask() {
         description: "",
         compensation: "",
         number: "",
-        people: "",
         deadlineMonth: "",
         deadlineDay: "",
         deadlineHour: "",
@@ -225,15 +250,15 @@ function AssignTask() {
                 />
                 {/* <ErrorMessage name="number" component="div" /> */}
               </div>
-              <div className={styles.peopleContainer}>
+              {/* <div className={styles.peopleContainer}>
                 <PeopleAltIcon />
                 <Field
                   name="people"
                   className={styles.peopleInput}
                   placeholder="People"
-                />
-                {/* <ErrorMessage name="people" component="div" /> */}
-              </div>
+                /> */}
+              {/* <ErrorMessage name="people" component="div" /> */}
+              {/* </div> */}
             </div>
           </div>
           <button

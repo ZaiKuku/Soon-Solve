@@ -12,7 +12,6 @@ import { LocationFilter } from "./locationFilter";
 export function DrawerDefault() {
   const dispatch = useDispatch();
   const open = useSelector((state) => state.openSideFilter.openSideFilter);
-
   const closeDrawer = () => {
     dispatch(setOpenSideFilter(false));
   };
