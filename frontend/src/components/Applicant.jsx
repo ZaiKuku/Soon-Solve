@@ -4,7 +4,7 @@ import ChatIcon from "@mui/icons-material/Chat";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 
-function Applicant() {
+function Applicant({ user }) {
   return (
     <div className={styles.applicantContainer}>
       <Image

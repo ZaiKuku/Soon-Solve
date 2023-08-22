@@ -45,7 +45,7 @@ function Task({ task }) {
     content,
     created_at,
     deadline,
-    // id,
+    id,
     location,
     name,
     nickname,
@@ -71,8 +71,11 @@ function Task({ task }) {
   const createdAtArray = created_at;
   const deadlineArray = deadline;
 
-  const router = useRouter();
-  const [cookies] = useCookies(["token"]);
+  const [cookies, setCookie] = useCookies(["token"]);
+  const userId = cookies?.token?.user.id;
+  useEffect(() => {
+    setIsTaskAssigner(poster_id === userId);
+  }, [poster_id, userId]);
 
   const countdownInDays = countdown.map((diff) =>
     Math.floor(diff / (1000 * 60 * 60 * 24))
@@ -183,15 +186,17 @@ function Task({ task }) {
               Complete
             </button>
           </div>
-          <button className={styles.applicantsContainer}>
-            <Image
-              src="/profile.png"
-              alt="The poster's picture"
-              height={32}
-              width={32}
-            />
-            <div className={styles.applicants}>Applicants</div>
-          </button>
+          <Link href={`/applicants/${id}`}>
+            <button className={styles.applicantsContainer}>
+              <Image
+                src="/profile.png"
+                alt="The poster's picture"
+                height={32}
+                width={32}
+              />
+              <div className={styles.applicants}>Applicants</div>
+            </button>
+          </Link>
         </div>
       )}
       {!isTaskAssigner && (
