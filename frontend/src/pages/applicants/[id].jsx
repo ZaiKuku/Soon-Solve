@@ -11,46 +11,54 @@ import { useCookies } from "react-cookie";
 
 export default function ApplicantsPage() {
   const router = useRouter();
-  const [nextCursor, setNextCursor] = useState(null);
-  const [isLoadMore, setIsLoadMore] = useState(false);
-  const [data, setData] = useState(null);
-  const [fetchData] = useTaskReqList();
-  const [cookies, setCookie] = useCookies(["token"]);
-  const token = cookies.token?.access_token;
-  useEffect(() => {
-    const fetchTaskReqList = async () => {
-      const [users, nextCursor] = await fetchData();
-      setData(users);
-    }
-    setNextCursor(nextCursor);
-  };
+  const [nextCursor, setNextCursor] = useState(0);
+  const [dataFetchMode, setDataFetchMode] = useState(""); // ["", "cursor"]
+  const [fetchTasks] = useTaskReqList();
+  const [applicants, setApplicants] = useState();
+  const [isLoadMorePosts, setIsLoadMorePosts] = useState(false);
 
-  const updateApplicants = async () => {
-    if (!nextCursor || isLoadMore) {
+  useEffect(() => {
+    async function fetchData() {
+      setDataFetchMode("");
+      try {
+        setApplicants(null);
+        const [data, cursor] = await fetchTasks("", null);
+        console.log("data", data);
+        setApplicants(data);
+        setNextCursor(cursor);
+        // console.log("cursor", cursor);
+        setDataFetchMode("cursor");
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  const updatePosts = async () => {
+    if (!nextCursor || isLoadMorePosts) {
       return;
     }
-    setIsLoadMore(true);
+    setIsLoadMorePosts(true);
     console.log("start fetching data");
-    await fetchTaskReqList(nextCursor);
+    const [newData, cursor] = await fetchTasks(dataFetchMode, nextCursor);
+    setApplicants((prevData) => [...prevData, ...newData]);
+    setNextCursor(cursor);
     setTimeout(() => {
       console.log("finish fetching data");
-      setIsLoadMore(false);
+      setIsLoadMorePosts(false);
     }, 1000);
   };
 
-  useEffect(() => {
-    fetchTaskReqList(null);
-  }, []);
-
-  useInfiniteScroll(updateApplicants, 100);
-
-  console.log(data);
+  useInfiniteScroll(updatePosts, 100);
 
   return (
     <main className="w-full flex flex-col gap-2 items-center pt-[80px]">
       <Header />
       <div className="w-[90%] flex flex-col gap-2 justify-center">
-        {data && data.map((user) => <Applicant key={user.id} user={user} />)}
+        {applicants &&
+          applicants.map((user) => <Applicant key={user.id} user={user} />)}
       </div>
       <button
         style={{

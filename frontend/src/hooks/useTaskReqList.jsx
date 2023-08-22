@@ -17,9 +17,7 @@ export default function useTaskReqList() {
   };
 
   const fetchData = async (mode = "", cursor = 0, conditions) => {
-    console.log("Fetch data called with mode:", mode, "and cursor:", cursor);
     if (mode === "cursor" && !cursor) {
-      console.log("Condition met: mode is 'cursor' and cursor is falsy");
       return [null, null];
     }
     const apiUrl = apiProcess(mode, cursor, conditions);

@@ -161,7 +161,7 @@ function Task({ task }) {
   const { deleteTask, isLoading, error } = useTaskDelete();
 
   const handleDelete = async () => {
-    await deleteTask(id, token);
+    await deleteTask(id, cookies.token.access_token);
     if (!error) {
       console.log("Task deleted successfully:", task);
     } else {
