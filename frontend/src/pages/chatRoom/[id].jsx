@@ -49,7 +49,7 @@ export default function chatRoom() {
           console.log("message", message);
           setMessages((messages) => [...messages, message]);
         });
-        socket.emit("joinRoom", { username: "ZaiKuku", room: "18&85" });
+        socket.emit("joinRoom", { username: "ZaiKuku", room: "18&8144" });
       } catch (err) {
         console.error(err);
       }
@@ -67,7 +67,8 @@ export default function chatRoom() {
   };
 
   const handleSendMessage = (message) => {
-    socket.emit("newMessage", message);
+    console.log("message", message);
+    socket.emit("newMessage", { id: 6, message: message });
   };
   return (
     <main className="w-full flex flex-col gap-4 items-center pt-[80px] min-h-screen h-fit bg-[#EBEBEB] ">
