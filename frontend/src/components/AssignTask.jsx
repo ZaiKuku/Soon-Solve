@@ -53,6 +53,8 @@ const locations = {
   NCCU: ["大仁樓", "大智樓", "大勇樓"],
 };
 
+import { useRouter } from "next/router";
+
 function AssignTask() {
   const [search, setSearch] = useState("");
   const titleArray = data.tasks.map((task) => task.title);
@@ -80,6 +82,7 @@ function AssignTask() {
 
   const [formData, setFormData] = useState(null);
   const { response, error, isLoading } = useCreateTask(formData);
+  const router = useRouter();
 
   useEffect(() => {
     if (response) {
@@ -111,6 +114,7 @@ function AssignTask() {
 
     setFormData(data);
     setSubmitting(false);
+    router.push("/userTasks");
   };
 
   return (

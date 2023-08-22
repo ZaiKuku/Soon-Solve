@@ -18,21 +18,23 @@ export function ProfileCard({ profileData }) {
     <Card className="w-96 border-[#B15E6C] border-2 flex items-center ">
       <CardHeader
         floated={false}
-        className="hover:opacity-80 flex align-items  w-fit"
+        className="hover:opacity-80 flex align-items w-4/5 m-h-56"
       >
-        <div className="flex justify-center h-50">
+        <div className="flex justify-center m-h-50 w-full">
           {isEditingAvatar ? (
             <UploadImage func={setIsEditingAvatar} />
           ) : (
             <button
               onClick={() => setIsEditingAvatar(!isEditingAvatar)}
               type="button"
-              className="w-50 h-40 "
+              className="w-full m-h-40 flex justify-center items-center"
             >
               <img
-                src="/chouchou.jpg"
+                src={
+                  profileData?.picture ? profileData?.picture : "/山道猴子.png"
+                }
                 alt="profile-picture"
-                className="object-cover"
+                className="object-cover "
               />
             </button>
           )}
@@ -40,7 +42,7 @@ export function ProfileCard({ profileData }) {
       </CardHeader>
       <CardBody className="text-center">
         <Typography variant="h4" color="blue-gray" className="mb-2">
-          山道猴子
+          {profileData?.name}
         </Typography>
         <Typography variant="h6" color="blue-gray">
           Credit Score{" "}

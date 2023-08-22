@@ -101,10 +101,7 @@ function NavBar() {
         </svg>
         <div className={styles.notifications}>notifications</div>
       </Link>
-      <Link
-        href={`/userProfile/${cookies.userId}`}
-        className={styles.profileContainer}
-      >
+      <Link href={`/userProfile/${id}`} className={styles.profileContainer}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="44"

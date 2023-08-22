@@ -20,7 +20,7 @@ function AssignTaskPage() {
           left: "20px",
         }}
         onClick={() => {
-          // Handle click event here
+          window.history.back();
         }}
       >
         <ArrowBackIcon style={{ fontSize: "40px" }} />

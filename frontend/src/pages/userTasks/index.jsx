@@ -6,6 +6,9 @@ import Header from "@/components/Header";
 import NavBar from "@/components/NavBar";
 import Switcher from "@/components/Switcher";
 import useTaskRecord from "@/hooks/useTaskRecord";
+import { useSelector } from "react-redux";
+import { Button } from "@material-tailwind/react";
+import Link from "next/link";
 
 function userTasks() {
   const [nextCursor, setNextCursor] = useState(0);
@@ -14,11 +17,14 @@ function userTasks() {
   const [tasks, setTasks] = useState();
   const [isLoadMorePosts, setIsLoadMorePosts] = useState(false);
 
+  const activeTab = useSelector((state) => state.activeTab.activeTab);
+  console.log("activeTab", activeTab);
+
   useEffect(() => {
     async function fetchData() {
       setPostFetchMode("");
       try {
-        const [data, cursor] = await fetchTasks("", null);
+        const [data, cursor] = await fetchTasks("", null, activeTab);
         console.log("data", data);
         setTasks(data);
         setNextCursor(cursor);
@@ -30,9 +36,7 @@ function userTasks() {
     }
 
     fetchData();
-  }, []);
-
-  console.log(tasks);
+  }, [activeTab]);
 
   const updatePosts = async () => {
     if (!nextCursor || isLoadMorePosts) {
@@ -40,7 +44,11 @@ function userTasks() {
     }
     setIsLoadMorePosts(true);
     console.log("start fetching data");
-    const [newData, cursor] = await fetchTasks(postFetchMode, nextCursor);
+    const [newData, cursor] = await fetchTasks(
+      postFetchMode,
+      nextCursor,
+      activeTab
+    );
     setTasks((prevData) => [...prevData, ...newData]);
     setNextCursor(cursor);
     setTimeout(() => {
@@ -50,33 +58,17 @@ function userTasks() {
   };
 
   useInfiniteScroll(updatePosts, 100);
-  const taskData = {
-    tasks: [
-      {
-        id: 1,
-        poster_id: 1,
-        created_at: "2023-04-09 22:21:48",
-        closed_at: "2023-04-09 22:21:48",
-        deadline: "2023-04-09 22:21:48",
-        task_vacancy: 0,
-        approved_count: 1,
-        title: "我要便當",
-        location: "八嘎壓樓",
-        reward: "抱抱",
-        picture: "https://imgur.com/XXXXX",
-        name: "PJ",
-        nickname: "pppppjjjjjj",
-        status: "applied",
-        sex: 0,
-      },
-    ],
-    next_cursor: "KHEAX0GAFjlPyyqAqTcQOXTLKgIVvshji9AqRmuAGjCDESoLlUrrIn7P",
-  };
+
   return (
     <main className="w-full flex flex-col gap-2 items-center pt-[120px]">
       <Header />
-      <div className="w-[90%] flex flex-col gap-2 ">
+      <div className="w-[90%] flex flex-col gap-2 items-center">
         <Switcher />
+        <Link href="/AssignTask" className="w-fit">
+          <Button color="deep-purple" ripple="light">
+            Add
+          </Button>
+        </Link>
         <OverviewGroup tasks={tasks} />
         <NavBar />
       </div>

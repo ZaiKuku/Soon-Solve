@@ -1,33 +1,24 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { Input, button } from "@material-tailwind/react";
+import { io } from "socket.io-client";
 
 function MessageSendBar() {
-  const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
-  //   const socket = io();
-  //   const returnMessage = {
-  //     username: "ZaiKuku",
-  //     text: "Hello World",
-  //     time: "2021-08-17 16:19:48",
-  //   };
 
-  //   useEffect(() => {
-  //     // 監聽從伺服器接收的消息
-  //     const socket = io.connect("http://localhost:3000", {});
-  //     socket.emit("joinRoom", { username: "ZaiKuku", room: "1&2" });
+  const returnMessage = {
+    username: "ZaiKuku",
+    text: "Hello World",
+    time: "2021-08-17 16:19:48",
+  };
 
-  //     socket.on("message", (message) => {
-  //       setMessages((messages) => [...messages, message]);
-  //     });
+  // const socket = io("https://52.64.240.159", {
+  //   extraHeaders: {
+  //     Authorization: `Bearer ${cookies?.token?.access_token}`,
+  //   },
+  // });
 
-  //     // 清理Socket連接
-  //     return () => {
-  //       socket.emit("disconnect");
-  //       socket.disconnect();
-  //     };
-  //   }, []);
   const handeleSubmit = (e) => {
     e.preventDefault();
 

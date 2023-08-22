@@ -18,7 +18,7 @@ const useCreateTask = (data) => {
         const config = {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${cookies.token}`,
+            Authorization: `Bearer ${cookies.token.access_token}`,
           },
         };
         const result = await axios.post(apiUrl, data, config);

@@ -1,6 +1,7 @@
 import Tag from "./tags";
 import style from "../styles/TaskOverview.module.scss";
 import Link from "next/link";
+import { Card } from "@material-tailwind/react";
 
 export default function TaskOverview({ task }) {
   const {
@@ -19,7 +20,7 @@ export default function TaskOverview({ task }) {
   } = task;
 
   return (
-    <div className={style.bg}>
+    <Card className={style.bg}>
       <div className={style.infoContainer}>
         <div className={style.avatarContainer}>
           <img src={picture} className={style.pic} alt="大頭貼" />
@@ -45,6 +46,6 @@ export default function TaskOverview({ task }) {
         <i className="fa-regular fa-clock" />
         <span>{deadline}</span>
       </div>
-    </div>
+    </Card>
   );
 }

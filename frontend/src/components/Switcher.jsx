@@ -6,6 +6,7 @@ import { setActiveTab } from "../redux/activeTabSlice";
 export default function Switcher() {
   const activeTab = useSelector((state) => state.activeTab.activeTab);
   const dispatch = useDispatch();
+
   const data = [
     {
       label: "Released",
