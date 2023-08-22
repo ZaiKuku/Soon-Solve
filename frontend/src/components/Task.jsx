@@ -55,9 +55,11 @@ function Task({ task }) {
     status,
     task_vacancy,
     title,
+    user_task,
   } = task || data.tasks[0];
+  console.log(task);
 
-  const [hasApplied, setHasApplied] = useState(false);
+  const [hasApplied, setHasApplied] = useState(!(user_task === []));
   const [isTaskAssigner, setIsTaskAssigner] = useState(false);
   const [countdown, setCountdown] = useState([]);
   const titleArray = title;
@@ -134,7 +136,10 @@ function Task({ task }) {
     const body = {
       ask_count: e.target.number_requested.value,
     };
+    useApply(body, id, cookies.token.access_token);
   };
+
+  console.log("hasApplied", hasApplied);
 
   return (
     <div className={styles.taskContainer}>
@@ -148,10 +153,9 @@ function Task({ task }) {
           />
           <div className={styles.userName}>{nameArray}</div>
         </div>
-        {hasApplied ||
-          (status === "pending" && (
-            <div className={styles.status}>{statusArray}</div>
-          ))}
+        {hasApplied && status === "pending" && (
+          <div className={styles.status}>{statusArray}</div>
+        )}
       </div>
       <div className={styles.taskTitle}>{titleArray}</div>
       <div className={styles.taskContent}>{contentArray}</div>
@@ -175,13 +179,13 @@ function Task({ task }) {
           <div className={styles.completeDeleteContainer}>
             <button
               className={styles.delete}
-              onClick={() => setHasApplied(!hasApplied)}
+              onClick={() => setHasApplied(false)}
             >
               Delete
             </button>
             <button
               className={styles.complete}
-              onClick={() => setHasApplied(!hasApplied)}
+              onClick={() => setHasApplied(false)}
             >
               Complete
             </button>
@@ -217,14 +221,10 @@ function Task({ task }) {
               </Link>
             </div>
             <button
-              className={
-                hasApplied || status === "pending"
-                  ? styles.cancelTask
-                  : styles.applyTask
-              }
+              className={hasApplied ? styles.cancelTask : styles.applyTask}
               type="submit"
             >
-              {hasApplied || status === "pending" ? "Cancel" : "Apply"}
+              {hasApplied ? "Cancel" : "Apply"}
             </button>
           </form>
         </div>

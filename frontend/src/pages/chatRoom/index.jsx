@@ -5,6 +5,9 @@ import { useRouter } from "next/router";
 import { Avatar } from "@material-tailwind/react";
 import MessageSendBar from "@/components/MessageSendBar";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useEffect, useState } from "react";
+import { io } from "socket.io-client";
+import { useCookies } from "react-cookie";
 
 const messages = [
   {
@@ -23,8 +26,29 @@ const messages = [
 // notifications 包括：好友邀請、任務通過申請、任務完成、聊天室訊息、任務發申請
 export default function chatRoom() {
   const router = useRouter();
+  const [messages, setMessages] = useState([]);
+  const [cookies, setCookie] = useCookies(["token"]);
+  // useEffect(() => {
+  //   // 監聽從伺服器接收的消息
+  //   const socket = io("https://52.64.240.159", {
+  //     extraHeaders: {
+  //       Authorization: `Bearer ${cookies?.token?.access_token}`,
+  //     },
+  //   });
+  //   socket.emit("joinRoom", { username: "ZaiKuku", room: "1&2" });
+
+  //   socket.on("message", (message) => {
+  //     setMessages((messages) => [...messages, message]);
+  //   });
+
+  //   // 清理Socket連接
+  //   return () => {
+  //     socket.emit("userDisconnect");
+  //     socket.disconnect();
+  //   };
+  // }, []);
   return (
-    <main className="w-full flex flex-col gap-4 items-center pt-[80px] h-fit bg-[#EBEBEB] ">
+    <main className="w-full flex flex-col gap-4 items-center pt-[80px] min-h-screen h-fit bg-[#EBEBEB] ">
       <Header />
       <div className="w-full flex items-center p-2">
         <ArrowBackIcon style={{ fontSize: "40px" }} />

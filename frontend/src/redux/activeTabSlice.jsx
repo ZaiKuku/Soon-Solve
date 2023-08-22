@@ -11,7 +11,7 @@ const activeTab = createSlice({
   reducers: {
     // 添加你的 reducer actions
     setActiveTab: (state, action) => {
-      state.openSideFilter = action.payload;
+      state.activeTab = action.payload;
     },
   },
 });

@@ -1,5 +1,4 @@
 import { getCookie } from "cookies-next";
-import { io } from "socket.io-client";
 
 export async function fetcher(url) {
   const res = await fetch(url, {
@@ -28,12 +27,12 @@ export function convertGenderInObject(obj) {
   return obj;
 }
 
-const socket = io("ws://example.com/my-namespace", {
-  reconnectionDelayMax: 10000,
-  auth: {
-    token: "123",
-  },
-  query: {
-    "my-key": "my-value",
-  },
-});
+// const socket = io("ws://example.com/my-namespace", {
+//   reconnectionDelayMax: 10000,
+//   auth: {
+//     token: "123",
+//   },
+//   query: {
+//     "my-key": "my-value",
+//   },
+// });
