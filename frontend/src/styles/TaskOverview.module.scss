@@ -91,3 +91,18 @@
     }
   }
 }
+.bg:hover {
+  cursor: pointer;
+  // 上飄
+  animation: animate 0.3s ease-in-out forwards;
+}
+
+@keyframes animate {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-10px);
+  }
+}

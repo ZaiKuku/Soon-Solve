@@ -145,11 +145,10 @@ function Task({ task }) {
     <div className={styles.taskContainer}>
       <div className={styles.profileStatusContainer}>
         <div className={styles.profileContainer}>
-          <Image
+          <img
             src="/profile.png"
             alt="The poster's picture"
-            height={47}
-            width={47}
+            className="hover:scale-150 transition duration-300 ease-in-out w-[47px] h-[47px] rounded-full"
           />
           <div className={styles.userName}>{nameArray}</div>
         </div>

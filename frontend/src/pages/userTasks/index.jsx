@@ -18,12 +18,13 @@ function userTasks() {
   const [isLoadMorePosts, setIsLoadMorePosts] = useState(false);
 
   const activeTab = useSelector((state) => state.activeTab.activeTab);
-  console.log("activeTab", activeTab);
+  console.log("tasks", tasks);
 
   useEffect(() => {
     async function fetchData() {
       setPostFetchMode("");
       try {
+        setTasks(null);
         const [data, cursor] = await fetchTasks("", null, activeTab);
         console.log("data", data);
         setTasks(data);
@@ -64,12 +65,16 @@ function userTasks() {
       <Header />
       <div className="w-[90%] flex flex-col gap-2 items-center">
         <Switcher />
-        <Link href="/AssignTask" className="w-fit">
-          <Button color="deep-purple" ripple="light">
-            Add
-          </Button>
-        </Link>
+        {activeTab === "Released" && (
+          <Link href="/AssignTask" className="w-fit">
+            <Button color="deep-purple" ripple="light">
+              Add
+            </Button>
+          </Link>
+        )}
+
         <OverviewGroup tasks={tasks} />
+
         <NavBar />
       </div>
     </main>
@@ -78,18 +83,18 @@ function userTasks() {
 
 export default userTasks;
 
-export async function getServerSideProps(context) {
-  const { req } = context;
-  const { token } = req.cookies;
-  if (!token) {
-    return {
-      redirect: {
-        destination: `/login`,
-        permenant: false,
-      },
-    };
-  }
-  return {
-    props: {},
-  };
-}
+// export async function getServerSideProps(context) {
+//   const { req } = context;
+//   const { token } = req.cookies;
+//   if (!token) {
+//     return {
+//       redirect: {
+//         destination: `/login`,
+//         permenant: false,
+//       },
+//     };
+//   }
+//   return {
+//     props: {},
+//   };
+// }

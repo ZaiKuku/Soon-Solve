@@ -53,14 +53,7 @@ function LoginSignUpPage() {
     } else {
       const response = await useSignUp(userSignUpData);
       console.log(response);
-      if (response) {
-        setCookie("token", response.data, {
-          maxAge: 60 * 60,
-          path: "/",
-        });
-        handleModeChange();
-        console.log("yo");
-      }
+      setIsLogin(true);
     }
     setIsLoading(false);
   };

@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { cleanAll } from "@/redux/locationSlice";
 import { useRouter } from "next/router";
 import { setSelectedLocations } from "@/redux/locationSlice";
+import { setIsLoadingTasks } from "@/redux/LoadingControl";
 
 export default function Home() {
   const [nextCursor, setNextCursor] = useState(0);
@@ -21,29 +22,30 @@ export default function Home() {
   const router = useRouter();
   const dispatch = useDispatch();
   const conditionNum = useSelector((state) => state.selectedLocations.num);
-  console.log("conditionNum", conditionNum);
   const conditions = useSelector((state) => state.selectedLocations);
 
   useEffect(() => {
     async function fetchData() {
       setPostFetchMode("");
+      dispatch(setIsLoadingTasks(true));
+      console.log("start fetching data");
       try {
         if (conditionNum < 1) {
           const [data, cursor] = await fetchTasks();
-          console.log(data);
           setTasks(data);
           setNextCursor(cursor);
           setPostFetchMode("cursor");
+          dispatch(setIsLoadingTasks(false));
           return;
         }
-        console.log("conditionsSearch", conditions);
         const [data, cursor] = await fetchTasks("", null, conditions);
-        console.log("data", data);
         setTasks(data);
         setNextCursor(cursor);
         setPostFetchMode("cursor");
+        dispatch(setIsLoadingTasks(false));
       } catch (err) {
         console.error(err);
+        // setIsLoadingTasks(false);
       }
     }
 
@@ -74,27 +76,25 @@ export default function Home() {
     <main className="absolute w-full flex flex-col gap-2 items-center py-24 z-0 min-h-screen">
       <Header />
       <SearchBar />
-
       <OverviewGroup tasks={tasks} />
-
       <NavBar />
       <DrawerDefault />
     </main>
   );
 }
 
-export async function getServerSideProps(context) {
-  const { req } = context;
-  const { token } = req.cookies;
-  if (!token) {
-    return {
-      redirect: {
-        destination: `/login`,
-        permenant: false,
-      },
-    };
-  }
-  return {
-    props: {},
-  };
-}
+// export async function getServerSideProps(context) {
+//   const { req } = context;
+//   const { token } = req.cookies;
+//   if (!token) {
+//     return {
+//       redirect: {
+//         destination: `/login`,
+//         permenant: false,
+//       },
+//     };
+//   }
+//   return {
+//     props: {},
+//   };
+// }

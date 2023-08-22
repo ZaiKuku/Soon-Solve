@@ -7,12 +7,25 @@ import {
 import { ListWithAvatar } from "./ListWithAvatar";
 import { useState } from "react";
 import UploadImage from "./UploadImage";
+import { setIsLoadingProfile } from "@/redux/LoadingControl";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Skeleton } from "@mui/material";
 
 export function ProfileCard({ profileData }) {
   console.log("profileData", profileData);
+  const dispatch = useDispatch();
   const credit_score = 100;
   const [isEditingAvatar, setIsEditingAvatar] = useState(false);
   console.log("isEditingAvatar", isEditingAvatar);
+  const isLoading = profileData ? false : true;
+  const isLoadingProfile = useSelector(
+    (state) => state.LoadingControl.isLoadingProfile
+  );
+
+  useEffect(() => {
+    dispatch(setIsLoadingProfile(isLoading));
+  }, [isLoading]);
 
   return (
     <Card className="w-96 border-[#B15E6C] border-2 flex items-center ">
@@ -29,13 +42,15 @@ export function ProfileCard({ profileData }) {
               type="button"
               className="w-full m-h-40 flex justify-center items-center"
             >
-              <img
-                src={
-                  profileData?.picture ? profileData?.picture : "/山道猴子.png"
-                }
-                alt="profile-picture"
-                className="object-cover "
-              />
+              {!isLoadingProfile ? (
+                <img
+                  src={profileData?.picture || "/山道猴子.png"}
+                  alt="profile-picture"
+                  className="object-cover "
+                />
+              ) : (
+                <Skeleton variant="rectangular" width={320} height={200} />
+              )}
             </button>
           )}
         </div>

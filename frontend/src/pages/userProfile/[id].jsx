@@ -2,14 +2,21 @@ import Header from "@/components/Header";
 import NavBar from "@/components/NavBar";
 import { ProfileCard } from "@/components/userProfile";
 import useProfile from "@/hooks/useProfile";
+import { ProfileCardSkeleton } from "@/components/Skeleton/userProfileSkeleton";
 import { SWRConfig } from "swr";
 import { useRouter } from "next/router";
+import { useSelector, useDispatch } from "react-redux";
 
 function userProfile() {
+  const dispatch = useDispatch();
   const router = useRouter();
   const { id } = router.query;
-  const profileData = useProfile(id);
-  console.log("profileData", profileData);
+  const [profileData, error, isLoading] = useProfile(id);
+
+  const isLoadingProfile = useSelector(
+    (state) => state.LoadingControl.isLoadingProfile
+  );
+  console.log("isLoadingProfile", isLoadingProfile);
   return (
     <SWRConfig
       value={{
@@ -22,7 +29,12 @@ function userProfile() {
         <Header />
         <div className="w-[90%] flex flex-col gap-2 items-center">
           <NavBar />
-          <ProfileCard profileData={profileData} />
+          {isLoadingProfile || !profileData ? (
+            <ProfileCardSkeleton />
+          ) : (
+            <ProfileCard profileData={profileData} />
+          )}
+          {/* <ProfileCardSkeleton /> */}
         </div>
       </main>
     </SWRConfig>
@@ -31,18 +43,18 @@ function userProfile() {
 
 export default userProfile;
 
-export async function getServerSideProps(context) {
-  const { req } = context;
-  const { token } = req.cookies;
-  if (!token) {
-    return {
-      redirect: {
-        destination: `/login`,
-        permenant: false,
-      },
-    };
-  }
-  return {
-    props: {},
-  };
-}
+// export async function getServerSideProps(context) {
+//   const { req } = context;
+//   const { token } = req.cookies;
+//   if (!token) {
+//     return {
+//       redirect: {
+//         destination: `/login`,
+//         permenant: false,
+//       },
+//     };
+//   }
+//   return {
+//     props: {},
+//   };
+// }
