@@ -14,6 +14,8 @@ import useApply from "@/hooks/useApply";
 import useDeleteApply from "@/hooks/useDeleteApply";
 import { useCookies } from "react-cookie";
 import Link from "next/link";
+import useUpdateTaskStatus from "@/hooks/useUpdateTaskStatus";
+import useTaskDelete from "@/hooks/useTaskDelete";
 
 const data = {
   tasks: [
@@ -57,9 +59,8 @@ function Task({ task }) {
     title,
     user_task,
   } = task || data.tasks[0];
-  console.log(task);
-
-  const [hasApplied, setHasApplied] = useState(!(user_task === []));
+  // console.log(task);
+  const [hasApplied, setHasApplied] = useState(user_task === []);
   const [isTaskAssigner, setIsTaskAssigner] = useState(false);
   const [countdown, setCountdown] = useState([]);
   const titleArray = title;
@@ -139,7 +140,34 @@ function Task({ task }) {
     useApply(body, id, cookies.token.access_token);
   };
 
-  console.log("hasApplied", hasApplied);
+  const updateTaskStatus = useUpdateTaskStatus();
+
+  const handleCompleteClick = async () => {
+    try {
+      const updatedTask = await updateTaskStatus(
+        "commenting",
+        id,
+        cookies.token.access_token
+      );
+      if (updatedTask) {
+        setHasApplied(false); // Only set to false if the API call succeeds
+        console.log("Task status updated successfully:", updatedTask);
+      }
+    } catch (error) {
+      console.error("Failed to complete the task:", error);
+    }
+  };
+
+  const { deleteTask, isLoading, error } = useTaskDelete();
+
+  const handleDelete = async () => {
+    await deleteTask(id, token);
+    if (!error) {
+      console.log("Task deleted successfully:", task);
+    } else {
+      console.error("Error deleting task:", error);
+    }
+  };
 
   return (
     <div className={styles.taskContainer}>
@@ -183,10 +211,7 @@ function Task({ task }) {
             >
               Delete
             </button>
-            <button
-              className={styles.complete}
-              onClick={() => setHasApplied(false)}
-            >
+            <button className={styles.complete} onClick={handleCompleteClick}>
               Complete
             </button>
           </div>

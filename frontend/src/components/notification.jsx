@@ -22,7 +22,7 @@ export function Notification({ contents, mode = "comments" }) {
       poster: {
         id: 1,
         name: "Zaikuku",
-        picture: "https://52.64.240.159/static/1692667455058",
+        picture: "",
       },
     },
     {

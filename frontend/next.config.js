@@ -12,6 +12,8 @@ const nextConfig = {
   env: {
     API_URL: "https://52.64.240.159/api/1.0",
   },
+  images: {
+    domains: ["52.64.240.159"],
+  },
 };
 module.exports = withPWA(nextConfig);
-
