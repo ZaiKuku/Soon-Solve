@@ -12,12 +12,12 @@ function SingleTask() {
   const router = useRouter();
   const { id } = router.query;
 
-  // const { task, isLoading } = useTaskDetails();
-
   const back = () => {
     router.back();
   };
   const { task, isLoading } = useTaskDetails(parseInt(id, 10));
+
+  console.log(task);
 
   return (
     <SWRConfig

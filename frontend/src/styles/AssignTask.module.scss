@@ -119,22 +119,6 @@
           text-align: center;
         }
       }
-      .peopleContainer {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        .peopleInput {
-          width: 60%;
-          height: 20px;
-          border-radius: 10px;
-          background-color: rgba(237, 237, 237, 1);
-          padding: 10px;
-          box-sizing: border-box;
-          font-family: "Noto Sans TC", Courier, monospace;
-          font-size: 14px;
-          text-align: center;
-        }
-      }
     }
     .deadlineContainer {
       display: flex;

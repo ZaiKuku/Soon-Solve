@@ -20,7 +20,6 @@ export default function SearchBar() {
   const debounceTimeout = 300; // 300 毫秒
 
   const isMounted = useRef(false);
-  console.log(isMounted);
 
   useEffect(() => {
     console.log(keyword);

@@ -46,7 +46,7 @@ function LoginSignUpPage() {
           maxAge: 60 * 60,
           path: "/",
         });
-        router.push("/allTasks");
+        router.push("/");
       }
     } else {
       const response = await useSignUp(userSignUpData);
@@ -56,7 +56,7 @@ function LoginSignUpPage() {
           maxAge: 60 * 60,
           path: "/",
         });
-        router.push("/allTasks");
+        router.push("/");
       }
     }
     setIsLoading(false);
