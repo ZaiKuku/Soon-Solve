@@ -13,8 +13,8 @@ import RedeemIcon from "@mui/icons-material/Redeem";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
-import useCreateTask from "../hooks/useCreateTask";
 import { useRouter } from "next/router";
+import useCreateTask from "@/hooks/useCreateTask";
 
 const data = {
   tasks: [
@@ -54,21 +54,9 @@ const locations = {
   NCCU: ["大仁樓", "大智樓", "大勇樓"],
 };
 
-import { useRouter } from "next/router";
-
 function AssignTask() {
   const [search, setSearch] = useState("");
   const router = useRouter();
-  const titleArray = data.tasks.map((task) => task.title);
-  const contentArray = data.tasks.map((task) => task.content);
-  const locationArray = data.tasks.map((task) => task.location);
-  const nameArray = data.tasks.map((task) => task.name);
-  const rewardArray = data.tasks.map((task) => task.reward);
-  const taskVacancyArray = data.tasks.map((task) => task.task_vacancy);
-  const approvedCountArray = data.tasks.map((task) => task.approved_count);
-  const statusArray = data.tasks.map((task) => task.status);
-  const createdAtArray = data.tasks.map((task) => task.created_at);
-  const deadlineArray = data.tasks.map((task) => task.deadline);
 
   const validationSchema = Yup.object().shape({
     number: Yup.number().integer("Must be an integer").required("Number,"),
@@ -84,7 +72,6 @@ function AssignTask() {
 
   const [formData, setFormData] = useState(null);
   const { response, error, isLoading } = useCreateTask(formData);
-  const router = useRouter();
 
   useEffect(() => {
     if (response) {
@@ -198,7 +185,6 @@ function AssignTask() {
                     </option>
                   ))}
                 </Field>
-                {/* <ErrorMessage name="deadlineHour" component="div" /> */}
                 <Field
                   as="select"
                   name="deadlineMinute"
@@ -213,7 +199,6 @@ function AssignTask() {
                     </option>
                   ))}
                 </Field>
-                {/* <ErrorMessage name="deadlineMinute" component="div" /> */}
               </div>
             </div>
             <div className={styles.compensationContainer}>
@@ -223,7 +208,6 @@ function AssignTask() {
                 className={styles.compensationInput}
                 placeholder="Compensation"
               />
-              {/* <ErrorMessage name="compensation" component="div" /> */}
             </div>
             <div className={styles.locationContainer}>
               <PlaceIcon />
@@ -287,3 +271,19 @@ function AssignTask() {
 }
 
 export default AssignTask;
+
+export async function getServerSideProps(context) {
+  const { req } = context;
+  const { token } = req.cookies;
+  if (!token) {
+    return {
+      redirect: {
+        destination: `/login`,
+        permenant: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
+}

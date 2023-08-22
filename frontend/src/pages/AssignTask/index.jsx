@@ -11,7 +11,6 @@ function AssignTaskPage() {
   return (
     <div className={styles.page}>
       <Header />
-      <Switcher />
       <AssignTask />
       <button
         style={{

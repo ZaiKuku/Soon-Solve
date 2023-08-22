@@ -2,13 +2,13 @@ import Header from "@/components/Header";
 import NavBar from "@/components/NavBar";
 import Messages from "@/components/Messages";
 import { useRouter } from "next/router";
-import { Avatar } from "@material-tailwind/react";
+import { Avatar, Button } from "@material-tailwind/react";
 import MessageSendBar from "@/components/MessageSendBar";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { useCookies } from "react-cookie";
-
+let socket;
 const messages = [
   {
     user_id: 1,
@@ -28,35 +28,60 @@ export default function chatRoom() {
   const router = useRouter();
   const [messages, setMessages] = useState([]);
   const [cookies, setCookie] = useCookies(["token"]);
-  // useEffect(() => {
-  //   // 監聽從伺服器接收的消息
-  //   const socket = io("https://52.64.240.159", {
-  //     extraHeaders: {
-  //       Authorization: `Bearer ${cookies?.token?.access_token}`,
-  //     },
-  //   });
-  //   socket.emit("joinRoom", { username: "ZaiKuku", room: "1&2" });
+  const [token, setToken] = useState(cookies.token?.access_token);
 
-  //   socket.on("message", (message) => {
-  //     setMessages((messages) => [...messages, message]);
-  //   });
+  useEffect(() => {
+    setToken(cookies.token?.access_token);
+  }, [cookies.token]);
 
-  //   // 清理Socket連接
-  //   return () => {
-  //     socket.emit("userDisconnect");
-  //     socket.disconnect();
-  //   };
-  // }, []);
+  useEffect(() => {
+    // 監聽從伺服器接收的消息
+    if (token !== undefined) {
+      socket = io("https://52.64.240.159", {
+        extraHeaders: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("token", token);
+
+      try {
+        socket.on("message", (message) => {
+          console.log("message", message);
+          setMessages((messages) => [...messages, message]);
+        });
+        socket.emit("joinRoom", { username: "ZaiKuku", room: "18&85" });
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    return () => {
+      socket.disconnect();
+    };
+  }, [token]);
+
+  const handleClick = () => {
+    console.log("socket", socket);
+
+    socket.disconnect();
+    // router.back();
+  };
+
+  const handleSendMessage = (message) => {
+    socket.emit("newMessage", message);
+  };
   return (
     <main className="w-full flex flex-col gap-4 items-center pt-[80px] min-h-screen h-fit bg-[#EBEBEB] ">
       <Header />
       <div className="w-full flex items-center p-2">
-        <ArrowBackIcon style={{ fontSize: "40px" }} />
+        <button onClick={handleClick}>
+          <ArrowBackIcon style={{ fontSize: "40px" }} />
+        </button>
         <Avatar src="/山道猴子.png" className="ml-10" />
         <p className="text-2xl font-bold ml-4">山道猴子</p>
       </div>
+
       <Messages messages={messages} />
-      <MessageSendBar />
+      <MessageSendBar handleSendMessage={handleSendMessage} />
     </main>
   );
 }

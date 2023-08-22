@@ -35,15 +35,13 @@ export default function TaskOverview({ task }) {
       <div className={style.location}>
         <Tag outTag={location} />
       </div>
-      <div className={style.reward}>
+
+      <div className={style.taskNumber}>
         <Tag outTag={reward} icon="fa-solid fa-dollar-sign" />
       </div>
-      <div className={style.taskNumber}>
-        <Tag outTag={task_vacancy} icon="fa-solid fa-clipboard-list" />
-      </div>
       <div className={style.numReqired}>
-        <i className="fa fa-people-group" />
-        <span>{approved_count}</span>
+        <i className="fa-solid fa-clipboard-list" />
+        <span>{task_vacancy}</span>
       </div>
 
       <div className={style.deadline}>

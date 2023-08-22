@@ -4,7 +4,7 @@ import { useCookies } from "react-cookie";
 import { Input, button } from "@material-tailwind/react";
 import { io } from "socket.io-client";
 
-function MessageSendBar() {
+function MessageSendBar({ handleSendMessage }) {
   const [messageInput, setMessageInput] = useState("");
 
   const returnMessage = {
@@ -21,9 +21,8 @@ function MessageSendBar() {
 
   const handeleSubmit = (e) => {
     e.preventDefault();
-
-    console.log(e.target.message.value);
-    // 清空輸入框
+    console.log("e.target.message.value", e.target.message.value);
+    handleSendMessage(e.target.message.value);
     e.target.message.value = "";
   };
 

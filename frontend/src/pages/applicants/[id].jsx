@@ -5,12 +5,14 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import useTaskReqList from "@/hooks/useTaskReqList";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { useCookies } from "react-cookie";
 
 export default function ApplicantsPage() {
   const router = useRouter();
   const [data, setData] = useState(null);
   const [fetchData] = useTaskReqList();
-
+  const [cookies, setCookie] = useCookies(["token"]);
+  const token = cookies.token?.access_token;
   useEffect(() => {
     const fetchTaskReqList = async () => {
       const [users, nextCursor] = await fetchData();
