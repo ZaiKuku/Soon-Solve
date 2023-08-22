@@ -22,7 +22,11 @@ export default function TaskOverview({ task }) {
     <div className={style.bg}>
       <div className={style.infoContainer}>
         <div className={style.avatarContainer}>
-          <img src={picture} className={style.pic} alt="大頭貼" />
+          {picture ? (
+            <img src={picture} className={style.pic} alt="大頭貼" />
+          ) : (
+            <img src="/profile.png" className={style.pic} alt="預設大頭貼" />
+          )}
         </div>
         <span className={style.title}>{title}</span>
       </div>

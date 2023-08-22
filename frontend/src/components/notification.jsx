@@ -21,8 +21,8 @@ export function Notification({ contents, mode = "comments" }) {
       created_at: "2023-03-23 23:10:21",
       poster: {
         id: 1,
-        name: "曾泊文",
-        picture: "https://schoolvoyage.ga/images/123498.png",
+        name: "Zaikuku",
+        picture: "https://52.64.240.159/static/1692667455058",
       },
     },
     {
@@ -98,7 +98,7 @@ export function Notification({ contents, mode = "comments" }) {
           <Avatar
             variant="circular"
             alt="candice"
-            src={comment.poster?.picture || "/山道猴子.png"}
+            src={comment.poster?.picture || "/profile.png"}
             className="shrink-0"
           />
         </ListItemPrefix>
