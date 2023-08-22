@@ -1,10 +1,10 @@
 .taskContainer {
   width: 335px;
-  height: 530px;
-  border-radius: 5%;
+  height: 600px;
+  border-radius: 20px;
   border: solid rgba(177, 94, 108, 1) 5px;
   background-color: white;
-  padding: 25px;
+  padding: 20px;
   position: relative;
   .profileStatusContainer {
     display: flex;
@@ -202,5 +202,13 @@
         font-size: 18px;
       }
     }
+  }
+}
+
+@media screen and (min-width: 375px) and (max-width: 413px) {
+  .taskContainer {
+    border: none;
+    height: 500px;
+    padding: 0 0 10px 0;
   }
 }

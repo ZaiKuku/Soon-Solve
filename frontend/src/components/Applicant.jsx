@@ -8,19 +8,19 @@ function Applicant({ user }) {
   return (
     <div className={styles.applicantContainer}>
       <Image
-        src="/profile.png"
+        src={user.picture || "/profile.png"}
         width={50}
         height={50}
         className="rounded-full"
       />
       <div className={styles.nameTitleContainer}>
-        <div className={styles.applicantName}>Benson</div>
+        <div className={styles.applicantName}>{user.name}</div>
       </div>
       <div className={styles.container}>
         <ChatIcon />
         <div className={styles.numberContainer}>
           <i className="fa-solid fa-xl fa-clipboard-list" />
-          <div className={styles.number}>5</div>
+          <div className={styles.number}>{user.user_task.ask_count}</div>
         </div>
         <div className={styles.checkCancelContainer}>
           <CheckCircleIcon style={{ color: "#4BD37B", fontSize: "40px" }} />

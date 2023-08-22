@@ -13,3 +13,10 @@
     width: 80vw;
   }
 }
+
+@media screen and (min-width: 375px) and (max-width: 413px) {
+  .page {
+    background-color: white;
+    padding: 0;
+  }
+}
