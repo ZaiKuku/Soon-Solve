@@ -7,4 +7,12 @@
   align-items: center;
   background-color: rgba(248, 248, 248, 1);
   position: relative;
+  padding: 0 0 50px 0;
+}
+
+@media screen and (min-width: 375px) and (max-width: 413px) {
+  .page {
+    background-color: white;
+    padding: 0;
+  }
 }

@@ -25,15 +25,27 @@ export default function useSignUp(body) {
     } catch (error) {
       if (error.response) {
         if (error.response.status === 400) {
-          sweetAlert("請輸入完整資料", "請重新輸入", "error");
+          sweetAlert(
+            "Please enter complete information",
+            "Please try again",
+            "error"
+          );
         } else if (error.response.status === 403) {
-          sweetAlert("Email 已被註冊", "請重新輸入", "error");
+          sweetAlert(
+            "Email has already been registered",
+            "Please try again",
+            "error"
+          );
         } else if (error.response.status === 422) {
-          sweetAlert("Email 或 密碼 格式錯誤", "請重新輸入", "error");
+          sweetAlert(
+            "Invalid Email or Password format",
+            "Please try again",
+            "error"
+          );
         } else {
           console.error("Error:", error);
           // eslint-disable-next-line no-alert
-          sweetAlert("發生錯誤", "請稍後再試", "error");
+          sweetAlert("An error occurred", "Please try again later", "error");
         }
 
         // 處理錯誤

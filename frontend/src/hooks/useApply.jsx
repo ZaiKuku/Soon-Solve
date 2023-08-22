@@ -26,7 +26,7 @@ export default function useApply(body, taskId, token) {
       // 處理錯誤狀態
     } catch (error) {
       if (error.response) {
-        sweetAlert("發生錯誤", "請稍後再試", "error");
+        sweetAlert("An error occurred", "Please try again later", "error");
       }
       return null;
     }

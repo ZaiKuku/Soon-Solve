@@ -22,13 +22,25 @@ export default function useLogin(body) {
     } catch (error) {
       if (error.response) {
         if (error.response.status === 400) {
-          sweetAlert("Email 或 密碼 錯誤", "請重新輸入", "error");
+          sweetAlert(
+            "Email or Password incorrect",
+            "Please try again",
+            "error"
+          );
         } else if (error.response.status === 422) {
-          sweetAlert("Email 或 密碼 格式錯誤", "請重新輸入", "error");
+          sweetAlert(
+            "Invalid Email or Password format",
+            "Please try again",
+            "error"
+          );
         } else if (error.response.status === 403) {
-          sweetAlert("Email 或 密碼 錯誤", "請重新輸入", "error");
+          sweetAlert(
+            "Email or Password incorrect",
+            "Please try again",
+            "error"
+          );
         } else {
-          sweetAlert("發生錯誤", "請稍後再試", "error");
+          sweetAlert("An error occurred", "Please try again later", "error");
           console.error("Error:", error);
         }
 

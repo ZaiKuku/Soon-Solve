@@ -3,7 +3,7 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   background-color: rgba(177, 94, 108, 1);
   padding: 50px 0px 50px 0px;
@@ -23,7 +23,7 @@
     font-family: "Noto Sans TC", Courier, monospace;
     font-weight: 100;
     position: absolute;
-    top: 15%;
+    top: 12%;
   }
   .forms {
     width: 70%;
@@ -34,24 +34,12 @@
     margin-top: 100px;
     .userContainer {
       width: 100%;
-      margin-bottom: 30px;
-      .userNameErrorContainer {
-        display: flex;
-        align-items: center;
-        margin-bottom: 7px;
-        .user {
-          font-size: 25px;
-          color: white;
-          font-family: "Noto Sans TC", Courier, monospace;
-          font-weight: 500;
-        }
-        .userError {
-          font-size: 12px;
-          color: black;
-          font-family: "Noto Sans TC", Courier, monospace;
-          font-weight: 500;
-          margin-left: 5px;
-        }
+      margin-bottom: 5px;
+      .user {
+        font-size: 25px;
+        color: white;
+        font-family: "Noto Sans TC", Courier, monospace;
+        font-weight: 500;
       }
       .userBox {
         width: 100%;
@@ -65,28 +53,24 @@
         color: rgba(191, 191, 191, 1);
         font-family: "Noto Sans TC", Courier, monospace;
         font-weight: 500;
+        margin-bottom: 5px;
+      }
+      .userError {
+        font-size: 16px;
+        color: black;
+        font-family: "Noto Sans TC", Courier, monospace;
+        font-weight: 500;
+        margin-left: 5px;
       }
     }
     .emailContainer {
       width: 100%;
-      margin-bottom: 30px;
-      .emailErrorContainer {
-        display: flex;
-        align-items: center;
-        margin-bottom: 7px;
-        .email {
-          font-size: 25px;
-          color: white;
-          font-family: "Noto Sans TC", Courier, monospace;
-          font-weight: 500;
-        }
-        .emailError {
-          font-size: 12px;
-          color: black;
-          font-family: "Noto Sans TC", Courier, monospace;
-          font-weight: 500;
-          margin-left: 5px;
-        }
+      margin-bottom: 5px;
+      .email {
+        font-size: 25px;
+        color: white;
+        font-family: "Noto Sans TC", Courier, monospace;
+        font-weight: 500;
       }
       .emailBox {
         width: 100%;
@@ -100,28 +84,24 @@
         color: rgba(191, 191, 191, 1);
         font-family: "Noto Sans TC", Courier, monospace;
         font-weight: 500;
+        margin-bottom: 5px;
+      }
+      .emailError {
+        font-size: 16px;
+        color: black;
+        font-family: "Noto Sans TC", Courier, monospace;
+        font-weight: 500;
+        margin-left: 5px;
       }
     }
     .passwordContainer {
       width: 100%;
-      margin-bottom: 30px;
-      .passwordErrorContainer {
-        display: flex;
-        align-items: center;
-        margin-bottom: 7px;
-        .password {
-          font-size: 25px;
-          color: white;
-          font-family: "Noto Sans TC", Courier, monospace;
-          font-weight: 500;
-        }
-        .passwordError {
-          font-size: 12px;
-          color: black;
-          font-family: "Noto Sans TC", Courier, monospace;
-          font-weight: 500;
-          margin-left: 5px;
-        }
+      margin-bottom: 5px;
+      .password {
+        font-size: 25px;
+        color: white;
+        font-family: "Noto Sans TC", Courier, monospace;
+        font-weight: 500;
       }
       .passwordBox {
         width: 100%;
@@ -135,24 +115,24 @@
         color: rgba(191, 191, 191, 1);
         font-family: "Noto Sans TC", Courier, monospace;
         font-weight: 500;
+        margin-bottom: 5px;
+      }
+      .passwordError {
+        font-size: 16px;
+        color: black;
+        font-family: "Noto Sans TC", Courier, monospace;
+        font-weight: 500;
+        margin-left: 5px;
       }
     }
     .rePasswordContainer {
       width: 100%;
-      margin-bottom: 30px;
+      margin-bottom: 5px;
       .rePassword {
         font-size: 25px;
         color: white;
         font-family: "Noto Sans TC", Courier, monospace;
         font-weight: 500;
-        margin-bottom: 7px;
-      }
-      .rePasswordError {
-        font-size: 12px;
-        color: black;
-        font-family: "Noto Sans TC", Courier, monospace;
-        font-weight: 500;
-        margin-left: 5px;
         margin-bottom: 7px;
       }
       .rePasswordBox {
@@ -167,6 +147,15 @@
         color: rgba(191, 191, 191, 1);
         font-family: "Noto Sans TC", Courier, monospace;
         font-weight: 500;
+        margin-bottom: 5px;
+      }
+      .rePasswordError {
+        font-size: 16px;
+        color: black;
+        font-family: "Noto Sans TC", Courier, monospace;
+        font-weight: 500;
+        margin-left: 5px;
+        margin-bottom: 7px;
       }
     }
     .loginButton {
@@ -181,6 +170,7 @@
       color: rgba(177, 94, 108, 1);
       font-family: "Noto Sans TC", Courier, monospace;
       font-weight: 400;
+      margin-top: 10px;
     }
   }
   .signUpBox {

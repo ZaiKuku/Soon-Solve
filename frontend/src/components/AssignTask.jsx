@@ -15,7 +15,6 @@ import * as Yup from "yup";
 import Swal from "sweetalert2";
 import useCreateTask from "../hooks/useCreateTask";
 import { useRouter } from "next/router";
-
 const data = {
   tasks: [
     {
@@ -54,8 +53,6 @@ const locations = {
   NCCU: ["大仁樓", "大智樓", "大勇樓"],
 };
 
-import { useRouter } from "next/router";
-
 function AssignTask() {
   const [search, setSearch] = useState("");
   const router = useRouter();
@@ -84,7 +81,6 @@ function AssignTask() {
 
   const [formData, setFormData] = useState(null);
   const { response, error, isLoading } = useCreateTask(formData);
-  const router = useRouter();
 
   useEffect(() => {
     if (response) {
@@ -119,6 +115,12 @@ function AssignTask() {
     router.push("/userTasks");
   };
 
+  const now = new Date();
+  const currentMonth = now.getMonth() + 1; // JS months are 0-based, so add 1
+  const currentDay = now.getDate();
+  const currentHour = now.getHours();
+  const currentMinute = now.getMinutes();
+
   return (
     <Formik
       initialValues={{
@@ -126,8 +128,8 @@ function AssignTask() {
         description: "",
         compensation: "",
         number: "",
-        deadlineMonth: "",
-        deadlineDay: "",
+        deadlineMonth: currentMonth,
+        deadlineDay: currentDay,
         deadlineHour: "",
         deadlineMinute: "",
         location: "",
@@ -140,12 +142,10 @@ function AssignTask() {
           <div className={styles.taskTitleContainer}>
             <div className={styles.taskTitle}>Title</div>
             <Field name="title" className={styles.taskTitleInput} />
-            {/* <ErrorMessage name="title" component="div" /> */}
           </div>
           <div className={styles.taskDescriptionContainer}>
             <div className={styles.taskDescription}>Description</div>
             <Field name="description" className={styles.taskDescriptionInput} />
-            {/* <ErrorMessage name="description" component="div" /> */}
           </div>
           <div className={styles.bigContainer}>
             <div className={styles.deadlineContainer}>
@@ -168,7 +168,6 @@ function AssignTask() {
                     </option>
                   ))}
                 </Field>
-                {/* <ErrorMessage name="deadlineMonth" component="div" /> */}
                 <Field
                   as="select"
                   name="deadlineDay"
@@ -183,7 +182,8 @@ function AssignTask() {
                     </option>
                   ))}
                 </Field>
-                {/* <ErrorMessage name="deadlineDay" component="div" /> */}
+              </div>
+              <div className={styles.selectBoxContainer}>
                 <Field
                   as="select"
                   name="deadlineHour"
@@ -198,7 +198,6 @@ function AssignTask() {
                     </option>
                   ))}
                 </Field>
-                {/* <ErrorMessage name="deadlineHour" component="div" /> */}
                 <Field
                   as="select"
                   name="deadlineMinute"
@@ -213,7 +212,6 @@ function AssignTask() {
                     </option>
                   ))}
                 </Field>
-                {/* <ErrorMessage name="deadlineMinute" component="div" /> */}
               </div>
             </div>
             <div className={styles.compensationContainer}>
@@ -223,7 +221,6 @@ function AssignTask() {
                 className={styles.compensationInput}
                 placeholder="Compensation"
               />
-              {/* <ErrorMessage name="compensation" component="div" /> */}
             </div>
             <div className={styles.locationContainer}>
               <PlaceIcon />
@@ -244,7 +241,6 @@ function AssignTask() {
                   ));
                 })}
               </datalist>
-              {/* <ErrorMessage name="location" component="div" /> */}
             </div>
             <div className={styles.numberPeopleContainer}>
               <div className={styles.numberContainer}>
@@ -254,7 +250,6 @@ function AssignTask() {
                   className={styles.numberInput}
                   placeholder="Number"
                 />
-                {/* <ErrorMessage name="number" component="div" /> */}
               </div>
             </div>
           </div>

@@ -10,6 +10,8 @@ import useSignUp from "@/hooks/useSignUp";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import styles from "../../styles/LoginSignUpPage.module.scss";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 
 function LoginSignUpPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -56,7 +58,8 @@ function LoginSignUpPage() {
           maxAge: 60 * 60,
           path: "/",
         });
-        router.push("/");
+        handleModeChange();
+        console.log("yo");
       }
     }
     setIsLoading(false);
@@ -64,15 +67,15 @@ function LoginSignUpPage() {
 
   const getButtonText = () => {
     if (isLoading && isLogin) {
-      return "登入中...";
+      return "Loging in...";
     }
     if (isLogin && !isLoading) {
-      return "登入";
+      return "Log in";
     }
     if (isLoading && !isLogin) {
-      return "註冊中...";
+      return "Signing Up...";
     }
-    return "註冊";
+    return "Sign Up";
   };
 
   const validationSchema = Yup.object({
@@ -99,7 +102,7 @@ function LoginSignUpPage() {
   return (
     <div className={styles.LoginSignUpBox}>
       <div className={styles.soonSolve}>Soon Solve</div>
-      <div className={styles.SignUpLogin}>{isLogin ? "Login" : "Sign Up"}</div>
+      <div className={styles.SignUpLogin}>{isLogin ? "Log in" : "Sign Up"}</div>
       <Formik
         initialValues={{
           name: "",
@@ -114,12 +117,7 @@ function LoginSignUpPage() {
           <Form className={styles.forms}>
             {!isLogin && (
               <div className={styles.userContainer}>
-                <div className={styles.userNameErrorContainer}>
-                  <div className={styles.user}>User Name</div>
-                  <ErrorMessage name="name">
-                    {(msg) => <div className={styles.userError}>{msg}</div>}
-                  </ErrorMessage>
-                </div>
+                <div className={styles.user}>User Name</div>
                 <Field
                   type="text"
                   placeholder="e.g. Chou Chou Hu"
@@ -127,15 +125,17 @@ function LoginSignUpPage() {
                   className={styles.userBox}
                   onChange={handleChange}
                 />
+                <ErrorMessage name="name">
+                  {(msg) => (
+                    <Alert severity="error">
+                      <div className={styles.userError}>{msg}</div>
+                    </Alert>
+                  )}
+                </ErrorMessage>
               </div>
             )}
             <div className={styles.emailContainer}>
-              <div className={styles.emailErrorContainer}>
-                <div className={styles.email}>Email</div>
-                <ErrorMessage name="email">
-                  {(msg) => <div className={styles.emailError}>{msg}</div>}
-                </ErrorMessage>
-              </div>
+              <div className={styles.email}>Email</div>
               <Field
                 type="email"
                 placeholder="e.g. shirney@appworks.tw"
@@ -143,33 +143,46 @@ function LoginSignUpPage() {
                 className={styles.emailBox}
                 onChange={handleChange}
               />
+              <ErrorMessage name="email">
+                {(msg) => (
+                  <Alert severity="error">
+                    <div className={styles.emailError}>{msg}</div>
+                  </Alert>
+                )}
+              </ErrorMessage>
             </div>
             <div className={styles.passwordContainer}>
-              <div className={styles.passwordErrorContainer}>
-                <div className={styles.password}>Password</div>
-                <ErrorMessage name="password">
-                  {(msg) => <div className={styles.passwordError}>{msg}</div>}
-                </ErrorMessage>
-              </div>
+              <div className={styles.password}>Password</div>
               <Field
                 type="password"
                 name="password"
                 className={styles.passwordBox}
                 onChange={handleChange}
               />
+              <ErrorMessage name="password">
+                {(msg) => (
+                  <Alert severity="error">
+                    <div className={styles.passwordError}>{msg}</div>
+                  </Alert>
+                )}
+              </ErrorMessage>
             </div>
             {!isLogin && (
               <div className={styles.rePasswordContainer}>
                 <div className={styles.rePassword}>Password Confirm</div>
-                <ErrorMessage name="confirmPassword">
-                  {(msg) => <div className={styles.rePasswordError}>{msg}</div>}
-                </ErrorMessage>
                 <Field
                   type="password"
                   name="confirmPassword"
                   className={styles.rePasswordBox}
                   onChange={handleChange}
                 />
+                <ErrorMessage name="confirmPassword">
+                  {(msg) => (
+                    <Alert severity="error">
+                      <div className={styles.rePasswordError}>{msg}</div>
+                    </Alert>
+                  )}
+                </ErrorMessage>
               </div>
             )}
             <button
@@ -187,7 +200,7 @@ function LoginSignUpPage() {
           {isLogin ? "Not a member?" : "Already a member?"}
         </div>
         <div className={styles.signUp} onClick={handleModeChange}>
-          {isLogin ? "Sign Up?" : "Login"}
+          {isLogin ? "Sign Up?" : "Log in"}
         </div>
       </div>
     </div>
