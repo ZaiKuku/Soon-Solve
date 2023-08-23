@@ -64,7 +64,6 @@ export default function ApplicantsPage() {
   );
 
   const handleUserDeleted = (userId) => {
-    console.log("del");
     setApplicants((prev) => prev.filter((user) => user.id !== userId));
   };
 

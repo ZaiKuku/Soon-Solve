@@ -22,7 +22,6 @@ import Swal from "sweetalert2";
 import Alert from "@mui/material/Alert";
 
 function Task({ task }) {
-  // console.log(task?.user_task);
   const [hasApplied, setHasApplied] = useState(false);
   const [isTaskAssigner, setIsTaskAssigner] = useState(false);
   const [countdown, setCountdown] = useState([]);
@@ -57,20 +56,41 @@ function Task({ task }) {
       const deadline = new Date(task?.deadline);
       const diff = deadline.getTime() - now.getTime();
 
-      setCountdown(diff);
+      if (diff <= 0) {
+        handleDelete();
+        clearInterval(interval); // If the deadline is passed, we also clear the interval immediately
+      } else {
+        setCountdown(diff);
+      }
     }, 1000);
 
     return () => clearInterval(interval); // Clear the interval when the component is unmounted
   }, []);
+
+  useEffect(() => {
+    if (task?.task_vacancy - task?.approved_count === 0) {
+      handleDelete();
+    }
+  }, [task?.task_vacancy, task?.approved_count]);
 
   const handleApply = (e) => {
     e.preventDefault();
     // console.log(e.target.value);
     console.log("hasApplied", hasApplied);
     if (hasApplied) {
-      useDeleteApply(10, cookies.token.access_token);
-      setHasApplied(false);
-      return;
+      console.log(task.user_task);
+      const userAppliedTask = task.user_task.find(
+        (item) => item.taker_id === userId
+      );
+      if (userAppliedTask) {
+        const [DeleteReq] = useDeleteApply(
+          userAppliedTask.id,
+          cookies.token.access_token
+        );
+        DeleteReq();
+        setHasApplied(false);
+        return;
+      }
     }
     setHasApplied(true);
     const body = {
@@ -150,7 +170,7 @@ function Task({ task }) {
     <div className={styles.taskContainer}>
       <div className={styles.profileStatusContainer}>
         <div className={styles.profileContainer}>
-          {task.picture ? (
+          {task?.picture ? (
             <img
               src={task.picture}
               alt="The poster's picture"
@@ -223,34 +243,40 @@ function Task({ task }) {
             validationSchema={validationSchema}
             onSubmit={handleApply}
           >
-            <Form className={styles.applyTaskContainer} onSubmit={handleApply}>
-              <div className={styles.numberChatContainer}>
-                <div className={styles.numberContainer}>
-                  <i className="fa-solid fa-lg fa-clipboard-list" />
-                  <Field
-                    name="number_requested"
-                    className={styles.numberInput}
-                    placeholder="Number"
-                  />
-                </div>
-                <Link href={"/"}>
-                  <ChatIcon />
-                </Link>
-              </div>
-              <ErrorMessage name="number_requested">
-                {(msg) => (
-                  <Alert severity="error">
-                    <div>{msg}</div>
-                  </Alert>
-                )}
-              </ErrorMessage>
-              <button
-                className={hasApplied ? styles.cancelTask : styles.applyTask}
-                type="submit"
+            {({ isValid, isSubmitting }) => (
+              <Form
+                className={styles.applyTaskContainer}
+                onSubmit={handleApply}
               >
-                {hasApplied ? "Cancel" : "Apply"}
-              </button>
-            </Form>
+                <div className={styles.numberChatContainer}>
+                  <div className={styles.numberContainer}>
+                    <i className="fa-solid fa-lg fa-clipboard-list" />
+                    <Field
+                      name="number_requested"
+                      className={styles.numberInput}
+                      placeholder="Number"
+                    />
+                  </div>
+                  <Link href={"/"}>
+                    <ChatIcon />
+                  </Link>
+                </div>
+                <ErrorMessage name="number_requested">
+                  {(msg) => (
+                    <Alert severity="error">
+                      <div>{msg}</div>
+                    </Alert>
+                  )}
+                </ErrorMessage>
+                <button
+                  className={hasApplied ? styles.cancelTask : styles.applyTask}
+                  type="submit"
+                  disabled={!isValid || isSubmitting}
+                >
+                  {hasApplied ? "Cancel" : "Apply"}
+                </button>
+              </Form>
+            )}
           </Formik>
         </div>
       )}
