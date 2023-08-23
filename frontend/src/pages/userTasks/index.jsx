@@ -61,13 +61,13 @@ function userTasks() {
   useInfiniteScroll(updatePosts, 100);
 
   return (
-    <main className="w-full flex flex-col gap-2 items-center pt-[120px]">
+    <main className="w-full flex flex-col gap-2 items-center py-[120px]">
       <Header />
       <div className="w-[90%] flex flex-col gap-2 items-center">
         <Switcher />
         {activeTab === "Released" && (
           <Link href="/AssignTask" className="w-fit">
-            <Button color="deep-purple" ripple="light">
+            <Button color="black" ripple="light">
               Add
             </Button>
           </Link>

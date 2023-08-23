@@ -7,9 +7,7 @@ import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { DrawerDefault } from "@/components/SideFilter";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { cleanAll } from "@/redux/locationSlice";
 import { useRouter } from "next/router";
-import { setSelectedLocations } from "@/redux/locationSlice";
 import { setIsLoadingTasks } from "@/redux/LoadingControl";
 
 export default function Home() {
@@ -19,7 +17,6 @@ export default function Home() {
   const [tasks, setTasks] = useState();
   const [isLoadMorePosts, setIsLoadMorePosts] = useState(false);
 
-  const router = useRouter();
   const dispatch = useDispatch();
   const conditionNum = useSelector((state) => state.selectedLocations.num);
   const conditions = useSelector((state) => state.selectedLocations);

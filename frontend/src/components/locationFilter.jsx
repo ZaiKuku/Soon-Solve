@@ -117,7 +117,9 @@ export function LocationFilter() {
           </AccordionHeader>
         </ListItem>
         <AccordionBody className="py-1">
-          <List className="p-0">{locationItems}</List>
+          <List className="p-0 max-h-[500px] overflow-y-auto">
+            {locationItems}
+          </List>
         </AccordionBody>
       </Accordion>
       <Accordion open={open === 2}>

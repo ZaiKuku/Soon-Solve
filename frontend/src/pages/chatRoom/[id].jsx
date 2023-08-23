@@ -60,16 +60,15 @@ export default function chatRoom() {
   }, [token]);
 
   const handleClick = () => {
-    console.log("socket", socket);
-
     socket.disconnect();
-    // router.back();
+    router.back();
   };
 
   const handleSendMessage = (message) => {
     console.log("message", message);
     socket.emit("newMessage", { id: 6, message: message });
   };
+
   return (
     <main className="w-full flex flex-col gap-4 items-center pt-[80px] min-h-screen h-fit bg-[#EBEBEB] ">
       <Header />
