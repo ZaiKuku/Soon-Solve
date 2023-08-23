@@ -5,6 +5,7 @@ import sweetAlert from "sweetalert";
 export default function useDeleteApply(usertaskId, token) {
   const api = process.env.API_URL;
   const apiUrl = `${api}/task_req/${usertaskId}`;
+  console.log(apiUrl);
   const DeleteReq = async () => {
     try {
       const response = await axios.delete(apiUrl, {
@@ -12,8 +13,8 @@ export default function useDeleteApply(usertaskId, token) {
           Authorization: `Bearer ${token}`,
         },
       });
-
       if (response.status === 200) {
+        console.log(response);
         return response.data;
       }
       console.error("Error:", response.status);
