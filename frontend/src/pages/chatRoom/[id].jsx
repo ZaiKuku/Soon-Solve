@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { Avatar, Button } from "@material-tailwind/react";
 import MessageSendBar from "@/components/MessageSendBar";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { io } from "socket.io-client";
 import { useCookies } from "react-cookie";
 import useChatContent from "@/hooks/useChatContent";
@@ -22,15 +22,30 @@ export default function chatRoom() {
   const roomId = router.query.id;
 
   const { content, isLoading } = useChatContent(roomId);
-  const [profileData, a, b] = useProfile(roomId?.split("&")[1]);
+  const [profileData, a, b] = useProfile(
+    roomId
+      ?.split("&")
+      .filter((id) => parseInt(id) !== cookies.token?.user.id)[0]
+  );
+
   const avatar = profileData?.picture;
+  const chatContainerRef = useRef(null);
+
+  useEffect(() => {
+    // if (chatContainerRef.current) {
+    //   const { scrollHeight } = chatContainerRef.current;
+    //   const height = chatContainerRef.current.clientHeight;
+    //   const maxScrollTop = scrollHeight - height;
+    //   chatContainerRef.current.scrollTo(0, maxScrollTop);
+    // }
+    window.scrollTo({ top: document.body.scrollHeight });
+  }, [messages]);
 
   useEffect(() => {
     if (!roomId) {
       return;
     }
     setMessages(content);
-    console.log("content", messages);
   }, [roomId, content]);
 
   useEffect(() => {
@@ -51,8 +66,6 @@ export default function chatRoom() {
           console.log("message", message);
           handleChangeMessages(message);
         });
-        console.log("roomId", roomId);
-        console.log("name", cookies.token.user);
         socket.emit("joinRoom", {
           username: "ZaiKuku",
           room: roomId,
@@ -72,7 +85,9 @@ export default function chatRoom() {
   };
 
   const handleSendMessage = (message) => {
-    const id = roomId.split("&")[1];
+    const id = roomId
+      ?.split("&")
+      .filter((id) => parseInt(id) !== cookies.token?.user.id)[0];
     socket.emit("newMessage", { id: id, message: message });
   };
 
@@ -81,14 +96,17 @@ export default function chatRoom() {
   };
 
   return (
-    <main className="w-full flex flex-col gap-4 items-center pt-[72px]  pb-[100px] min-h-screen h-fit bg-[#EBEBEB] overflow-hidden">
+    <main
+      className="w-full flex flex-col gap-4 items-center pt-[72px]  pb-[100px] min-h-screen h-fit bg-[#EBEBEB]"
+      ref={chatContainerRef}
+    >
       <Header />
       <div className="w-screen flex items-center fixed bg-[#EBEBEB] p-2 h-fit z-10">
         <button onClick={handleClick}>
           <ArrowBackIcon style={{ fontSize: "40px" }} />
         </button>
         <Avatar src={avatar || "./山道猴子.png"} className="ml-10" />
-        <p className="text-2xl font-bold ml-4">山道猴子</p>
+        <p className="text-2xl font-bold ml-4">{profileData?.name}</p>
       </div>
 
       {!isLoading && <Messages messages={messages} />}

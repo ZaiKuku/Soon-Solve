@@ -7,7 +7,7 @@ export default function Message({ content, self = true, picture, name }) {
         <div className="flex align-top w-full">
           <Avatar src={picture} />
           <p className="bg-white rounded-xl p-2 ml-2 break-words whitespace-pre-wrap max-w-[60%]">
-            {content}沒有訊息
+            {content}
           </p>
         </div>
       ) : (
