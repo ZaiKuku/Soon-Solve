@@ -7,17 +7,19 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { useCookies } from "react-cookie";
+import Alert from "@mui/material/Alert";
+import useTaskReqAccept from "@/hooks/useTaskReqAccept";
 import useChatContent from "@/hooks/useChatContent";
 import { use } from "react";
 
 export default function ApplicantsPage() {
   const router = useRouter();
+  const { id } = router.query;
   const [nextCursor, setNextCursor] = useState(0);
   const [dataFetchMode, setDataFetchMode] = useState(""); // ["", "cursor"]
-  const [fetchTasks] = useTaskReqList();
+  const [fetchTasks] = useTaskReqList(id);
   const [applicants, setApplicants] = useState();
   const [isLoadMorePosts, setIsLoadMorePosts] = useState(false);
-
   useEffect(() => {
     async function fetchData() {
       setDataFetchMode("");
@@ -58,25 +60,97 @@ export default function ApplicantsPage() {
     (user) => user.user_task.status === "Accepted"
   );
   const usersPending = applicants?.filter(
-    (user) => user.user_task.status === "Pending"
+    (user) => user.user_task.status === "pending"
   );
 
-  const { data, isLoading } = useChatContent("6&11");
-  console.log("ChatContent", data?.data);
+  const handleUserDeleted = (userId) => {
+    console.log("del");
+    setApplicants((prev) => prev.filter((user) => user.id !== userId));
+  };
+
+  const [AcceptReq] = useTaskReqAccept();
+  const [cookies, setCookie] = useCookies(["token"]);
+  const handleAccept = async (userId, userTaskId) => {
+    const res = await AcceptReq(
+      cookies.token.access_token,
+      "Accepted",
+      userTaskId
+    );
+    console.log("AcceptReq", res);
+
+    setApplicants((prevApplicants) => {
+      return prevApplicants.map((applicant) => {
+        if (applicant.id === userId) {
+          return {
+            ...applicant,
+            user_task: {
+              ...applicant.user_task,
+              status: "Accepted",
+            },
+          };
+        }
+        return applicant;
+      });
+    });
+  };
+  const handleFinish = async (userId, userTaskId) => {
+    const res = await AcceptReq(
+      cookies.token.access_token,
+      "Finished",
+      userTaskId
+    );
+    console.log("FinishReq", res);
+
+    setApplicants((prevApplicants) => {
+      return prevApplicants.map((applicant) => {
+        if (applicant.id === userId) {
+          return {
+            ...applicant,
+            user_task: {
+              ...applicant.user_task,
+              status: "Finished",
+            },
+          };
+        }
+        return applicant;
+      });
+    });
+  };
+
+  console.log(applicants);
 
   return (
     <main className="w-full flex flex-col gap-2 items-center pt-[80px]">
       <Header />
-      <span className="text-2xl font-bold">Confirmed Users</span>
+      <Alert severity="success" style={{ fontSize: "18px", width: "210px" }}>
+        Confirmed Users
+      </Alert>
       <div className="w-[90%] flex flex-col gap-2 justify-center">
         {applicants &&
-          usersAccepted.map((user) => <Applicant key={user.id} user={user} />)}
+          usersAccepted.map((user) => (
+            <Applicant
+              key={user.id}
+              user={user}
+              onUserDeleted={handleUserDeleted}
+              onUserAccepted={handleAccept}
+              onUserFinished={handleFinish}
+            />
+          ))}
       </div>
-
-      <span className="text-2xl font-bold">Confirmed Users</span>
+      <Alert severity="warning" style={{ fontSize: "18px", width: "210px" }}>
+        Pending Users
+      </Alert>
       <div className="w-[90%] flex flex-col gap-2 justify-center">
         {applicants &&
-          usersPending.map((user) => <Applicant key={user.id} user={user} />)}
+          usersPending.map((user) => (
+            <Applicant
+              key={user.id}
+              user={user}
+              onUserDeleted={handleUserDeleted}
+              onUserAccepted={handleAccept}
+              onUserFinished={handleFinish}
+            />
+          ))}
       </div>
       <button
         style={{

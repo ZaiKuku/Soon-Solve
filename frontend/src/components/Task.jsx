@@ -16,109 +16,48 @@ import { useCookies } from "react-cookie";
 import Link from "next/link";
 import useUpdateTaskStatus from "@/hooks/useUpdateTaskStatus";
 import useTaskDelete from "@/hooks/useTaskDelete";
-
-const data = {
-  tasks: [
-    {
-      id: 1,
-      title: "我要便當",
-      poster_id: 1,
-      created_at: "2023-08-17 16:19:48",
-      closed_at: "2023-04-09 22:21:48",
-      deadline: "2023-08-17 16:45:05",
-      task_vacancy: 0,
-      approved_count: 1,
-      content: "動態動態動態動態動態動態動態動態",
-      location: "八嘎壓樓",
-      reward: "抱抱",
-      picture: "https://imgur.com/XXXXX",
-      name: "PJ",
-      nickname: "pppppjjjjjj",
-      status: "applied",
-    },
-  ],
-  next_cursor: "KHEAX0GAFjlPyyqAqTcQOXTLKgIVvshji9AqRmuAGjCDESoLlUrrIn7P",
-};
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import Swal from "sweetalert2";
+import Alert from "@mui/material/Alert";
 
 function Task({ task }) {
-  const {
-    approved_count,
-    closed_at,
-    content,
-    created_at,
-    deadline,
-    id,
-    location,
-    name,
-    nickname,
-    picture,
-    poster_id,
-    reward,
-    status,
-    task_vacancy,
-    title,
-    user_task,
-  } = task || data.tasks[0];
-  // console.log(task);
-  const [hasApplied, setHasApplied] = useState(user_task === []);
+  // console.log(task?.user_task);
+  const [hasApplied, setHasApplied] = useState(false);
   const [isTaskAssigner, setIsTaskAssigner] = useState(false);
   const [countdown, setCountdown] = useState([]);
-  const titleArray = title;
-  const contentArray = content;
-  const locationArray = location;
-  const nameArray = name;
-  const rewardArray = reward;
-  const taskVacancyArray = task_vacancy;
-  const approvedCountArray = approved_count;
-  const statusArray = status;
-  const createdAtArray = created_at;
-  const deadlineArray = deadline;
-
   const [cookies, setCookie] = useCookies(["token"]);
   const userId = cookies?.token?.user.id;
   useEffect(() => {
-    setIsTaskAssigner(poster_id === userId);
-  }, [poster_id, userId]);
+    setIsTaskAssigner(task?.poster_id === userId);
+  }, [task?.poster_id, userId]);
+  // Calculate days
+  const countdownInDays = Math.floor(countdown / (1000 * 60 * 60 * 24));
+  const formattedCountdownInDays =
+    countdownInDays < 10 ? `0${countdownInDays}` : String(countdownInDays);
 
-  const countdownInDays = countdown.map((diff) =>
-    Math.floor(diff / (1000 * 60 * 60 * 24))
-  );
-  const formattedCountdownInDays = countdownInDays.map((day) =>
-    day < 10 ? `0${day}` : String(day)
-  );
+  // Calculate hours
+  const hoursRemainder = Math.floor((countdown / (1000 * 60 * 60)) % 24);
+  const formattedCountdownInHours =
+    hoursRemainder < 10 ? `0${hoursRemainder}` : String(hoursRemainder);
 
-  const countdownInHours = countdown.map((diff) =>
-    Math.floor(diff / (1000 * 60 * 60))
-  );
-  const hoursRemainder = countdownInHours.map((hours) => hours % 24);
-  const formattedCountdownInHours = hoursRemainder.map((hour) =>
-    hour < 10 ? `0${hour}` : String(hour)
-  );
+  // Calculate minutes
+  const minutesRemainder = Math.floor((countdown / (1000 * 60)) % 60);
+  const formattedCountdownInMinutes =
+    minutesRemainder < 10 ? `0${minutesRemainder}` : String(minutesRemainder);
 
-  const countdownInMinutes = countdown.map((diff) =>
-    Math.floor(diff / (1000 * 60))
-  );
-  const minutesRemainder = countdownInMinutes.map((minutes) => minutes % 60);
-  const formattedCountdownInMinutes = minutesRemainder.map((minute) =>
-    minute < 10 ? `0${minute}` : String(minute)
-  );
-
-  const countdownInSeconds = countdown.map((diff) => Math.floor(diff / 1000));
-  const secondsRemainder = countdownInSeconds.map((seconds) => seconds % 60);
-  const formattedCountdownInSeconds = secondsRemainder.map((second) =>
-    second < 10 ? `0${second}` : String(second)
-  );
+  // Calculate seconds
+  const secondsRemainder = Math.floor((countdown / 1000) % 60);
+  const formattedCountdownInSeconds =
+    secondsRemainder < 10 ? `0${secondsRemainder}` : String(secondsRemainder);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCountdown(
-        data.tasks.map((task) => {
-          const now = new Date();
-          const deadline = new Date(task.deadline);
-          const diff = deadline.getTime() - now.getTime();
-          return diff;
-        })
-      );
+      const now = new Date();
+      const deadline = new Date(task?.deadline);
+      const diff = deadline.getTime() - now.getTime();
+
+      setCountdown(diff);
     }, 1000);
 
     return () => clearInterval(interval); // Clear the interval when the component is unmounted
@@ -137,7 +76,7 @@ function Task({ task }) {
     const body = {
       ask_count: e.target.number_requested.value,
     };
-    useApply(body, id, cookies.token.access_token);
+    useApply(body, task.id, cookies.token.access_token);
   };
 
   const updateTaskStatus = useUpdateTaskStatus();
@@ -146,75 +85,123 @@ function Task({ task }) {
     try {
       const updatedTask = await updateTaskStatus(
         "commenting",
-        id,
+        task.id,
         cookies.token.access_token
       );
       if (updatedTask) {
         setHasApplied(false); // Only set to false if the API call succeeds
         console.log("Task status updated successfully:", updatedTask);
+        Swal.fire({
+          icon: "success",
+          title: "Task Completed!",
+          text: "The task status has been completed successfully.",
+        });
       }
     } catch (error) {
       console.error("Failed to complete the task:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong while completing the task.",
+      });
     }
   };
 
   const { deleteTask, isLoading, error } = useTaskDelete();
-
+  const router = useRouter();
   const handleDelete = async () => {
-    await deleteTask(id, cookies.token.access_token);
-    if (!error) {
-      console.log("Task deleted successfully:", task);
-    } else {
-      console.error("Error deleting task:", error);
+    try {
+      await deleteTask(task.id, cookies.token.access_token);
+      if (!error) {
+        Swal.fire({
+          icon: "success",
+          title: "Task deleted successfully!",
+          text: "You will be redirected to the allTask page.",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            router.push("/allTasks");
+          }
+        });
+      } else {
+        console.error("Error deleting task:", error);
+      }
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+      });
     }
   };
+
+  const validationSchema = Yup.object().shape({
+    number_requested: Yup.number()
+      .integer("Must be an integer")
+      .required("Number is required")
+      .max(
+        task?.task_vacancy - task?.approved_count,
+        `The number should be fewer or equal to ${
+          task?.task_vacancy - task?.approved_count
+        }`
+      ),
+  });
 
   return (
     <div className={styles.taskContainer}>
       <div className={styles.profileStatusContainer}>
         <div className={styles.profileContainer}>
-          <img
-            src="/profile.png"
-            alt="The poster's picture"
-            className="hover:scale-150 transition duration-300 ease-in-out w-[47px] h-[47px] rounded-full"
-          />
-          <div className={styles.userName}>{nameArray}</div>
+          {task.picture ? (
+            <img
+              src={task.picture}
+              alt="The poster's picture"
+              className="hover:scale-150 transition duration-300 ease-in-out w-[47px] h-[47px] rounded-full"
+            />
+          ) : (
+            <img
+              src="/profile.png"
+              alt="The poster's picture"
+              className="hover:scale-150 transition duration-300 ease-in-out w-[47px] h-[47px] rounded-full"
+            />
+          )}
+          <div className={styles.userName}>{task?.name}</div>
         </div>
-        {hasApplied && status === "pending" && (
-          <div className={styles.status}>{statusArray}</div>
+        {hasApplied && task?.status === "pending" && (
+          <div className={styles.status}>{task?.status}</div>
         )}
       </div>
-      <div className={styles.taskTitle}>{titleArray}</div>
-      <div className={styles.taskContent}>{contentArray}</div>
+      <div className={styles.taskTitle}>{task?.title}</div>
+      <div className={styles.taskContent}>{task?.content}</div>
       <div className={styles.locationRewardContainer}>
-        <Tag outTag={locationArray} />
-        <Tag outTag={rewardArray} icon="fa-solid fa-dollar-sign" />
-        <Tag outTag={taskVacancyArray} icon="fa-solid fa-clipboard-list"></Tag>
+        <Tag outTag={task?.location} />
+        <Tag outTag={task?.reward} icon="fa-solid fa-dollar-sign" />
+        <Tag
+          outTag={task?.task_vacancy - task?.approved_count}
+          icon="fa-solid fa-clipboard-list"
+        ></Tag>
       </div>
       <div className={styles.countdownContainer}>
         <ProgressIndicator
-          createdAt={createdAtArray}
-          deadline={deadlineArray}
+          createdAt={task?.created_at}
+          deadline={task?.deadline}
         />
         <div className={styles.countdown}>
-          {formattedCountdownInDays[0]}:{formattedCountdownInHours[0]}:
-          {formattedCountdownInMinutes[0]}:{formattedCountdownInSeconds[0]}
+          {formattedCountdownInDays}:{formattedCountdownInHours}:
+          {formattedCountdownInMinutes}:{formattedCountdownInSeconds}
         </div>
       </div>
       {isTaskAssigner && (
         <div className={styles.taskAssignerOnly}>
           <div className={styles.completeDeleteContainer}>
-            <button
-              className={styles.delete}
-              onClick={() => setHasApplied(false)}
-            >
+            <button className={styles.delete} onClick={handleDelete}>
               Delete
             </button>
-            <button className={styles.complete} onClick={handleCompleteClick}>
-              Complete
-            </button>
+            {task?.task_vacancy === 1 && (
+              <button className={styles.complete} onClick={handleCompleteClick}>
+                Complete
+              </button>
+            )}
           </div>
-          <Link href={`/applicants/${id}`}>
+          <Link href={`/applicants/${task.id}`}>
             <button className={styles.applicantsContainer}>
               <Image
                 src="/profile.png"
@@ -229,28 +216,42 @@ function Task({ task }) {
       )}
       {!isTaskAssigner && (
         <div className={styles.taskApplicantsOnly}>
-          <form className={styles.applyTaskContainer} onSubmit={handleApply}>
-            <div className={styles.numberChatContainer}>
-              <div className={styles.numberContainer}>
-                <i className="fa-solid fa-lg fa-clipboard-list" />
-                <input
-                  className={styles.numberInput}
-                  placeholder="Number"
-                  required={true}
-                  name="number_requested"
-                ></input>
+          <Formik
+            initialValues={{
+              number_requested: "",
+            }}
+            validationSchema={validationSchema}
+            onSubmit={handleApply}
+          >
+            <Form className={styles.applyTaskContainer} onSubmit={handleApply}>
+              <div className={styles.numberChatContainer}>
+                <div className={styles.numberContainer}>
+                  <i className="fa-solid fa-lg fa-clipboard-list" />
+                  <Field
+                    name="number_requested"
+                    className={styles.numberInput}
+                    placeholder="Number"
+                  />
+                </div>
+                <Link href={"/"}>
+                  <ChatIcon />
+                </Link>
               </div>
-              <Link href={"/"}>
-                <ChatIcon />
-              </Link>
-            </div>
-            <button
-              className={hasApplied ? styles.cancelTask : styles.applyTask}
-              type="submit"
-            >
-              {hasApplied ? "Cancel" : "Apply"}
-            </button>
-          </form>
+              <ErrorMessage name="number_requested">
+                {(msg) => (
+                  <Alert severity="error">
+                    <div>{msg}</div>
+                  </Alert>
+                )}
+              </ErrorMessage>
+              <button
+                className={hasApplied ? styles.cancelTask : styles.applyTask}
+                type="submit"
+              >
+                {hasApplied ? "Cancel" : "Apply"}
+              </button>
+            </Form>
+          </Formik>
         </div>
       )}
     </div>

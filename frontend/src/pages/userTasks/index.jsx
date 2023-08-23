@@ -88,18 +88,18 @@ function userTasks() {
 
 export default userTasks;
 
-// export async function getServerSideProps(context) {
-//   const { req } = context;
-//   const { token } = req.cookies;
-//   if (!token) {
-//     return {
-//       redirect: {
-//         destination: `/login`,
-//         permenant: false,
-//       },
-//     };
-//   }
-//   return {
-//     props: {},
-//   };
-// }
+export async function getServerSideProps(context) {
+  const { req } = context;
+  const { token } = req.cookies;
+  if (!token) {
+    return {
+      redirect: {
+        destination: `/login`,
+        permenant: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
+}

@@ -95,18 +95,6 @@
       font-weight: 700;
     }
   }
-  // .applicantsNumeberContainer {
-  //   display: flex;
-  //   justify-content: center;
-  //   align-items: center;
-  //   height: 30px;
-  //   margin-bottom: 25px;
-  //   .applicantsNumber {
-  //     font-family: "Noto Sans TC", Courier, monospace;
-  //     font-weight: 700;
-  //     font-size: 14px;
-  //   }
-  // }
   .taskAssignerOnly {
     display: flex;
     flex-direction: column;
@@ -115,7 +103,7 @@
     .completeDeleteContainer {
       width: 100%;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       .delete {
         width: 100px;
         height: 50px;
@@ -125,6 +113,8 @@
         font-family: "Noto Sans TC", Courier, monospace;
         font-weight: 700;
         font-size: 18px;
+        margin-right: 10px;
+        margin-left: 10px;
       }
       .complete {
         width: 100px;
@@ -135,13 +125,15 @@
         font-family: "Noto Sans TC", Courier, monospace;
         font-weight: 700;
         font-size: 18px;
+        margin-right: 10px;
+        margin-left: 10px;
       }
     }
     .applicantsContainer {
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-top: 20px;
+      margin-top: 40px;
       .applicants {
         font-family: "Noto Sans TC", Courier, monospace;
         font-weight: 700;
@@ -190,6 +182,7 @@
         font-family: "Noto Sans TC", Courier, monospace;
         font-weight: 700;
         font-size: 18px;
+        margin-top: 10px;
       }
       .cancelTask {
         width: 140px;
@@ -200,6 +193,7 @@
         font-family: "Noto Sans TC", Courier, monospace;
         font-weight: 700;
         font-size: 18px;
+        margin-top: 10px;
       }
     }
   }
