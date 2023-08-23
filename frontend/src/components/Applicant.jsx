@@ -11,11 +11,16 @@ import { useRouter } from "next/router";
 import Button from "@mui/material/Button";
 import { useDispatch } from "react-redux";
 import { setRoomId } from "@/redux/personChatting";
+import { useEffect, useState } from "react";
+import { Collapse, Card } from "@mui/material";
+import { CommentBoxTextarea } from "./CommentBoxTextarea";
 
 function Applicant({ user, onUserDeleted, onUserAccepted, onUserFinished }) {
-  console.log(user);
   const router = useRouter();
+  const taskId = router.query.id;
   const [cookies, setCookie] = useCookies(["token"]);
+  const [open, setOpen] = useState(false);
+  const [finished, setFinished] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -40,72 +45,87 @@ function Applicant({ user, onUserDeleted, onUserAccepted, onUserFinished }) {
   );
 
   const localHandleAccept = async () => {
-    console.log("user.user_task.id", user.user_task.id);
     onUserAccepted(user.id, user.user_task.id); // Use the function from the prop
   };
 
   const handleDelete = async () => {
-    console.log("user.user_task.id", user.user_task.id);
+    // console.log("user.user_task.id", user.user_task.id);
     const res = await DeletReq();
-    console.log("DeletReq", res);
     onUserDeleted(user.id);
   };
 
   const localHandleFinish = async () => {
-    console.log("user.user_task.id", user.user_task.id);
-    onUserFinished(user.id, user.user_task.id); // Use the function from the prop
+    setOpen(true);
+    setFinished(true);
   };
 
+  useEffect(() => {
+    if (finished & !open) {
+      onUserFinished(user.id, user.user_task.id);
+    }
+  }, [open, finished]);
+
   return (
-    <div className={styles.applicantContainer}>
-      <Link href={`/profile/${user.id}`}>
-        <Image
-          src={user.picture || "/profile.png"}
-          width={50}
-          height={50}
-          className="rounded-full hover:scale-150 transition duration-200 ease-out cursor-pointer"
-        />
-      </Link>
-      <div className={styles.nameTitleContainer}>
-        <div className={styles.applicantName}>{user.name}</div>
-      </div>
-      <div className={styles.container}>
-        <button type="button" onClick={handleClick}>
-          <ChatIcon className="hover:scale-150 transition duration-200 ease-out cursor-pointer" />
-        </button>
-        <div className={styles.numberContainer}>
-          <i className="fa-solid fa-xl fa-clipboard-list" />
-          <div className={styles.number}>{user.user_task.ask_count}</div>
+    <>
+      <div className={styles.applicantContainer}>
+        <Link href={`/profile/${user.id}`}>
+          <Image
+            src={user.picture || "/profile.png"}
+            width={50}
+            height={50}
+            className="rounded-full hover:scale-150 transition duration-200 ease-out cursor-pointer"
+          />
+        </Link>
+        <div className={styles.nameTitleContainer}>
+          <div className={styles.applicantName}>{user.name}</div>
         </div>
-        {user.user_task.status === "pending" && (
-          <div className={styles.checkCancelContainer}>
-            <button onClick={localHandleAccept}>
-              <CheckCircleIcon
-                style={{ color: "#4BD37B", fontSize: "40px" }}
-                className="hover:scale-150 transition duration-200 ease-out cursor-pointer"
-              />
-            </button>
-            <button onClick={handleDelete}>
-              <CancelIcon
-                style={{ color: "#FD5154", fontSize: "40px" }}
-                className="hover:scale-150 transition duration-200 ease-out cursor-pointer"
-              />
-            </button>
+        <div className={styles.container}>
+          <button type="button" onClick={handleClick}>
+            <ChatIcon className="hover:scale-150 transition duration-200 ease-out cursor-pointer" />
+          </button>
+          <div className={styles.numberContainer}>
+            <i className="fa-solid fa-xl fa-clipboard-list" />
+            <div className={styles.number}>{user.user_task.ask_count}</div>
           </div>
-        )}
-        {user.user_task.status === "Accepted" && (
-          <div className={styles.checkCancelContainer}>
-            <Button
-              variant="contained"
-              color="success"
-              onClick={localHandleFinish}
-            >
-              Finish
-            </Button>
-          </div>
-        )}
+          {user.user_task.status === "pending" && (
+            <div className={styles.checkCancelContainer}>
+              <button onClick={localHandleAccept}>
+                <CheckCircleIcon
+                  style={{ color: "#4BD37B", fontSize: "40px" }}
+                  className="hover:scale-150 transition duration-200 ease-out cursor-pointer"
+                />
+              </button>
+              <button onClick={handleDelete}>
+                <CancelIcon
+                  style={{ color: "#FD5154", fontSize: "40px" }}
+                  className="hover:scale-150 transition duration-200 ease-out cursor-pointer"
+                />
+              </button>
+            </div>
+          )}
+          {user.user_task.status === "Accepted" && (
+            <div className={styles.checkCancelContainer}>
+              <Button
+                variant="contained"
+                color="success"
+                onClick={localHandleFinish}
+              >
+                Finish
+              </Button>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <Card className="border-solid  border-2 p-2">
+          <CommentBoxTextarea
+            setOpen={setOpen}
+            taskId={taskId}
+            takerId={user.id}
+          />
+        </Card>
+      </Collapse>
+    </>
   );
 }
 

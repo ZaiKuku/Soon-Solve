@@ -12,6 +12,6 @@ export default function useTaskDetails(id) {
   if (isLoading || error) {
     return { post: null, isLoading };
   }
-  console.log("data", data);
+
   return { task: data?.data?.task, isLoading };
 }

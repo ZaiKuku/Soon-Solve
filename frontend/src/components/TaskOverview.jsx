@@ -1,9 +1,14 @@
 import Tag from "./tags";
+import { useState } from "react";
 import style from "../styles/TaskOverview.module.scss";
 import Link from "next/link";
-import { Card } from "@material-tailwind/react";
+import { Card, Chip } from "@material-tailwind/react";
+import { useRouter } from "next/router";
+import { Collapse } from "@mui/material";
+import { useCookies } from "react-cookie";
+import { CommentBoxTextarea } from "./CommentBoxTextarea";
 
-export default function TaskOverview({ task }) {
+export default function TaskOverview({ task, showStatus }) {
   const {
     poster_id,
     deadline,
@@ -15,38 +20,78 @@ export default function TaskOverview({ task }) {
     picture,
     name,
     approved_count,
-    // nickname,
+    status,
     // sex,
   } = task;
+
+  const [cookies, setCookie] = useCookies(["token"]);
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const status_color = () => {
+    if (status === "pending") {
+      return "green";
+    } else if (status === "processing") {
+      return "orange";
+    } else if (status === "completed") {
+      return "gray";
+    } else if (status === "commenting") {
+      return "blue";
+    }
+  };
+  console.log("open", open);
+  const handleClick = () => {
+    if (status === "commenting" && poster_id !== cookies.token?.user.id) {
+      setOpen(!open);
+      return;
+    }
+    router.push(`/task/${task.id}`);
+  };
+
   return (
-    <Card className={style.bg}>
-      <div className={style.infoContainer}>
-        <div className={style.avatarContainer}>
-          {picture ? (
-            <img src={picture} className={style.pic} alt="大頭貼" />
-          ) : (
-            <img src="/profile.png" className={style.pic} alt="預設大頭貼" />
-          )}
-        </div>
-        <span className={style.title}>{title}</span>
-      </div>
-      <span className={style.poster}>{name}</span>
-      <div className={style.location}>
-        <Tag outTag={location} />
-      </div>
+    <>
+      <button onClick={handleClick}>
+        <Card className={style.bg}>
+          <div className="absolute top-2 right-3">
+            <Chip
+              variant="ghost"
+              color={status_color()}
+              size="sm"
+              value={status}
+            />
+          </div>
+          <div className={style.infoContainer}>
+            <div className={style.avatarContainer}>
+              {picture ? (
+                <img src={picture} className={style.pic} alt="大頭貼" />
+              ) : (
+                <img
+                  src="/profile.png"
+                  className={style.pic}
+                  alt="預設大頭貼"
+                />
+              )}
+            </div>
+            <span className={style.title}>{title}</span>
+          </div>
+          <span className={style.poster}>{name}</span>
+          <div className={style.location}>
+            <Tag outTag={location} />
+          </div>
 
-      <div className={style.taskNumber}>
-        <Tag outTag={reward} icon="fa-solid fa-dollar-sign" />
-      </div>
-      <div className={style.numReqired}>
-        <i className="fa-solid fa-clipboard-list" />
-        <span>{task_vacancy}</span>
-      </div>
+          <div className={style.taskNumber}>
+            <Tag outTag={reward} icon="fa-solid fa-dollar-sign" />
+          </div>
+          <div className={style.numReqired}>
+            <i className="fa-solid fa-clipboard-list" />
+            <span>{task_vacancy}</span>
+          </div>
 
-      <div className={style.deadline}>
-        <i className="fa-regular fa-clock" />
-        <span>{deadline}</span>
-      </div>
-    </Card>
+          <div className={style.deadline}>
+            <i className="fa-regular fa-clock" />
+            <span>{deadline}</span>
+          </div>
+        </Card>
+      </button>
+    </>
   );
 }

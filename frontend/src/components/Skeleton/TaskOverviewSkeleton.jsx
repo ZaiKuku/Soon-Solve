@@ -1,5 +1,5 @@
 import Tag from "../tags";
-import style from "../../styles/TaskOverview.module.scss";
+import style from "../../styles/TaskOverviewSkeleton.module.scss";
 import { Card } from "@material-tailwind/react";
 import { Skeleton } from "@mui/material";
 

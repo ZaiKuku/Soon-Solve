@@ -2,11 +2,10 @@
 import axios from "axios";
 import sweetAlert from "sweetalert";
 
-export default function useDeleteApply(usertaskId, token) {
-  const api = process.env.API_URL;
-  const apiUrl = `${api}/task_req/${usertaskId}`;
-
-  const DeleteReq = async () => {
+export default function useDeleteTask() {
+  const DeleteTask = async (taskId, token) => {
+    const api = process.env.API_URL;
+    const apiUrl = `${api}/tasks/${taskId}`;
     try {
       const response = await axios.delete(apiUrl, {
         headers: {
@@ -28,5 +27,5 @@ export default function useDeleteApply(usertaskId, token) {
     }
   };
 
-  return [DeleteReq];
+  return [DeleteTask];
 }

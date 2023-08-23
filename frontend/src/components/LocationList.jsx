@@ -9,7 +9,6 @@ import {
 import locations from "../locations/locations.js";
 
 export function LocationList() {
-  console.log(locations.NTU);
   const location = locations.NTU;
   return (
     <Menu
@@ -41,5 +40,3 @@ export function LocationList() {
     </Menu>
   );
 }
-
-

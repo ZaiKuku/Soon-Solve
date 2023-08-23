@@ -20,6 +20,9 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
 import Alert from "@mui/material/Alert";
+import { useDispatch } from "react-redux";
+import { setRoomId } from "@/redux/personChatting";
+import useUpdateTaskUpStatus from "@/hooks/useUpdateTaskStatus";
 
 function Task({ task }) {
   const [hasApplied, setHasApplied] = useState(false);
@@ -30,6 +33,9 @@ function Task({ task }) {
   useEffect(() => {
     setIsTaskAssigner(task?.poster_id === userId);
   }, [task?.poster_id, userId]);
+
+  const dispatch = useDispatch();
+
   // Calculate days
   const countdownInDays = Math.floor(countdown / (1000 * 60 * 60 * 24));
   const formattedCountdownInDays =
@@ -68,8 +74,12 @@ function Task({ task }) {
   }, []);
 
   useEffect(() => {
-    if (task?.task_vacancy - task?.approved_count === 0) {
-      handleDelete();
+    if (
+      task?.task_vacancy - task?.approved_count === 0 &&
+      task?.status === "pending"
+    ) {
+      const updateTaskStatus = useUpdateTaskUpStatus();
+      updateTaskStatus("processing", task.id, cookies.token?.access_token);
     }
   }, [task?.task_vacancy, task?.approved_count]);
 
@@ -166,6 +176,19 @@ function Task({ task }) {
       ),
   });
 
+  const handleClick = () => {
+    let chatRoomId;
+    if (task?.poster_id > userId) {
+      chatRoomId = `${userId}&${task?.poster_id}`;
+    } else {
+      chatRoomId = `${task?.poster_id}&${userId}`;
+    }
+
+    dispatch(setRoomId(chatRoomId));
+
+    router.push(`/chatRoom/${chatRoomId}`);
+  };
+
   return (
     <div className={styles.taskContainer}>
       <div className={styles.profileStatusContainer}>
@@ -257,9 +280,9 @@ function Task({ task }) {
                       placeholder="Number"
                     />
                   </div>
-                  <Link href={"/"}>
+                  <button type="button" onClick={handleClick}>
                     <ChatIcon />
-                  </Link>
+                  </button>
                 </div>
                 <ErrorMessage name="number_requested">
                   {(msg) => (
