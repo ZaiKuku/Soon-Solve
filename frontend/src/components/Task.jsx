@@ -22,15 +22,15 @@ import Swal from "sweetalert2";
 import Alert from "@mui/material/Alert";
 
 function Task({ task }) {
-  const [hasApplied, setHasApplied] = useState(task.user_task === []);
+  // console.log(task?.user_task);
+  const [hasApplied, setHasApplied] = useState(false);
   const [isTaskAssigner, setIsTaskAssigner] = useState(false);
   const [countdown, setCountdown] = useState([]);
   const [cookies, setCookie] = useCookies(["token"]);
   const userId = cookies?.token?.user.id;
   useEffect(() => {
-    setIsTaskAssigner(task.poster_id === userId);
-  }, [task.poster_id, userId]);
-
+    setIsTaskAssigner(task?.poster_id === userId);
+  }, [task?.poster_id, userId]);
   // Calculate days
   const countdownInDays = Math.floor(countdown / (1000 * 60 * 60 * 24));
   const formattedCountdownInDays =
@@ -54,7 +54,7 @@ function Task({ task }) {
   useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date();
-      const deadline = new Date(task.deadline);
+      const deadline = new Date(task?.deadline);
       const diff = deadline.getTime() - now.getTime();
 
       setCountdown(diff);
@@ -139,8 +139,10 @@ function Task({ task }) {
       .integer("Must be an integer")
       .required("Number is required")
       .max(
-        task.task_vacancy,
-        `The number should be fewer or equal to ${task.task_vacancy}`
+        task?.task_vacancy - task?.approved_count,
+        `The number should be fewer or equal to ${
+          task?.task_vacancy - task?.approved_count
+        }`
       ),
   });
 
@@ -148,28 +150,39 @@ function Task({ task }) {
     <div className={styles.taskContainer}>
       <div className={styles.profileStatusContainer}>
         <div className={styles.profileContainer}>
-          <img
-            src="/profile.png"
-            alt="The poster's picture"
-            className="hover:scale-150 transition duration-300 ease-in-out w-[47px] h-[47px] rounded-full"
-          />
-          <div className={styles.userName}>{task.name}</div>
+          {task.picture ? (
+            <img
+              src={task.picture}
+              alt="The poster's picture"
+              className="hover:scale-150 transition duration-300 ease-in-out w-[47px] h-[47px] rounded-full"
+            />
+          ) : (
+            <img
+              src="/profile.png"
+              alt="The poster's picture"
+              className="hover:scale-150 transition duration-300 ease-in-out w-[47px] h-[47px] rounded-full"
+            />
+          )}
+          <div className={styles.userName}>{task?.name}</div>
         </div>
-        {hasApplied && status === "pending" && (
-          <div className={styles.status}>{task.status}</div>
+        {hasApplied && task?.status === "pending" && (
+          <div className={styles.status}>{task?.status}</div>
         )}
       </div>
-      <div className={styles.taskTitle}>{task.title}</div>
-      <div className={styles.taskContent}>{task.content}</div>
+      <div className={styles.taskTitle}>{task?.title}</div>
+      <div className={styles.taskContent}>{task?.content}</div>
       <div className={styles.locationRewardContainer}>
-        <Tag outTag={task.location} />
-        <Tag outTag={task.reward} icon="fa-solid fa-dollar-sign" />
-        <Tag outTag={task.task_vacancy} icon="fa-solid fa-clipboard-list"></Tag>
+        <Tag outTag={task?.location} />
+        <Tag outTag={task?.reward} icon="fa-solid fa-dollar-sign" />
+        <Tag
+          outTag={task?.task_vacancy - task?.approved_count}
+          icon="fa-solid fa-clipboard-list"
+        ></Tag>
       </div>
       <div className={styles.countdownContainer}>
         <ProgressIndicator
-          createdAt={task.created_at}
-          deadline={task.deadline}
+          createdAt={task?.created_at}
+          deadline={task?.deadline}
         />
         <div className={styles.countdown}>
           {formattedCountdownInDays}:{formattedCountdownInHours}:
@@ -182,7 +195,7 @@ function Task({ task }) {
             <button className={styles.delete} onClick={handleDelete}>
               Delete
             </button>
-            {task.task_vacancy === 1 && (
+            {task?.task_vacancy === 1 && (
               <button className={styles.complete} onClick={handleCompleteClick}>
                 Complete
               </button>

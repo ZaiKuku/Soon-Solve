@@ -8,15 +8,17 @@ import { useRouter } from "next/router";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
+import Alert from "@mui/material/Alert";
+import useTaskReqAccept from "@/hooks/useTaskReqAccept";
 
 export default function ApplicantsPage() {
   const router = useRouter();
+  const { id } = router.query;
   const [nextCursor, setNextCursor] = useState(0);
   const [dataFetchMode, setDataFetchMode] = useState(""); // ["", "cursor"]
-  const [fetchTasks] = useTaskReqList();
+  const [fetchTasks] = useTaskReqList(id);
   const [applicants, setApplicants] = useState();
   const [isLoadMorePosts, setIsLoadMorePosts] = useState(false);
-
   useEffect(() => {
     async function fetchData() {
       setDataFetchMode("");
@@ -53,12 +55,101 @@ export default function ApplicantsPage() {
 
   useInfiniteScroll(updatePosts, 100);
 
+  const usersAccepted = applicants?.filter(
+    (user) => user.user_task.status === "Accepted"
+  );
+  const usersPending = applicants?.filter(
+    (user) => user.user_task.status === "pending"
+  );
+
+  const handleUserDeleted = (userId) => {
+    console.log("del");
+    setApplicants((prev) => prev.filter((user) => user.id !== userId));
+  };
+
+  const [AcceptReq] = useTaskReqAccept();
+  const [cookies, setCookie] = useCookies(["token"]);
+  const handleAccept = async (userId, userTaskId) => {
+    const res = await AcceptReq(
+      cookies.token.access_token,
+      "Accepted",
+      userTaskId
+    );
+    console.log("AcceptReq", res);
+
+    setApplicants((prevApplicants) => {
+      return prevApplicants.map((applicant) => {
+        if (applicant.id === userId) {
+          return {
+            ...applicant,
+            user_task: {
+              ...applicant.user_task,
+              status: "Accepted",
+            },
+          };
+        }
+        return applicant;
+      });
+    });
+  };
+  const handleFinish = async (userId, userTaskId) => {
+    const res = await AcceptReq(
+      cookies.token.access_token,
+      "Finished",
+      userTaskId
+    );
+    console.log("FinishReq", res);
+
+    setApplicants((prevApplicants) => {
+      return prevApplicants.map((applicant) => {
+        if (applicant.id === userId) {
+          return {
+            ...applicant,
+            user_task: {
+              ...applicant.user_task,
+              status: "Finished",
+            },
+          };
+        }
+        return applicant;
+      });
+    });
+  };
+
+  console.log(applicants);
+
   return (
     <main className="w-full flex flex-col gap-2 items-center pt-[80px]">
       <Header />
+      <Alert severity="success" style={{ fontSize: "18px", width: "210px" }}>
+        Confirmed Users
+      </Alert>
       <div className="w-[90%] flex flex-col gap-2 justify-center">
         {applicants &&
-          applicants.map((user) => <Applicant key={user.id} user={user} />)}
+          usersAccepted.map((user) => (
+            <Applicant
+              key={user.id}
+              user={user}
+              onUserDeleted={handleUserDeleted}
+              onUserAccepted={handleAccept}
+              onUserFinished={handleFinish}
+            />
+          ))}
+      </div>
+      <Alert severity="warning" style={{ fontSize: "18px", width: "210px" }}>
+        Pending Users
+      </Alert>
+      <div className="w-[90%] flex flex-col gap-2 justify-center">
+        {applicants &&
+          usersPending.map((user) => (
+            <Applicant
+              key={user.id}
+              user={user}
+              onUserDeleted={handleUserDeleted}
+              onUserAccepted={handleAccept}
+              onUserFinished={handleFinish}
+            />
+          ))}
       </div>
       <button
         style={{

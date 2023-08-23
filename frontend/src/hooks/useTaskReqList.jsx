@@ -2,12 +2,12 @@
 import axios from "axios";
 import { useCookies } from "react-cookie";
 
-export default function useTaskReqList() {
+export default function useTaskReqList(id) {
   const [cookies] = useCookies(["token"]);
 
   const apiProcess = (mode = "", cursor = 0) => {
     let api = process.env.API_URL;
-    let apiUrl = `${api}/task_req`;
+    let apiUrl = `${api}/task_req/${id}`;
 
     if (mode === "cursor") {
       apiUrl += `?cursor=${cursor}`;

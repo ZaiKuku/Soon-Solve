@@ -18,7 +18,6 @@ export default function TaskOverview({ task }) {
     // nickname,
     // sex,
   } = task;
-
   return (
     <Card className={style.bg}>
       <div className={style.infoContainer}>

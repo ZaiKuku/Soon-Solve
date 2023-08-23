@@ -8,8 +8,9 @@ import useDeleteApply from "@/hooks/useDeleteApply";
 import useTaskReqAccept from "@/hooks/useTaskReqAccept";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/router";
+import Button from "@mui/material/Button";
 
-function Applicant({ user }) {
+function Applicant({ user, onUserDeleted, onUserAccepted, onUserFinished }) {
   console.log(user);
   const router = useRouter();
   const [cookies, setCookie] = useCookies(["token"]);
@@ -28,23 +29,26 @@ function Applicant({ user }) {
     // router.push(`/chatRoom/${chatRoomId}`);
   };
 
-  const [DeletReq] = useDeleteApply();
-  const [AcceptReq] = useTaskReqAccept();
+  const [DeletReq] = useDeleteApply(
+    user.user_task.id,
+    cookies.token.access_token
+  );
 
-  const handleAccept = async () => {
+  const localHandleAccept = async () => {
     console.log("user.user_task.id", user.user_task.id);
-    const res = await AcceptReq(
-      cookies.token.access_token,
-      "Accepted",
-      user.user_task.id
-    );
-    console.log("AcceptReq", res);
+    onUserAccepted(user.id, user.user_task.id); // Use the function from the prop
   };
 
   const handleDelete = async () => {
     console.log("user.user_task.id", user.user_task.id);
-    const res = await DeletReq(cookies.token.access_token, user.user_task.id);
+    const res = await DeletReq();
     console.log("DeletReq", res);
+    onUserDeleted(user.id);
+  };
+
+  const localHandleFinish = async () => {
+    console.log("user.user_task.id", user.user_task.id);
+    onUserFinished(user.id, user.user_task.id); // Use the function from the prop
   };
 
   return (
@@ -68,21 +72,33 @@ function Applicant({ user }) {
           <i className="fa-solid fa-xl fa-clipboard-list" />
           <div className={styles.number}>{user.user_task.ask_count}</div>
         </div>
-        <div className={styles.checkCancelContainer}>
-          <button onClick={handleAccept}>
-            <CheckCircleIcon
-              style={{ color: "#4BD37B", fontSize: "40px" }}
-              className="hover:scale-150 transition duration-200 ease-out cursor-pointer"
-            />
-          </button>
-          <button onClick={handleDelete}>
-            <CancelIcon
-              style={{ color: "#FD5154", fontSize: "40px" }}
-              className="hover:scale-150 transition duration-200 ease-out cursor-pointer"
-              onclick={handleDelete}
-            />
-          </button>
-        </div>
+        {user.user_task.status === "pending" && (
+          <div className={styles.checkCancelContainer}>
+            <button onClick={localHandleAccept}>
+              <CheckCircleIcon
+                style={{ color: "#4BD37B", fontSize: "40px" }}
+                className="hover:scale-150 transition duration-200 ease-out cursor-pointer"
+              />
+            </button>
+            <button onClick={handleDelete}>
+              <CancelIcon
+                style={{ color: "#FD5154", fontSize: "40px" }}
+                className="hover:scale-150 transition duration-200 ease-out cursor-pointer"
+              />
+            </button>
+          </div>
+        )}
+        {user.user_task.status === "Accepted" && (
+          <div className={styles.checkCancelContainer}>
+            <Button
+              variant="contained"
+              color="success"
+              onClick={localHandleFinish}
+            >
+              Finish
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
