@@ -20,6 +20,9 @@ export default function OverviewGroup({ tasks }) {
     <div className="flex flex-col items-center gap-2 z-1 relative">
       {taskOverviewItems}
       {isLoadingTasks && <TaskOverviewSkeleton />}
+      {isLoadingTasks && <TaskOverviewSkeleton />}
+      {isLoadingTasks && <TaskOverviewSkeleton />}
+      {isLoadingTasks && <TaskOverviewSkeleton />}
     </div>
   );
 }

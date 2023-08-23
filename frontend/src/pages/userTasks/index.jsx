@@ -6,7 +6,8 @@ import Header from "@/components/Header";
 import NavBar from "@/components/NavBar";
 import Switcher from "@/components/Switcher";
 import useTaskRecord from "@/hooks/useTaskRecord";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setIsLoadingTasks } from "@/redux/LoadingControl";
 import { Button } from "@material-tailwind/react";
 import Link from "next/link";
 
@@ -17,22 +18,26 @@ function userTasks() {
   const [tasks, setTasks] = useState();
   const [isLoadMorePosts, setIsLoadMorePosts] = useState(false);
 
+  const dispatch = useDispatch();
+
   const activeTab = useSelector((state) => state.activeTab.activeTab);
   console.log("tasks", tasks);
 
   useEffect(() => {
     async function fetchData() {
       setPostFetchMode("");
+      dispatch(setIsLoadingTasks(true));
       try {
         setTasks(null);
         const [data, cursor] = await fetchTasks("", null, activeTab);
         console.log("data", data);
         setTasks(data);
         setNextCursor(cursor);
-        // console.log("cursor", cursor);
         setPostFetchMode("cursor");
+        dispatch(setIsLoadingTasks(false));
       } catch (err) {
         console.error(err);
+        dispatch(setIsLoadingTasks(false));
       }
     }
 

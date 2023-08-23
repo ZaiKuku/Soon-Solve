@@ -8,27 +8,30 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { useCookies } from "react-cookie";
+import useChatContent from "@/hooks/useChatContent";
+import { useSelector } from "react-redux";
+import useProfile from "@/hooks/useProfile";
+
 let socket;
-const messages = [
-  {
-    user_id: 1,
-    content: "測試測試測試測試測試測試測試",
-    created_at: "2023-08-17 16:19:48",
-    self: true,
-  },
-  {
-    user_id: 2,
-    content: "測試測試測試測試測試測試測試",
-    created_at: "2023-08-17 16:19:48",
-    self: false,
-  },
-];
 // notifications 包括：好友邀請、任務通過申請、任務完成、聊天室訊息、任務發申請
 export default function chatRoom() {
   const router = useRouter();
   const [messages, setMessages] = useState([]);
-  const [cookies, setCookie] = useCookies(["token"]);
+  const [cookies] = useCookies(["token"]);
   const [token, setToken] = useState(cookies.token?.access_token);
+  const roomId = router.query.id;
+
+  const { content, isLoading } = useChatContent(roomId);
+  const [profileData, a, b] = useProfile(roomId?.split("&")[1]);
+  const avatar = profileData?.picture;
+
+  useEffect(() => {
+    if (!roomId) {
+      return;
+    }
+    setMessages(content);
+    console.log("content", messages);
+  }, [roomId, content]);
 
   useEffect(() => {
     setToken(cookies.token?.access_token);
@@ -42,14 +45,18 @@ export default function chatRoom() {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("token", token);
 
       try {
         socket.on("message", (message) => {
           console.log("message", message);
-          setMessages((messages) => [...messages, message]);
+          handleChangeMessages(message);
         });
-        socket.emit("joinRoom", { username: "ZaiKuku", room: "18&8144" });
+        console.log("roomId", roomId);
+        console.log("name", cookies.token.user);
+        socket.emit("joinRoom", {
+          username: "ZaiKuku",
+          room: roomId,
+        });
       } catch (err) {
         console.error(err);
       }
@@ -65,22 +72,26 @@ export default function chatRoom() {
   };
 
   const handleSendMessage = (message) => {
-    console.log("message", message);
-    socket.emit("newMessage", { id: 6, message: message });
+    const id = roomId.split("&")[1];
+    socket.emit("newMessage", { id: id, message: message });
+  };
+
+  const handleChangeMessages = (message) => {
+    setMessages((messages) => [message, ...messages]);
   };
 
   return (
-    <main className="w-full flex flex-col gap-4 items-center pt-[80px] min-h-screen h-fit bg-[#EBEBEB] ">
+    <main className="w-full flex flex-col gap-4 items-center pt-[72px]  pb-[100px] min-h-screen h-fit bg-[#EBEBEB] overflow-hidden">
       <Header />
-      <div className="w-full flex items-center p-2">
+      <div className="w-screen flex items-center fixed bg-[#EBEBEB] p-2 h-fit z-10">
         <button onClick={handleClick}>
           <ArrowBackIcon style={{ fontSize: "40px" }} />
         </button>
-        <Avatar src="/山道猴子.png" className="ml-10" />
+        <Avatar src={avatar || "./山道猴子.png"} className="ml-10" />
         <p className="text-2xl font-bold ml-4">山道猴子</p>
       </div>
 
-      <Messages messages={messages} />
+      {!isLoading && <Messages messages={messages} />}
       <MessageSendBar handleSendMessage={handleSendMessage} />
     </main>
   );

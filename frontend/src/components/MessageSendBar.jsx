@@ -13,15 +13,8 @@ function MessageSendBar({ handleSendMessage }) {
     time: "2021-08-17 16:19:48",
   };
 
-  // const socket = io("https://52.64.240.159", {
-  //   extraHeaders: {
-  //     Authorization: `Bearer ${cookies?.token?.access_token}`,
-  //   },
-  // });
-
   const handeleSubmit = (e) => {
     e.preventDefault();
-    console.log("e.target.message.value", e.target.message.value);
     handleSendMessage(e.target.message.value);
     e.target.message.value = "";
   };

@@ -77,6 +77,5 @@ export default function SearchBar() {
         </div>
       </div>
     </div>
-    // <span>輸出</span>
   );
 }

@@ -3,6 +3,7 @@ import mySlice from "./reducers"; // 创建你的 rootReducer
 import locationSlice from "./locationSlice";
 import activeTab from "./activeTabSlice";
 import LoadingControl from "./LoadingControl";
+import personChatting from "./personChatting";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     selectedLocations: locationSlice,
     activeTab: activeTab,
     LoadingControl: LoadingControl,
+    personChatting: personChatting,
   },
 });
 

@@ -8,24 +8,28 @@ import useDeleteApply from "@/hooks/useDeleteApply";
 import useTaskReqAccept from "@/hooks/useTaskReqAccept";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { setRoomId } from "@/redux/personChatting";
 
 function Applicant({ user }) {
-  console.log(user);
   const router = useRouter();
   const [cookies, setCookie] = useCookies(["token"]);
+
+  const dispatch = useDispatch();
 
   const handleClick = () => {
     const id = cookies.token?.user.id;
     const userId = user.id;
     let chatRoomId;
-    console("id", id);
-    console("userId", userId);
     if (id > userId) {
       chatRoomId = `${userId}&${id}`;
     } else {
       chatRoomId = `${id}&${userId}`;
     }
-    // router.push(`/chatRoom/${chatRoomId}`);
+    console.log(user);
+    dispatch(setRoomId(chatRoomId));
+
+    router.push(`/chatRoom/${chatRoomId}`);
   };
 
   const [DeletReq] = useDeleteApply();
@@ -61,9 +65,9 @@ function Applicant({ user }) {
         <div className={styles.applicantName}>{user.name}</div>
       </div>
       <div className={styles.container}>
-        <Link href={`/chatRoom/${user.id}`}>
+        <button type="button" onClick={handleClick}>
           <ChatIcon className="hover:scale-150 transition duration-200 ease-out cursor-pointer" />
-        </Link>
+        </button>
         <div className={styles.numberContainer}>
           <i className="fa-solid fa-xl fa-clipboard-list" />
           <div className={styles.number}>{user.user_task.ask_count}</div>
@@ -79,7 +83,6 @@ function Applicant({ user }) {
             <CancelIcon
               style={{ color: "#FD5154", fontSize: "40px" }}
               className="hover:scale-150 transition duration-200 ease-out cursor-pointer"
-              onclick={handleDelete}
             />
           </button>
         </div>

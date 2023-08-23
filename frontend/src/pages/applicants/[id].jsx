@@ -6,8 +6,9 @@ import useTaskReqList from "@/hooks/useTaskReqList";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
-import { useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
+import useChatContent from "@/hooks/useChatContent";
+import { use } from "react";
 
 export default function ApplicantsPage() {
   const router = useRouter();
@@ -53,12 +54,29 @@ export default function ApplicantsPage() {
 
   useInfiniteScroll(updatePosts, 100);
 
+  const usersAccepted = applicants?.filter(
+    (user) => user.user_task.status === "Accepted"
+  );
+  const usersPending = applicants?.filter(
+    (user) => user.user_task.status === "Pending"
+  );
+
+  const { data, isLoading } = useChatContent("6&11");
+  console.log("ChatContent", data?.data);
+
   return (
     <main className="w-full flex flex-col gap-2 items-center pt-[80px]">
       <Header />
+      <span className="text-2xl font-bold">Confirmed Users</span>
       <div className="w-[90%] flex flex-col gap-2 justify-center">
         {applicants &&
-          applicants.map((user) => <Applicant key={user.id} user={user} />)}
+          usersAccepted.map((user) => <Applicant key={user.id} user={user} />)}
+      </div>
+
+      <span className="text-2xl font-bold">Confirmed Users</span>
+      <div className="w-[90%] flex flex-col gap-2 justify-center">
+        {applicants &&
+          usersPending.map((user) => <Applicant key={user.id} user={user} />)}
       </div>
       <button
         style={{
@@ -71,6 +89,7 @@ export default function ApplicantsPage() {
       >
         <ArrowBackIcon style={{ fontSize: "40px" }} />
       </button>
+
       <NavBar />
     </main>
   );
