@@ -111,44 +111,8 @@ function AssignTask() {
     }
   }, [response, error]);
 
-  const handleSubmit = (values, { setSubmitting, errors }) => {
-    console.log("handleSubmit triggered");
-    setSubmitting(true);
-    const data = {
-      title: values.title,
-      content: values.description,
-      reward: values.compensation,
-      location: values.location,
-      task_vacancy: parseInt(values.number, 10),
-      deadline: `2023-${String(values.deadlineMonth).padStart(2, "0")}-${String(
-        values.deadlineDay
-      ).padStart(2, "0")} ${String(values.deadlineHour).padStart(
-        2,
-        "0"
-      )}:${String(values.deadlineMinute).padStart(2, "0")}:00`,
-    };
-
-    if (Object.keys(errors).length > 0) {
-      const errorMessages = Object.values(errors);
-      if (errorMessages.length > 0) {
-        const errorMessage = errorMessages.join("\n");
-        console.log(errorMessage);
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          html: errorMessage + " is(are) required",
-          confirmButtonColor: "#B15E6C",
-        });
-      }
-      setSubmitting(false); // Make sure to prevent further operations when there's an error
-      return; // Stop the function here
-    }
-
-    setFormData(data);
-    // router.push("/userTasks");
-  };
-
-  // const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+  // const handleSubmit = (values, { setSubmitting, errors }) => {
+  //   console.log("handleSubmit triggered");
   //   setSubmitting(true);
   //   const data = {
   //     title: values.title,
@@ -164,21 +128,58 @@ function AssignTask() {
   //     )}:${String(values.deadlineMinute).padStart(2, "0")}:00`,
   //   };
 
-  //   try {
-  //     // Assuming the function below makes the actual API call.
-  //     // You'll need to define and implement this.
-  //     const response = await useCreateTask(data);
-
-  //     console.log("Task created successfully:", response);
-  //     // Handle success - for instance, redirecting, showing a message, etc.
-  //     router.push("/userTasks");
-  //   } catch (error) {
-  //     console.error("Error creating task:", error);
-  //     // Handle error - for instance, showing a message to the user.
+  //   if (Object.keys(errors).length > 0) {
+  //     const errorMessages = Object.values(errors);
+  //     if (errorMessages.length > 0) {
+  //       const errorMessage = errorMessages.join("\n");
+  //       console.log(errorMessage);
+  //       Swal.fire({
+  //         icon: "error",
+  //         title: "Oops...",
+  //         html: errorMessage + " is(are) required",
+  //         confirmButtonColor: "#B15E6C",
+  //       });
+  //     }
+  //     setSubmitting(false); // Make sure to prevent further operations when there's an error
+  //     return; // Stop the function here
   //   }
 
-  //   setSubmitting(false);
+  //   setFormData(data);
+  //   router.push("/userTasks");
   // };
+
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+    setSubmitting(true);
+    const data = {
+      title: values.title,
+      content: values.description,
+      reward: values.compensation,
+      location: values.location,
+      task_vacancy: parseInt(values.number, 10),
+      deadline: `2023-${String(values.deadlineMonth).padStart(2, "0")}-${String(
+        values.deadlineDay
+      ).padStart(2, "0")} ${String(values.deadlineHour).padStart(
+        2,
+        "0"
+      )}:${String(values.deadlineMinute).padStart(2, "0")}:00`,
+    };
+    console.log(data);
+
+    try {
+      // Assuming the function below makes the actual API call.
+      // You'll need to define and implement this.
+      const response = await useCreateTask(data);
+
+      console.log("Task created successfully:", response);
+      // Handle success - for instance, redirecting, showing a message, etc.
+      router.push("/userTasks");
+    } catch (error) {
+      console.error("Error creating task:", error);
+      // Handle error - for instance, showing a message to the user.
+    }
+
+    setSubmitting(false);
+  };
 
   return (
     <Formik
@@ -197,7 +198,7 @@ function AssignTask() {
       onSubmit={handleSubmit}
     >
       {({ values, handleChange, submitForm, errors }) => (
-        <Form className={styles.assignTaskContainer} onSubmit={handleSubmit}>
+        <Form className={styles.assignTaskContainer}>
           <div className={styles.taskTitleContainer}>
             <div className={styles.taskTitle}>Title</div>
             <Field name="title" className={styles.taskTitleInput} />
@@ -315,23 +316,23 @@ function AssignTask() {
           <button
             type="submit"
             className={styles.assignTask}
-            // onClick={() => {
-            //   console.log(submitForm);
-            //   submitForm();
-            //   if (Object.keys(errors).length > 0) {
-            //     const errorMessages = Object.values(errors);
-            //     if (errorMessages.length > 0) {
-            //       const errorMessage = errorMessages.join("\n");
-            //       console.log(errorMessage);
-            //       Swal.fire({
-            //         icon: "error",
-            //         title: "Oops...",
-            //         html: errorMessage + " is(are) required",
-            //         confirmButtonColor: "#B15E6C",
-            //       });
-            //     }
-            //   }
-            // }}
+            onClick={() => {
+              console.log(submitForm);
+              submitForm();
+              if (Object.keys(errors).length > 0) {
+                const errorMessages = Object.values(errors);
+                if (errorMessages.length > 0) {
+                  const errorMessage = errorMessages.join("\n");
+                  console.log(errorMessage);
+                  Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    html: errorMessage + " is(are) required",
+                    confirmButtonColor: "#B15E6C",
+                  });
+                }
+              }
+            }}
           >
             Create
           </button>
