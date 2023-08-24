@@ -23,16 +23,28 @@ import Alert from "@mui/material/Alert";
 import { useDispatch } from "react-redux";
 import { setRoomId } from "@/redux/personChatting";
 import useUpdateTaskUpStatus from "@/hooks/useUpdateTaskStatus";
+import { throttle } from "lodash";
 
 function Task({ task }) {
-  const [hasApplied, setHasApplied] = useState(false);
+  const [hasApplied, setHasApplied] = useState();
   const [isTaskAssigner, setIsTaskAssigner] = useState(false);
   const [countdown, setCountdown] = useState([]);
   const [cookies, setCookie] = useCookies(["token"]);
   const userId = cookies?.token?.user.id;
+  const userTask = task?.user_task.find((item) => item.taker_id === userId);
+  const askCountForCurrentUser = userTask ? userTask.ask_count : null;
+  console.log(askCountForCurrentUser);
   useEffect(() => {
     setIsTaskAssigner(task?.poster_id === userId);
   }, [task?.poster_id, userId]);
+
+  useEffect(() => {
+    setIsTaskAssigner(task?.poster_id === userId);
+    const userApplied = task?.user_task.some(
+      (item) => item.taker_id === userId
+    );
+    setHasApplied(userApplied);
+  }, [task, userId]);
 
   const dispatch = useDispatch();
 
@@ -83,30 +95,86 @@ function Task({ task }) {
     }
   }, [task?.task_vacancy, task?.approved_count]);
 
-  const handleApply = (e) => {
-    e.preventDefault();
-    // console.log(e.target.value);
-    console.log("hasApplied", hasApplied);
-    if (hasApplied) {
-      console.log(task.user_task);
-      const userAppliedTask = task.user_task.find(
-        (item) => item.taker_id === userId
-      );
-      if (userAppliedTask) {
+  // const handleApply = (e) => {
+  //   e.preventDefault();
+  //   // console.log(e.target.value);
+  //   console.log("hasApplied", hasApplied);
+  //   if (hasApplied) {
+  //     console.log(task.user_task);
+  //     const userAppliedTask = task.user_task.find(
+  //       (item) => item.taker_id === userId
+  //     );
+  //     if (userAppliedTask) {
+  //       const [DeleteReq] = useDeleteApply(
+  //         userAppliedTask.id,
+  //         cookies.token.access_token
+  //       );
+  //       DeleteReq();
+  //       setHasApplied(false);
+  //       return;
+  //     }
+  //   }
+  //   setHasApplied(true);
+  //   const body = {
+  //     ask_count: e.target.number_requested.value,
+  //   };
+  //   useApply(body, task.id, cookies.token.access_token);
+  // };
+
+  // const handleApply = (values, actions) => {
+  //   console.log("hasApplied", hasApplied);
+  //   console.log(values);
+  //   if (hasApplied) {
+  //     console.log(task.user_task);
+  //     const userAppliedTask = task.user_task.find(
+  //       (item) => item.taker_id === userId
+  //     );
+  //     if (userAppliedTask) {
+  //       const [DeleteReq] = useDeleteApply(
+  //         userAppliedTask.id,
+  //         cookies.token.access_token
+  //       );
+  //       DeleteReq();
+  //       setHasApplied(false);
+  //       return;
+  //     }
+  //   }
+  //   setHasApplied(true);
+  //   const body = {
+  //     ask_count: values.number_requested, // Use Formik's values directly
+  //   };
+  //   useApply(body, task.id, cookies.token.access_token);
+  // };
+
+  const handleApply = async (values, actions) => {
+    // Check if the user has already applied
+    const userAppliedTask = task.user_task.find(
+      (item) => item.taker_id === userId
+    );
+
+    if (userAppliedTask) {
+      try {
         const [DeleteReq] = useDeleteApply(
           userAppliedTask.id,
           cookies.token.access_token
         );
-        DeleteReq();
+        await DeleteReq();
         setHasApplied(false);
-        return;
+        actions.resetForm();
+      } catch (error) {
+        console.error("Failed to delete application:", error);
+      }
+    } else {
+      try {
+        const body = {
+          ask_count: values.number_requested,
+        };
+        await useApply(body, task.id, cookies.token.access_token);
+        setHasApplied(true);
+      } catch (error) {
+        console.error("Failed to apply for the task:", error);
       }
     }
-    setHasApplied(true);
-    const body = {
-      ask_count: e.target.number_requested.value,
-    };
-    useApply(body, task.id, cookies.token.access_token);
   };
 
   const updateTaskStatus = useUpdateTaskStatus();
@@ -244,7 +312,7 @@ function Task({ task }) {
               </button>
             )}
           </div>
-          <Link href={`/applicants/${task.id}`}>
+          <Link href={`/applicants/${task?.id}`}>
             <button className={styles.applicantsContainer}>
               <Image
                 src="/profile.png"
@@ -261,24 +329,27 @@ function Task({ task }) {
         <div className={styles.taskApplicantsOnly}>
           <Formik
             initialValues={{
-              number_requested: "",
+              number_requested: askCountForCurrentUser || "",
             }}
             validationSchema={validationSchema}
             onSubmit={handleApply}
           >
             {({ isValid, isSubmitting }) => (
-              <Form
-                className={styles.applyTaskContainer}
-                onSubmit={handleApply}
-              >
+              <Form className={styles.applyTaskContainer}>
                 <div className={styles.numberChatContainer}>
                   <div className={styles.numberContainer}>
                     <i className="fa-solid fa-lg fa-clipboard-list" />
-                    <Field
-                      name="number_requested"
-                      className={styles.numberInput}
-                      placeholder="Number"
-                    />
+                    {hasApplied ? (
+                      <div className={styles.number}>
+                        {askCountForCurrentUser}
+                      </div>
+                    ) : (
+                      <Field
+                        name="number_requested"
+                        className={styles.numberInput}
+                        placeholder="Number"
+                      />
+                    )}
                   </div>
                   <button type="button" onClick={handleClick}>
                     <ChatIcon />

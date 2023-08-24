@@ -12,6 +12,7 @@ const useCreateTask = (data) => {
   const apiUrl = `${api}/tasks`;
   console.log(data);
   useEffect(() => {
+    if (!data) return;
     const createTask = async () => {
       try {
         setIsLoading(true);
