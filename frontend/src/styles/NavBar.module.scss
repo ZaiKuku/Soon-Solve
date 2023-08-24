@@ -11,29 +11,37 @@
   .searchContainer {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     width: 25%;
+    font-family: "Noto Sans TC", Courier, monospace;
+    font-size: 12px;
   }
   .missionContainer {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     width: 25%;
+    font-family: "Noto Sans TC", Courier, monospace;
+    font-size: 12px;
   }
   .notificationsContainer {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     width: 25%;
+    font-family: "Noto Sans TC", Courier, monospace;
+    font-size: 12px;
   }
   .profileContainer {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     width: 25%;
+    font-family: "Noto Sans TC", Courier, monospace;
+    font-size: 12px;
   }
 }
