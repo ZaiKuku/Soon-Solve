@@ -15,44 +15,7 @@ import * as Yup from "yup";
 import Swal from "sweetalert2";
 import { useRouter } from "next/router";
 import useCreateTask from "@/hooks/useCreateTask";
-
-const data = {
-  tasks: [
-    {
-      id: 1,
-      title: "我要便當",
-      poster_id: 1,
-      created_at: "2023-08-15 16:19:48",
-      closed_at: "2023-04-09 22:21:48",
-      deadline: "2023-08-15 17:40:05",
-      task_vacancy: 0,
-      approved_count: 1,
-      content: "動態動態動態動態動態動態動態動態",
-      location: "八嘎壓樓",
-      reward: "抱抱",
-      picture: "https://imgur.com/XXXXX",
-      name: "PJ",
-      nickname: "pppppjjjjjj",
-      status: "applied",
-    },
-  ],
-  next_cursor: "KHEAX0GAFjlPyyqAqTcQOXTLKgIVvshji9AqRmuAGjCDESoLlUrrIn7P",
-};
-
-const locations = {
-  NTU: [
-    "管一",
-    "管二",
-    "舟山基隆路口",
-    "活大",
-    "二活",
-    "新體",
-    "舊體",
-    "博雅",
-    "總圖",
-  ],
-  NCCU: ["大仁樓", "大智樓", "大勇樓"],
-};
+import locations from "@/locations/locations";
 
 function AssignTask() {
   const [search, setSearch] = useState("");
