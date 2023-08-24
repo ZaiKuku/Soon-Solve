@@ -16,6 +16,7 @@
     width: 25%;
     font-family: "Noto Sans TC", Courier, monospace;
     font-size: 12px;
+    margin: auto;
   }
   .missionContainer {
     display: flex;
@@ -25,6 +26,7 @@
     width: 25%;
     font-family: "Noto Sans TC", Courier, monospace;
     font-size: 12px;
+    margin: auto;
   }
   .notificationsContainer {
     display: flex;
@@ -36,6 +38,7 @@
     font-size: 12px;
   }
   .profileContainer {
+    margin: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
