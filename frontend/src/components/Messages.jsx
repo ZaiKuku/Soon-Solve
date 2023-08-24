@@ -11,7 +11,7 @@ export default function Messages({ messages }) {
       <Message
         key={message.id}
         content={message?.message}
-        picture={message?.sender_id?.picture}
+        picture={message?.sender_id?.picture || "/profile.png"}
         self={message?.sender_id?.id === cookies?.token?.user.id}
       />
     );
@@ -19,7 +19,7 @@ export default function Messages({ messages }) {
 
   return (
     <div
-      className="flex w-full flex-col-reverse px-3 gap-8 "
+      className="flex w-full flex-col-reverse px-3 gap-8 mt-[80px]"
       // ref={chatContainerRef}
     >
       {messageItems}

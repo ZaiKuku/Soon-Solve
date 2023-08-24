@@ -8,14 +8,16 @@ import {
 } from "@material-tailwind/react";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export function ProfileMenu() {
-  const [, , removeCookie] = useCookies(["token"]);
+  const [cookies, , removeCookie] = useCookies(["token"]);
   const router = useRouter();
   const handleLogout = () => {
     removeCookie("token");
     router.push("/login");
   };
+
   return (
     <Menu>
       <MenuHandler>

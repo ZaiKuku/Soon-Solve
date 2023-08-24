@@ -32,12 +32,6 @@ export default function chatRoom() {
   const chatContainerRef = useRef(null);
 
   useEffect(() => {
-    // if (chatContainerRef.current) {
-    //   const { scrollHeight } = chatContainerRef.current;
-    //   const height = chatContainerRef.current.clientHeight;
-    //   const maxScrollTop = scrollHeight - height;
-    //   chatContainerRef.current.scrollTo(0, maxScrollTop);
-    // }
     window.scrollTo({ top: document.body.scrollHeight });
   }, [messages]);
 
@@ -105,7 +99,7 @@ export default function chatRoom() {
         <button onClick={handleClick}>
           <ArrowBackIcon style={{ fontSize: "40px" }} />
         </button>
-        <Avatar src={avatar || "./山道猴子.png"} className="ml-10" />
+        <Avatar src={avatar || "/profile.png"} className="ml-10" />
         <p className="text-2xl font-bold ml-4">{profileData?.name}</p>
       </div>
 

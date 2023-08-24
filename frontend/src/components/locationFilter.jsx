@@ -144,7 +144,7 @@ export function LocationFilter() {
             className="border-b-0 p-3"
           >
             <Typography color="blue-gray" className="mr-auto font-normal">
-              friend
+              Friend
             </Typography>
           </AccordionHeader>
         </ListItem>
@@ -163,7 +163,7 @@ export function LocationFilter() {
                   onClick={() => handleSelectedFriend()}
                   disabled={!selectedFriend && numConditions > 4}
                 />
-                friend
+                朋友
               </label>
             </ListItem>
           </List>

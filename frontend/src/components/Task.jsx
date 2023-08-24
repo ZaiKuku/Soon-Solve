@@ -95,57 +95,6 @@ function Task({ task }) {
     }
   }, [task?.task_vacancy, task?.approved_count]);
 
-  // const handleApply = (e) => {
-  //   e.preventDefault();
-  //   // console.log(e.target.value);
-  //   console.log("hasApplied", hasApplied);
-  //   if (hasApplied) {
-  //     console.log(task.user_task);
-  //     const userAppliedTask = task.user_task.find(
-  //       (item) => item.taker_id === userId
-  //     );
-  //     if (userAppliedTask) {
-  //       const [DeleteReq] = useDeleteApply(
-  //         userAppliedTask.id,
-  //         cookies.token.access_token
-  //       );
-  //       DeleteReq();
-  //       setHasApplied(false);
-  //       return;
-  //     }
-  //   }
-  //   setHasApplied(true);
-  //   const body = {
-  //     ask_count: e.target.number_requested.value,
-  //   };
-  //   useApply(body, task.id, cookies.token.access_token);
-  // };
-
-  // const handleApply = (values, actions) => {
-  //   console.log("hasApplied", hasApplied);
-  //   console.log(values);
-  //   if (hasApplied) {
-  //     console.log(task.user_task);
-  //     const userAppliedTask = task.user_task.find(
-  //       (item) => item.taker_id === userId
-  //     );
-  //     if (userAppliedTask) {
-  //       const [DeleteReq] = useDeleteApply(
-  //         userAppliedTask.id,
-  //         cookies.token.access_token
-  //       );
-  //       DeleteReq();
-  //       setHasApplied(false);
-  //       return;
-  //     }
-  //   }
-  //   setHasApplied(true);
-  //   const body = {
-  //     ask_count: values.number_requested, // Use Formik's values directly
-  //   };
-  //   useApply(body, task.id, cookies.token.access_token);
-  // };
-
   const handleApply = async (values, actions) => {
     // Check if the user has already applied
     const userAppliedTask = task.user_task.find(
@@ -257,16 +206,22 @@ function Task({ task }) {
     router.push(`/chatRoom/${chatRoomId}`);
   };
 
+  const handleSwitchToProfile = () => {
+    router.push(`/profile/${task?.poster_id}`);
+  };
+
   return (
     <div className={styles.taskContainer}>
       <div className={styles.profileStatusContainer}>
         <div className={styles.profileContainer}>
           {task?.picture ? (
-            <img
-              src={task.picture}
-              alt="The poster's picture"
-              className="hover:scale-150 transition duration-300 ease-in-out w-[47px] h-[47px] rounded-full"
-            />
+            <Link href={`/userProfile/${task?.poster_id}`}>
+              <img
+                src={task.picture}
+                alt="The poster's picture"
+                className="hover:scale-150 transition duration-300 ease-in-out w-[47px] h-[47px] rounded-full"
+              />
+            </Link>
           ) : (
             <img
               src="/profile.png"

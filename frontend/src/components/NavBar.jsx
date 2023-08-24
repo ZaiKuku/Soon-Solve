@@ -76,7 +76,7 @@ function NavBar() {
         <div className={styles.mission}>Mission List</div>
       </Link>
 
-      <Link href="/notifications" className={styles.notificationsContainer}>
+      {/* <Link href="/notifications" className={styles.notificationsContainer}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="44"
@@ -100,7 +100,7 @@ function NavBar() {
           />
         </svg>
         <div className={styles.notifications}>notifications</div>
-      </Link>
+      </Link> */}
       <Link href={`/userProfile/${id}`} className={styles.profileContainer}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
