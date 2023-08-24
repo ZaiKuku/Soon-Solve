@@ -15,11 +15,8 @@ export function ProfileMenu() {
   const router = useRouter();
   const handleLogout = () => {
     removeCookie("token");
-  };
-
-  useEffect(() => {
     router.push("/login");
-  }, [cookies?.token]);
+  };
 
   return (
     <Menu>
