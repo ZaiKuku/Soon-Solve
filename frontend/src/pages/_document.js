@@ -7,12 +7,14 @@ export default function Document() {
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/icon.png"></link>
         <meta name="theme-color" content="#fff" />
+        <meta name="apple-mobile-web-app-capable" content="yes"></meta>
         <script
           src="https://kit.fontawesome.com/b029b65f31.js"
           crossOrigin="anonymous"
         />
         <link rel="stylesheet" type="text/css" href="csshake.min.css"></link>
         <link rel="preconnect" href="https://fonts.googleapis.com"></link>
+        <link rel="apple-touch-icon" href="/logo192.png"></link>
         <link
           rel="preconnect"
           href="https://fonts.gstatic.com"

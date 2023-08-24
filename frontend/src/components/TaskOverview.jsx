@@ -43,7 +43,7 @@ export default function TaskOverview({ task, showStatus }) {
         "Please wait for the poster to comment",
         "warning"
       );
-    } else if (status === "finished") {
+    } else if (status === "Finished") {
       sweetAlert("Finished Status", "The task has been completed", "success");
     } else {
       router.push(`/task/${task.id}`);
