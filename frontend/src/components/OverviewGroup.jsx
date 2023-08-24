@@ -13,18 +13,18 @@ export default function OverviewGroup({ tasks, showStatus = false }) {
   );
   const [taskList, setTaskList] = useState(tasks);
   const [DeleteTask] = useDeleteTask();
-  console.log("tasks", tasks);
+
   useEffect(() => {
     if (!tasks) return;
     const now = new Date();
     const toDelete = tasks.filter(
       (task) => new Date(task.deadline).getTime() < now.getTime()
     );
+
     setTaskList(
       tasks.filter((task) => new Date(task.deadline).getTime() > now.getTime())
     );
     for (let i = 0; i < toDelete.length; i++) {
-      console.log("toDelete", toDelete[i].id);
       DeleteTask(toDelete[i].id, cookies.token?.access_token);
     }
   }, [tasks]);

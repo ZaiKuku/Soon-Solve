@@ -20,10 +20,10 @@ export default function Switcher() {
   return (
     <Tabs value={activeTab} className="z-10 ">
       <TabsHeader
-        className="rounded-none border-b border-blue-gray-50 bg-transparent fixed p-0 w-4/5 m-auto left-0 right-0 top-[75px] bg-white h-fit"
+        className="rounded-none border-b border-blue-gray-50  fixed p-0 w-screen m-auto left-0 right-0 top-[73px] bg-white h-fit"
         indicatorProps={{
           className:
-            "bg-transparent border-b-2 border-gray-900 shadow-none rounded-none",
+            "bg-white border-b-2 border-gray-900 shadow-none rounded-none",
         }}
       >
         {data.map(({ label, value }) => (

@@ -4,9 +4,7 @@ import style from "../styles/TaskOverview.module.scss";
 import Link from "next/link";
 import { Card, Chip } from "@material-tailwind/react";
 import { useRouter } from "next/router";
-import { Collapse } from "@mui/material";
-import { useCookies } from "react-cookie";
-import { CommentBoxTextarea } from "./CommentBoxTextarea";
+import sweetAlert from "sweetalert";
 
 export default function TaskOverview({ task, showStatus }) {
   const {
@@ -24,9 +22,8 @@ export default function TaskOverview({ task, showStatus }) {
     // sex,
   } = task;
 
-  const [cookies, setCookie] = useCookies(["token"]);
   const router = useRouter();
-  const [open, setOpen] = useState(false);
+
   const status_color = () => {
     if (status === "pending") {
       return "green";
@@ -38,13 +35,19 @@ export default function TaskOverview({ task, showStatus }) {
       return "blue";
     }
   };
-  console.log("open", open);
+
   const handleClick = () => {
-    if (status === "commenting" && poster_id !== cookies.token?.user.id) {
-      setOpen(!open);
-      return;
+    if (status === "commenting") {
+      sweetAlert(
+        "Commenting Status",
+        "Please wait for the poster to comment",
+        "warning"
+      );
+    } else if (status === "finished") {
+      sweetAlert("Finished Status", "The task has been completed", "success");
+    } else {
+      router.push(`/task/${task.id}`);
     }
-    router.push(`/task/${task.id}`);
   };
 
   return (
@@ -83,7 +86,7 @@ export default function TaskOverview({ task, showStatus }) {
           </div>
           <div className={style.numReqired}>
             <i className="fa-solid fa-clipboard-list" />
-            <span>{task_vacancy}</span>
+            <span>{task_vacancy - approved_count}</span>
           </div>
 
           <div className={style.deadline}>

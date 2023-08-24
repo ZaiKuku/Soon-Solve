@@ -9,21 +9,29 @@ import useTaskRecord from "@/hooks/useTaskRecord";
 import { useSelector, useDispatch } from "react-redux";
 import { setIsLoadingTasks } from "@/redux/LoadingControl";
 import { Button } from "@material-tailwind/react";
+import useDeleteTask from "@/hooks/useDeleteTask";
 import Link from "next/link";
+import { useCookies } from "react-cookie";
+import useUpdateTaskStatus from "@/hooks/useUpdateTaskStatus";
 
 function userTasks() {
   const [nextCursor, setNextCursor] = useState(0);
   const [postFetchMode, setPostFetchMode] = useState(""); // ["user_id", "cursor", "user_cursor"]
   const [fetchTasks] = useTaskRecord();
   const [tasks, setTasks] = useState();
+  const [taskList, setTaskList] = useState(tasks);
   const [isLoadMorePosts, setIsLoadMorePosts] = useState(false);
+  const [DeleteTask] = useDeleteTask();
+  const UpdateTaskStatus = useUpdateTaskStatus();
 
   const dispatch = useDispatch();
 
   const activeTab = useSelector((state) => state.activeTab.activeTab);
-  console.log("tasks", tasks);
+
+  const [cookies] = useCookies(["token"]);
 
   useEffect(() => {
+    setTasks(null);
     async function fetchData() {
       setPostFetchMode("");
       dispatch(setIsLoadingTasks(true));
@@ -65,6 +73,22 @@ function userTasks() {
 
   useInfiniteScroll(updatePosts, 100);
 
+  useEffect(() => {
+    if (!tasks) return;
+    const now = new Date();
+    const toDelete = tasks.filter(
+      (task) => new Date(task.deadline).getTime() < now.getTime()
+    );
+
+    setTaskList(
+      tasks.filter((task) => new Date(task.deadline).getTime() > now.getTime())
+    );
+    for (let i = 0; i < toDelete.length; i++) {
+      console.log("toDelete", toDelete[i].id);
+      DeleteTask(toDelete[i].id, cookies.token?.access_token);
+    }
+  }, [tasks]);
+
   return (
     <main className="w-full flex flex-col gap-2 items-center py-[120px]">
       <Header />
@@ -78,7 +102,7 @@ function userTasks() {
           </Link>
         )}
 
-        <OverviewGroup tasks={tasks} />
+        <OverviewGroup tasks={taskList} />
 
         <NavBar />
       </div>

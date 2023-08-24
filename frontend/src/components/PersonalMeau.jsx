@@ -24,7 +24,7 @@ export function ProfileMenu() {
         </IconButton>
       </MenuHandler>
       <MenuList>
-        <MenuItem className="flex items-center gap-2">
+        {/* <MenuItem className="flex items-center gap-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -105,7 +105,7 @@ export function ProfileMenu() {
             Help
           </Typography>
         </MenuItem>
-        <hr className="my-2 border-blue-gray-50" />
+        <hr className="my-2 border-blue-gray-50" /> */}
         <MenuItem className="flex items-center gap-2 " onClick={handleLogout}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
