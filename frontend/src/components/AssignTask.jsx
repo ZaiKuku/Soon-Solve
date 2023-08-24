@@ -118,7 +118,7 @@ function AssignTask() {
                   </option>
                   {Array.from({ length: 12 }, (_, i) => (
                     <option key={i} value={i + 1}>
-                      {i + 1}
+                      {i + 1}月
                     </option>
                   ))}
                 </Field>
@@ -132,7 +132,7 @@ function AssignTask() {
                   </option>
                   {Array.from({ length: 31 }, (_, i) => (
                     <option key={i} value={i + 1}>
-                      {i + 1}
+                      {i + 1}日
                     </option>
                   ))}
                 </Field>
@@ -148,7 +148,7 @@ function AssignTask() {
                   </option>
                   {Array.from({ length: 24 }, (_, i) => (
                     <option key={i} value={i}>
-                      {i}
+                      {i}時
                     </option>
                   ))}
                 </Field>
@@ -162,7 +162,7 @@ function AssignTask() {
                   </option>
                   {Array.from({ length: 60 }, (_, i) => (
                     <option key={i} value={i}>
-                      {i}
+                      {i}分
                     </option>
                   ))}
                 </Field>
