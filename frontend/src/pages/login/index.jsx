@@ -93,15 +93,15 @@ function LoginSignUpPage() {
 
   return (
     <div className={styles.LoginSignUpBox}>
-      <div className={styles.soonSolve}>Soon Solve</div>
-
-      {isLogin && (
+      {isLogin ? (
         <div className={styles.Logo}>
           <img src="/Logo.png" alt="logo" className={styles.LogoImg} />
         </div>
+      ) : (
+        <div className={styles.soonSolve}>Soon Solve</div>
       )}
 
-      <div className={styles.SignUpLogin}>{isLogin ? "Log in" : "Sign Up"}</div>
+      {/* <div className={styles.SignUpLogin}>{isLogin ? "Log in" : "Sign Up"}</div> */}
       <Formik
         initialValues={{
           name: "",

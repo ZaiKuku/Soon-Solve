@@ -60,6 +60,9 @@ function SearchPage() {
   return (
     <div className={styles.page}>
       <Header />
+      <div className={styles.Logo}>
+        <img src="/Logo.png" alt="logo" className={styles.LogoImg} />
+      </div>
       <div className={styles.container}>
         <div className={styles.searchBar}>
           <input
