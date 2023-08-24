@@ -1,10 +1,10 @@
 {
+  "name": "Soon-Solve",
   "theme_color": "#3579f6",
   "background_color": "#ffffff",
   "display": "standalone",
   "scope": "/",
   "start_url": "/login",
-  "name": "Soon-Solve",
   "short_name": "Soon-Solve",
   "description": "A application for problem solving",
   "icons": [
