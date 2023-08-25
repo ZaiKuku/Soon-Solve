@@ -19,7 +19,7 @@ export function ExpandedComment({ comment, setCommet }) {
         <Avatar
           variant="circular"
           alt="candice"
-          src={comment.poster?.picture || "/山道猴子.png"}
+          src={comment.poster?.picture || "/profile.png"}
         />
         {comment.poster?.name}
       </DialogHeader>

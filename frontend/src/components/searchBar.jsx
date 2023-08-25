@@ -61,7 +61,7 @@ export default function SearchBar() {
       <div className={style.searchBar}>
         <input
           type="text"
-          placeholder="Search by Destination"
+          placeholder="Search by Task Title"
           onChange={(e) => handleChange(e)}
         />
         <i className="fa fa-search "></i>

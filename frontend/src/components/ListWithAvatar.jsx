@@ -23,7 +23,7 @@ export function ListWithAvatar({ comments }) {
         <Avatar
           variant="circular"
           alt="candice"
-          src={comment.poster?.picture || "/山道猴子.png"}
+          src={comment.poster?.picture || "/profile.png"}
           className="shrink-0"
         />
       </ListItemPrefix>
