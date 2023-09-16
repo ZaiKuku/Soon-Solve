@@ -42,7 +42,7 @@ export function ProfileCard({ profileData }) {
             >
               {!isLoadingProfile ? (
                 <img
-                  src={profileData?.picture || "/山道猴子.png"}
+                  src={profileData?.picture || "/bigprofile.png"}
                   alt="profile-picture"
                   className="object-cover "
                 />
