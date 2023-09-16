@@ -3,7 +3,6 @@ import useTaskDetails from "@/hooks/useTaskDetails";
 import useCreateTaskComment from "@/hooks/useCreateTaskComment";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import useUpdateTaskUpStatus from "@/hooks/useUpdateTaskStatus";
 
 export function CommentBoxTextarea({ setOpen, taskId, takerId }) {
   const [comment, setComment] = useState("");

@@ -7,7 +7,6 @@ import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { DrawerDefault } from "@/components/SideFilter";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useRouter } from "next/router";
 import { setIsLoadingTasks } from "@/redux/LoadingControl";
 
 export default function Home() {
@@ -70,7 +69,7 @@ export default function Home() {
   useInfiniteScroll(updatePosts, 100);
 
   return (
-    <main className="absolute w-full flex flex-col gap-2 items-center py-24 z-0 min-h-screen">
+    <main className="absolute w-full flex flex-col gap-2 items-center py-24 z-0 min-h-screen ">
       <Header />
       <SearchBar />
       <OverviewGroup tasks={tasks} />

@@ -11,7 +11,6 @@ export default function TaskOverview({ task, showStatus }) {
     poster_id,
     deadline,
     task_vacancy,
-    // applied_count,
     title,
     location,
     reward,
@@ -19,7 +18,6 @@ export default function TaskOverview({ task, showStatus }) {
     name,
     approved_count,
     status,
-    // sex,
   } = task;
 
   const router = useRouter();

@@ -9,7 +9,6 @@ import {
 import { useState } from "react";
 import { ExpandedComment } from "./ExpandedComment";
 
-// export function ListWithAvatar({ comments }) {
 export function ListWithAvatar({ comments }) {
   const [fullComment, setFullCommet] = useState(false);
   const handleScroll = (event) => {

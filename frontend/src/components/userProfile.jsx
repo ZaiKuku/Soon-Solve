@@ -13,11 +13,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Skeleton } from "@mui/material";
 
 export function ProfileCard({ profileData }) {
-  console.log("profileData", profileData);
   const dispatch = useDispatch();
   const credit_score = 100;
   const [isEditingAvatar, setIsEditingAvatar] = useState(false);
-  console.log("isEditingAvatar", isEditingAvatar);
   const isLoading = profileData ? false : true;
   const isLoadingProfile = useSelector(
     (state) => state.LoadingControl.isLoadingProfile
@@ -69,7 +67,9 @@ export function ProfileCard({ profileData }) {
         </Typography>
       </CardBody>
 
-      <ListWithAvatar comments={profileData?.comment} />
+      {profileData?.comment.content && (
+        <ListWithAvatar comments={profileData?.comment} />
+      )}
     </Card>
   );
 }

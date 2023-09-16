@@ -41,7 +41,6 @@ function LoginSignUpPage() {
 
     if (isLogin) {
       const response = await useLogIn(userLoginData);
-      console.log(response);
       if (response) {
         setCookie("token", response.data, {
           maxAge: 60 * 60,
@@ -51,7 +50,6 @@ function LoginSignUpPage() {
       }
     } else {
       const response = await useSignUp(userSignUpData);
-      console.log(response);
       setIsLogin(true);
     }
     setIsLoading(false);
@@ -186,6 +184,7 @@ function LoginSignUpPage() {
             )}
             <button
               type="submit"
+              name="submit"
               className={styles.loginButton}
               disabled={isLoading}
             >
@@ -198,9 +197,13 @@ function LoginSignUpPage() {
         <div className={styles.member}>
           {isLogin ? "Not a member?" : "Already a member?"}
         </div>
-        <div className={styles.signUp} onClick={handleModeChange}>
+        <button
+          className={styles.signUp}
+          onClick={handleModeChange}
+          name="SignUp"
+        >
           {isLogin ? "Sign Up?" : "Log in"}
-        </div>
+        </button>
       </div>
     </div>
   );

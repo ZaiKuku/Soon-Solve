@@ -28,18 +28,15 @@ export default function useTaskSearch() {
     }
 
     const { selectedLocations, sex, friend, title, num } = conditions;
-    console.log(selectedLocations);
     const sexNum = sexProcess(sex);
     if (selectedLocations.length >= 1) {
       apiUrl += `location=${selectedLocations}`;
       thereIsCondition = true;
     }
-    console.log("sexNum", sexNum);
     if (sex !== "") {
       if (thereIsCondition) {
         apiUrl += "&";
       }
-      // console.log("sexNum", sexNum);
       apiUrl += `sex=${sexNum}`;
     }
     if (friend) {
@@ -53,7 +50,6 @@ export default function useTaskSearch() {
     if (num < 1) {
       apiUrl = `${api}/tasks/search`;
     }
-    console.log("title", title);
     if (title) {
       if (thereIsCondition) {
         apiUrl += "&";

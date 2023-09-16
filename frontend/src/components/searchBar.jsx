@@ -4,7 +4,7 @@ import Tag from "./tags";
 import style from "../styles/searchBar.module.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { setOpenSideFilter } from "../redux/reducers";
-import { cleanAll, setSelectedTitle } from "@/redux/locationSlice";
+import { setSelectedTitle } from "@/redux/locationSlice";
 
 export default function SearchBar() {
   const [keyword, setKeyword] = useState("");
@@ -22,15 +22,11 @@ export default function SearchBar() {
   const isMounted = useRef(false);
 
   useEffect(() => {
-    console.log(keyword);
     if (isMounted.current) {
       // 使用 setTimeout 計時器來實現 debounce
       const timerId = setTimeout(() => {
         dispatch(setSelectedTitle(keyword));
       }, debounceTimeout);
-      console.log(
-        "Component has been mounted before. Running useEffect logic."
-      );
 
       // 在每次 useEffect 被重新調用時，清除之前的計時器
       return () => {
@@ -38,9 +34,6 @@ export default function SearchBar() {
       };
     } else {
       // Update the ref to indicate the component has been mounted
-      console.log(
-        "Component has been mounted for the first time. Updating isMounted."
-      );
     }
   }, [keyword]);
 

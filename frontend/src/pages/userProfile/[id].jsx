@@ -16,7 +16,7 @@ function userProfile() {
   const isLoadingProfile = useSelector(
     (state) => state.LoadingControl.isLoadingProfile
   );
-  console.log("isLoadingProfile", isLoadingProfile);
+
   return (
     <SWRConfig
       value={{
@@ -34,7 +34,6 @@ function userProfile() {
           ) : (
             <ProfileCard profileData={profileData} />
           )}
-          {/* <ProfileCardSkeleton /> */}
         </div>
       </main>
     </SWRConfig>
@@ -43,18 +42,18 @@ function userProfile() {
 
 export default userProfile;
 
-export async function getServerSideProps(context) {
-  const { req } = context;
-  const { token } = req.cookies;
-  if (!token) {
-    return {
-      redirect: {
-        destination: `/login`,
-        permenant: false,
-      },
-    };
-  }
-  return {
-    props: {},
-  };
-}
+// export async function getServerSideProps(context) {
+//   const { req } = context;
+//   const { token } = req.cookies;
+//   if (!token) {
+//     return {
+//       redirect: {
+//         destination: `/login`,
+//         permenant: false,
+//       },
+//     };
+//   }
+//   return {
+//     props: {},
+//   };
+// }

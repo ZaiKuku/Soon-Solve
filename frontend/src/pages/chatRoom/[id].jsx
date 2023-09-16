@@ -57,7 +57,6 @@ export default function chatRoom() {
 
       try {
         socket.on("message", (message) => {
-          console.log("message", message);
           handleChangeMessages(message);
         });
         socket.emit("joinRoom", {

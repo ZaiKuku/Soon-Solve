@@ -26,10 +26,8 @@ export default function ApplicantsPage() {
       try {
         setApplicants(null);
         const [data, cursor] = await fetchTasks("", null);
-        console.log("data", data);
         setApplicants(data);
         setNextCursor(cursor);
-        // console.log("cursor", cursor);
         setDataFetchMode("cursor");
       } catch (err) {
         console.error(err);
@@ -75,7 +73,6 @@ export default function ApplicantsPage() {
       "Accepted",
       userTaskId
     );
-    console.log("AcceptReq", res);
 
     setApplicants((prevApplicants) => {
       return prevApplicants.map((applicant) => {
@@ -98,7 +95,6 @@ export default function ApplicantsPage() {
       "Finished",
       userTaskId
     );
-    console.log("FinishReq", res);
 
     setApplicants((prevApplicants) => {
       return prevApplicants.map((applicant) => {
@@ -115,8 +111,6 @@ export default function ApplicantsPage() {
       });
     });
   };
-
-  console.log(applicants);
 
   return (
     <main className="w-full flex flex-col gap-2 items-center pt-[80px]">
@@ -168,18 +162,18 @@ export default function ApplicantsPage() {
   );
 }
 
-export async function getServerSideProps(context) {
-  const { req } = context;
-  const { token } = req.cookies;
-  if (!token) {
-    return {
-      redirect: {
-        destination: `/login`,
-        permenant: false,
-      },
-    };
-  }
-  return {
-    props: {},
-  };
-}
+// export async function getServerSideProps(context) {
+//   const { req } = context;
+//   const { token } = req.cookies;
+//   if (!token) {
+//     return {
+//       redirect: {
+//         destination: `/login`,
+//         permenant: false,
+//       },
+//     };
+//   }
+//   return {
+//     props: {},
+//   };
+// }

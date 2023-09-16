@@ -1,9 +1,5 @@
 /* eslint-disable no-unused-vars */
-// "use client";
-
 import { useState, useEffect, use } from "react";
-// import nookies from "nookies";
-// import axios from "axios";
 import Image from "next/legacy/image";
 import styles from "../styles/task.module.scss";
 import ProgressIndicator from "./ProgressIndicator";
@@ -23,7 +19,6 @@ import Alert from "@mui/material/Alert";
 import { useDispatch } from "react-redux";
 import { setRoomId } from "@/redux/personChatting";
 import useUpdateTaskUpStatus from "@/hooks/useUpdateTaskStatus";
-import { throttle } from "lodash";
 
 function Task({ task }) {
   const [hasApplied, setHasApplied] = useState();
@@ -33,7 +28,6 @@ function Task({ task }) {
   const userId = cookies?.token?.user.id;
   const userTask = task?.user_task.find((item) => item.taker_id === userId);
   const askCountForCurrentUser = userTask ? userTask.ask_count : null;
-  console.log(askCountForCurrentUser);
   useEffect(() => {
     setIsTaskAssigner(task?.poster_id === userId);
   }, [task?.poster_id, userId]);

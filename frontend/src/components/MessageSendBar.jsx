@@ -1,8 +1,5 @@
-import Link from "next/link";
-import { useState, useEffect } from "react";
-import { useCookies } from "react-cookie";
-import { Input, button } from "@material-tailwind/react";
-import { io } from "socket.io-client";
+import { useState } from "react";
+import { Input } from "@material-tailwind/react";
 
 function MessageSendBar({ handleSendMessage }) {
   const [messageInput, setMessageInput] = useState("");

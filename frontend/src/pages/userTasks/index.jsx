@@ -38,7 +38,7 @@ function userTasks() {
       try {
         setTasks(null);
         const [data, cursor] = await fetchTasks("", null, activeTab);
-        console.log("data", data);
+
         setTasks(data);
         setNextCursor(cursor);
         setPostFetchMode("cursor");
@@ -84,7 +84,6 @@ function userTasks() {
       tasks.filter((task) => new Date(task.deadline).getTime() > now.getTime())
     );
     for (let i = 0; i < toDelete.length; i++) {
-      console.log("toDelete", toDelete[i].id);
       DeleteTask(toDelete[i].id, cookies.token?.access_token);
     }
   }, [tasks]);
@@ -112,18 +111,18 @@ function userTasks() {
 
 export default userTasks;
 
-export async function getServerSideProps(context) {
-  const { req } = context;
-  const { token } = req.cookies;
-  if (!token) {
-    return {
-      redirect: {
-        destination: `/login`,
-        permenant: false,
-      },
-    };
-  }
-  return {
-    props: {},
-  };
-}
+// export async function getServerSideProps(context) {
+//   const { req } = context;
+//   const { token } = req.cookies;
+//   if (!token) {
+//     return {
+//       redirect: {
+//         destination: `/login`,
+//         permenant: false,
+//       },
+//     };
+//   }
+//   return {
+//     props: {},
+//   };
+// }

@@ -2,12 +2,8 @@
 // "use client";
 
 import { useState, useEffect } from "react";
-// import nookies from "nookies";
-// import axios from "axios";
-import Image from "next/legacy/image";
 import styles from "../styles/AssignTask.module.scss";
 import PlaceIcon from "@mui/icons-material/Place";
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import TimerIcon from "@mui/icons-material/Timer";
 import RedeemIcon from "@mui/icons-material/Redeem";
 import { Formik, Field, Form, ErrorMessage } from "formik";
@@ -18,7 +14,6 @@ import useCreateTask from "@/hooks/useCreateTask";
 import locations from "@/locations/locations";
 
 function AssignTask() {
-  const [search, setSearch] = useState("");
   const router = useRouter();
 
   const validationSchema = Yup.object().shape({

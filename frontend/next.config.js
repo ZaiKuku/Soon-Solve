@@ -10,10 +10,10 @@ const withPWA = require("next-pwa")({
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    API_URL: "https://52.64.240.159/api/1.0",
+    API_URL: "https://13.237.154.187/api/1.0",
   },
   images: {
-    domains: ["52.64.240.159"],
+    domains: ["13.237.154.187"],
   },
 };
 module.exports = withPWA(nextConfig);

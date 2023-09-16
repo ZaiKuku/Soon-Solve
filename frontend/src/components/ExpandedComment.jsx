@@ -5,7 +5,6 @@ import {
   DialogBody,
   DialogFooter,
   Avatar,
-  avatar,
 } from "@material-tailwind/react";
 
 export function ExpandedComment({ comment, setCommet }) {

@@ -23,10 +23,7 @@ function UploadImage({ func }) {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    const file = event.target.elements.image.files[0];
-    console.log(file);
     const dataurl = handleSave();
-    console.log(dataurl);
     const formData = new FormData();
     formData.append("picture", dataurl);
 
@@ -39,7 +36,6 @@ function UploadImage({ func }) {
 
   function handleSave() {
     const canvas = editor.getImage();
-    // console.log(canvas);
     const dataUrl = canvas.toDataURL();
     // URL to file
     // 处理图像数据
