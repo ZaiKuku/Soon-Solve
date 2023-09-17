@@ -49,7 +49,7 @@ export default function chatRoom() {
   useEffect(() => {
     // 監聽從伺服器接收的消息
     if (token !== undefined) {
-      socket = io("https://52.64.240.159", {
+      socket = io("https://13.237.154.187", {
         extraHeaders: {
           Authorization: `Bearer ${token}`,
         },
