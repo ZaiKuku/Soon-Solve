@@ -16,30 +16,32 @@ export function ListWithAvatar({ comments }) {
     event.stopPropagation();
   };
 
-  const commentItems = comments?.map((comment) => (
-    <ListItem onClick={() => setFullCommet(comment)} key={comment.poster.id}>
-      <ListItemPrefix>
-        <Avatar
-          variant="circular"
-          alt="candice"
-          src={comment.poster?.picture || "/profile.png"}
-          className="shrink-0"
-        />
-      </ListItemPrefix>
-      <div className="w-4/5">
-        <Typography variant="h6" color="blue-gray">
-          {comment.poster.name}
-        </Typography>
-        <Typography
-          variant="small"
-          color="gray"
-          className="font-normal overflow-hidden whitespace-nowrap text-ellipsis"
-        >
-          {comment.content}
-        </Typography>
-      </div>
-    </ListItem>
-  ));
+  const commentItems = comments?.map((comment) =>
+    comment.id ? (
+      <ListItem onClick={() => setFullCommet(comment)} key={comment.poster.id}>
+        <ListItemPrefix>
+          <Avatar
+            variant="circular"
+            alt="candice"
+            src={comment.poster?.picture || "/profile.png"}
+            className="shrink-0"
+          />
+        </ListItemPrefix>
+        <div className="w-4/5">
+          <Typography variant="h6" color="blue-gray">
+            {comment.poster.name}
+          </Typography>
+          <Typography
+            variant="small"
+            color="gray"
+            className="font-normal overflow-hidden whitespace-nowrap text-ellipsis"
+          >
+            {comment.content}
+          </Typography>
+        </div>
+      </ListItem>
+    ) : null
+  );
 
   return (
     <Card className="w-full overflow-hidden max-h-[30vh]">

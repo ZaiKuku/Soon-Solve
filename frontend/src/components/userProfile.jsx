@@ -20,6 +20,7 @@ export function ProfileCard({ profileData }) {
   const isLoadingProfile = useSelector(
     (state) => state.LoadingControl.isLoadingProfile
   );
+  console.log(profileData.comment);
 
   useEffect(() => {
     dispatch(setIsLoadingProfile(isLoading));
@@ -67,7 +68,7 @@ export function ProfileCard({ profileData }) {
         </Typography>
       </CardBody>
 
-      {profileData?.comment.content && (
+      {profileData?.comment && (
         <ListWithAvatar comments={profileData?.comment} />
       )}
     </Card>
